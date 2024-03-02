@@ -1,0 +1,507 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+.markdown > * {
+  all: revert;
+}
+
+.markdown a {
+  color: blue !important;
+  text-decoration: underline;
+  font-weight: bold;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.markdown > h2 {
+  color: #031553;
+}
+
+.react-pdf__Page__canvas {
+  margin: auto;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.forceScrollBar::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+.forceScrollBar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+@layer utilities {
+  .d-text-h1 {
+    font-size: 3.25rem;
+    line-height: 4rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .d-text-h2 {
+    font-size: 2.75rem;
+    line-height: 3.25rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .d-text-h3 {
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .d-text-h4 {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .d-text-h5 {
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .d-text-body-lg {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-lg-bold {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-lg-link {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-md {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-md-bold {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-md-link {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-sm {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-sm-bold {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-sm-link {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-xsm {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-xsm-bold {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-body-xsm-link {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-lg {
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-lg-link {
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-md {
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-md-link {
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-sm {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-sm-link {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-xsm {
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-btn-xsm-link {
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-input {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-nav {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-footer {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-label-lg {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-label-md {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-label-sm {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-breadcrumbs-bold {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .d-text-breadcrumbs {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-h1 {
+    font-size: 3.125rem;
+    line-height: 3.875rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .m-text-h2 {
+    font-size: 2.5rem;
+    line-height: 3.25rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .m-text-h3 {
+    font-size: 1.875rem;
+    line-height: 2.625rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .m-text-h4 {
+    font-size: 1.625rem;
+    line-height: 2.375rem;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .m-text-h5 {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .m-text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-lg-bold {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-lg-link {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-md {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-md-bold {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-md-link {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-sm-bold {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-sm-link {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-xsm {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-xsm-bold {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-body-xsm-link {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-lg {
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-lg-link {
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-md {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-md-link {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-sm {
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-sm-link {
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-xsm {
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-btn-xsm-link {
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-input {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-nav {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-footer {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-label-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-label-md {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-label-sm {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-breadcrumbs-bold {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 700;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-breadcrumbs {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+}

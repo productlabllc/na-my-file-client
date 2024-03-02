@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "givenName": "Firstname",
+  "familyName": "Lastname",
+  "email": "email@nycopportunity.nyc.gov",
+  "dob": "01-01-1990",
+  "dhsCaseNumber": "123456789",
+  "locale": "en"
+}

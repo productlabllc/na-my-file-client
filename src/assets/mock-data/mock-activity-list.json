@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "date": "2023-10-01T04:00:00.000Z",
+    "principal": {
+      "id": "1",
+      "name": "someone@nyc.gov"
+    },
+    "actionDescription": "edited details of",
+    "resource": {
+      "id": "1",
+      "type": "DOCUMENT",
+      "name": "Document name"
+    }
+  },
+  {
+    "id": "2",
+    "date": "2023-10-08T04:00:00.000Z",
+    "principal": {
+      "id": "1",
+      "name": "someone@nyc.gov"
+    },
+    "actionDescription": "accessed",
+    "resource": {
+      "id": "2",
+      "type": "COLLECTION",
+      "name": "Collection name"
+    }
+  },
+  {
+    "id": "3",
+    "date": "2023-10-08T04:00:00.000Z",
+    "principal": {
+      "id": "2",
+      "name": "someone.else@nyc.gov"
+    },
+    "actionDescription": "edited details of",
+    "resource": {
+      "id": "1",
+      "type": "DOCUMENT",
+      "name": "Document name"
+    }
+  }
+]
