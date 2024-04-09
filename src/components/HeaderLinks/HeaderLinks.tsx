@@ -1,12 +1,14 @@
 import { Button, Icon } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useAuth } from 'react-oidc-context';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface HeaderLinksProps {
   isInSidebar?: boolean;
 }
 
 function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
-  // Dark text for white sidebar
+  const auth = useAuth();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -14,7 +16,7 @@ function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
         className="!d-text-body-sm !text-white !normal-case !mr-[12px]"
         fullWidth={isInSidebar}
         component={Link}
-        to="/account"
+        to="/profile"
       >
         <Icon fontSize="medium" className="!mb-1 !mr-3">
           perm_identity
@@ -35,6 +37,20 @@ function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
       <Button
         className="!d-text-body-sm !text-white !normal-case"
         fullWidth={isInSidebar}
+        onClick={() => {
+          const idpLogoutFrame = document.createElement('iframe');
+          document.body.append(idpLogoutFrame);
+          idpLogoutFrame.style.visibility = 'hidden';
+          idpLogoutFrame.src =
+            'https://accounts-nonprd.nyc.gov/account/idpLogout.htm?x-frames-allow-from=https%3A%2F%2Fmyfile-dev.cityofnewyork.us';
+          setTimeout(async () => {
+            document.body.removeChild(idpLogoutFrame);
+            console.log('remove user and logging out');
+            await auth.removeUser();
+            auth.signoutRedirect();
+            navigate({ pathname: '/' });
+          }, 1500);
+        }}
       >
         <Icon fontSize="medium" className="!mb-1 !mr-3">
           logout

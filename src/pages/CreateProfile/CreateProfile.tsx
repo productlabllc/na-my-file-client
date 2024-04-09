@@ -44,6 +44,11 @@ function CreateProfile() {
     navigate('/family-members');
     reset();
   };
+
+  // useEffect(() => {
+  //   document.body.style.overflow = 'hidden';
+  // });
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div>
@@ -137,7 +142,15 @@ function CreateProfile() {
                       !!dayjs(v).isBefore(dayjs()) ||
                       `Provide date of birth before todays date ${dayjs().format(
                         'MM/DD/YYYY'
-                      )}. `
+                      )}. `,
+                    olderThan18: (v) => {
+                      const today = dayjs();
+                      const eighteenYearsAgo = today.subtract(18, 'years');
+                      return (
+                        dayjs(v).isBefore(eighteenYearsAgo) ||
+                        'You must be 18 or older'
+                      );
+                    }
                   }
                 }}
                 render={({ field }) => (

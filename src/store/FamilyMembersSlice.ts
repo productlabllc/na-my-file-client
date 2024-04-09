@@ -7,19 +7,18 @@ import FamilyMember from '../types/FamilyMember';
 */
 
 export interface FamilyMemberStore {
-  //   acceptedTermsOfUse: boolean;
-  //   setAcceptedTermsOfUse: (loggedIn: boolean) => void;
-  //   loggedIn: boolean;
-  //   setLoggedIn: (loggedIn: boolean) => void;
-  //   getLoggedIn: () => boolean;
-  //   getAcceptedTermsOfUse: () => boolean;
-  //   isWindowClosed: boolean;
-  //   closePopupWindow: (isWindowClosed: boolean) => void;
   familyData: FamilyMember[];
+  isAddFamilyFormOpened: boolean;
+  isUpdateFamilyFormOpened: boolean;
+
   getFamilyMembers: () => FamilyMember[];
   addFamilyMember: (familyMember: FamilyMember) => void;
   removeFamilyMember: (familyMember: string) => void;
   updateFamilyMember: (familyMember: FamilyMember) => void;
+  setIsAddFamilyFormOpened: (isOpened: boolean) => void;
+  getIsAddFamilyFormOpened: () => boolean;
+  setIsUpdateFamilyFormOpened: (isOpened: boolean) => void;
+  getIsUpdateFamilyFormOpened: () => boolean;
 }
 
 export const createFamilyMemberSlice: StateCreator<
@@ -28,12 +27,17 @@ export const createFamilyMemberSlice: StateCreator<
   [],
   FamilyMemberStore
 > = (set, get) => ({
-  //   isWindowClosed: false,
-  //   closePopupWindow(isWindowClosed: boolean) {
-  //     set({ isWindowClosed });
-  //   },
-  //   getIsWindowClosed: () => get().isWindowClosed
   familyData: [],
+  isAddFamilyFormOpened: false,
+  isUpdateFamilyFormOpened: false,
+  setIsUpdateFamilyFormOpened: (isOpened: boolean) =>
+    set({
+      isUpdateFamilyFormOpened: isOpened
+    }),
+  getIsUpdateFamilyFormOpened: () => get().isUpdateFamilyFormOpened,
+  getIsAddFamilyFormOpened: () => get().isAddFamilyFormOpened,
+  setIsAddFamilyFormOpened: (isOpened: boolean) =>
+    set({ isAddFamilyFormOpened: isOpened }),
   addFamilyMember: (member: FamilyMember) => {
     set((state) => ({ familyData: [member, ...state.familyData] }));
   },
@@ -60,12 +64,3 @@ export const createFamilyMemberSlice: StateCreator<
     });
   }
 });
-
-//   userType: 'client', // Should be null before login
-//   acceptedTermsOfUse: false,
-//   getAcceptedTermsOfUse: () => get().acceptedTermsOfUse,
-//   setAcceptedTermsOfUse: (acceptedTermsOfUse: boolean) =>
-//     set({ acceptedTermsOfUse }),
-//   loggedIn: false,
-//   getLoggedIn: () => get().loggedIn,
-//   setLoggedIn: (loggedIn) => set({ loggedIn })

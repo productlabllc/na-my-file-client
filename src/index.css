@@ -504,4 +504,18 @@ body,
     font-weight: 400;
     font-family: 'Public sans', sans-serif;
   }
+
+  .d-text-italic {
+    font-size: 0.875rem;
+    line-height: 1rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
+
+  .m-text-italic {
+    font-size: 0.875rem;
+    line-height: 1rem;
+    font-weight: 400;
+    font-family: 'Public sans', sans-serif;
+  }
 }

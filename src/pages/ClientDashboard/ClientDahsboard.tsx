@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Tabs, Tab, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
@@ -7,13 +8,39 @@ import { useMediaQuery } from '@mui/material';
 import Header from '../../layouts/Header/Header';
 import TabApplications from '../../components/TabApplications/TabApplications';
 import TabDocuments from '../../components/TabDocuments/TabDocuments';
+import { useAuth } from 'react-oidc-context';
+import { DefaultApi as Api } from '@myfile/api-client';
 
 function ClientDashboard() {
-  const [activeTab, setActiveTab] = useState(1);
+  const auth = useAuth();
+  (async () => {
+    const headers = { Authorization: `Bearer ${auth.user?.id_token}` };
+    console.log(`auth header:
+    ${headers}
+    `);
+    const api = new Api({
+      baseOptions: { headers }
+    });
+    const cases = await api.getCases();
+    console.log(cases);
+  })();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const [activeTab, setActiveTab] = useState('documents');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+      searchParams.delete('tab');
+    }
+  }, [searchParams]);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     console.log(event);
     setActiveTab(newValue);
+    searchParams.set('tab', newValue);
+    setSearchParams({ tab: newValue });
   };
 
   const theme = useTheme();
@@ -37,26 +64,26 @@ function ClientDashboard() {
           >
             <Tab
               className={
-                activeTab === 1
+                activeTab === 'documents'
                   ? '!text-secondary !d-text-btn-md !border-b-secondary !normal-case'
                   : '!text-grey !d-text-btn-md !normal-case'
               }
               label="Documents"
-              value={1}
+              value="documents"
             />
             <Tab
               className={
-                activeTab === 2
+                activeTab === 'applications'
                   ? '!text-secondary !d-text-btn-md !border-b-secondary !normal-case'
                   : '!text-grey !d-text-btn-md !normal-case'
               }
               label="Applications"
-              value={2}
+              value="applications"
             />
           </Tabs>
         </Box>
-        {activeTab === 1 && <TabDocuments />}
-        {activeTab === 2 && <TabApplications />}
+        {activeTab === 'documents' && <TabDocuments />}
+        {activeTab === 'applications' && <TabApplications />}
       </Box>
     </>
   );

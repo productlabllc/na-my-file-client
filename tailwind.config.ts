@@ -25,7 +25,9 @@ export default {
         black: '#1A1A1A',
         infoBackground: '#E3EEFA',
         infoText: '#0047D1',
-        greyBox: '#EEEEEE'
+        greyBox: '#EEEEEE',
+        applicationActive: '#5B23B0',
+        applicationClose: '#4C4E52'
       },
 
       // desktopHeader1: {

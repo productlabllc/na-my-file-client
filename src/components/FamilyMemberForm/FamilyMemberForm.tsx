@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import FamilyMember from '../../types/FamilyMember';
-interface IFormInput {
+interface IFormFamilyMember {
   firstName: string;
   lastName: string;
   dateOfBirth: string | dayjs.Dayjs | null;
@@ -14,7 +14,7 @@ interface IFormInput {
 }
 
 interface FamilyMemberFormProps {
-  member?: FamilyMember | undefined;
+  member?: FamilyMember | undefined | null;
   familyData?: FamilyMember[];
   updateFamilyMemberList: (newFamilyMember: FamilyMember) => void;
   closeFormFamilyWindow: () => void;
@@ -30,7 +30,7 @@ function FamilyMemberForm({
   submitButtonContent
 }: FamilyMemberFormProps) {
   const { register, control, handleSubmit, formState, reset } =
-    useForm<IFormInput>({
+    useForm<IFormFamilyMember>({
       mode: 'all',
       reValidateMode: 'onChange',
       defaultValues: {
@@ -44,12 +44,15 @@ function FamilyMemberForm({
     });
   const { errors } = formState;
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormFamilyMember> = (data, e) => {
+    // your code
+    e?.preventDefault();
     const newData = {
       id: member?.id ? member.id : uuidv4(),
       ...data,
       dateOfBirth: dayjs(data.dateOfBirth).format('MM/DD/YYYY')
     };
+
     updateFamilyMemberList(newData);
     closeFormFamilyWindow();
     reset();
@@ -57,9 +60,9 @@ function FamilyMemberForm({
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Box className="!mt-[80px] sm:flex sm:justify-center w-[100%]">
-          <Box className="!px-[16px] w-full sm:w-[600px] !mb-[40px]">
-            <Box className="!w-full flex justify-end">
+        <Box className="sm:flex sm:justify-center w-[100%] !pt-[24px]">
+          <Box className="!px-[16px] w-full sm:w-[600px]">
+            <Box className="!w-full flex justify-end mb-[24px]">
               <Button
                 className="!normal-case !text-secondary !d-text-btn-md"
                 onClick={() => closeFormFamilyWindow()}
@@ -70,7 +73,12 @@ function FamilyMemberForm({
                 Close
               </Button>
             </Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+              onSubmit={(e) => {
+                e.stopPropagation();
+                return handleSubmit(onSubmit)(e);
+              }}
+            >
               <p className="d-text-body-md mb-[16px]">
                 What is their first name ?
               </p>
@@ -213,11 +221,11 @@ function FamilyMemberForm({
                 )}
               />
               <Box
-                sx={{ boxShadow: '0px -4px 4px -4px black' }}
-                className="!fixed !py-[16px] !h-min-[70px] !z-20 bottom-0 w-full inset-x-0 !flex !flex-col !justify-center !bg-white !items-center"
+                // sx={{ boxShadow: '0px -4px 4px -4px black' }}
+                className="!py-[36px] !h-min-[70px] !w-full !flex !flex-col !justify-center !bg-transparent !items-center"
               >
                 <Button
-                  className={`!w-[94%] md:!w-[660px] !h-10 !m-text-btn-md !normal-case ${
+                  className={`!w-full !h-12 !m-text-btn-md !normal-case ${
                     !formState.isValid
                       ? ''
                       : '!text-secondary !border-secondary'

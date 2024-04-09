@@ -5,9 +5,17 @@ import Footer from '../../layouts/Footer/Footer';
 import MDContent from '../../components/MDContent/MDContent';
 import { useBoundStore } from '../../store/store';
 import MyFileLogo from '../../components/MyFileLogo/MyFileLogo';
-import { Link as LinkRouter } from 'react-router-dom';
+import { Link as LinkRouter, useNavigate } from 'react-router-dom';
+import { useAuth } from 'react-oidc-context';
 
 function LandingPage() {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  if (auth.isAuthenticated) {
+    navigate({ pathname: '/client-dashboard' });
+  }
+
   const myFileDescrip =
     'Keep your personal files secure on **My File NYC.** Upload pictures of your files, download files whenever you need, and share files with NYC agencies when applying for benefits.';
   const loginText =
@@ -17,8 +25,11 @@ function LandingPage() {
   // const loginLink =
   //   'https://accounts-nonprd.nyc.gov/account/login.htm?spName=accounts-nonprd.nyc.gov-account&samlContext=us1_7991201_ec246b71-7ed6-4a62-95c7-a7bfe17c10ce';
 
-  const { setLoggedIn, getLoggedIn } = useBoundStore();
+  const { getLoggedIn } = useBoundStore();
   console.log(getLoggedIn());
+
+  // https://fidm.us1.gigya.com/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm/authorize?client_id=A3YsJ_AmkZMzdXwTrwRA7taq&redirect_uri=https://myfile-dev.cityofnewyork.us&response_type=code&scope=openid%20email%20profile%20address%20phone%20uid%20gov.nyc.accounts-nonprd
+  // https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm/authorize?client_id=A3YsJ_AmkZMzdXwTrwRA7taq&redirect_uri=https://myfile-dev.cityofnewyork.us&response_type=code&scope=openid%20email%20profile%20address%20phone%20uid%20gov.nyc.accounts-nonprd
 
   return (
     <div className="min-h-[100vh] relative">
@@ -53,7 +64,8 @@ function LandingPage() {
               variant="contained"
               className="!w-full !mb-[24px] !h-12 !bg-primary lg:!m-text-btn-lg sm:!m-text-btn-md !m-text-btn-md !normal-case"
               onClick={() => {
-                setLoggedIn(true);
+                // setLoggedIn(true);
+                auth.signinRedirect();
               }}
             >
               Log in

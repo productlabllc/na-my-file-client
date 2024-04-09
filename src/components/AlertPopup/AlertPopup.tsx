@@ -22,6 +22,10 @@ function AlertPopup({ setOpenAlert, severity, text }: AlertProps) {
           <Alert
             variant="filled"
             severity={severity}
+            sx={{
+              backgroundColor: severity === 'warning' ? '#FFDF8D' : '',
+              color: severity === 'warning' ? 'black' : ''
+            }}
             action={
               <IconButton
                 aria-label="close"

@@ -20,7 +20,7 @@ function FamilyMemberEditId() {
   );
 
   const closeFormFamilyWindow = () => {
-    navigate('/family-members');
+    navigate(-1);
   };
 
   const updateFamilyMemberList = (newFamilyMember: FamilyMember) => {

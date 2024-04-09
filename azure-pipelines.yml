@@ -1,0 +1,59 @@
+# Node.js with React
+
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+resources:
+  repositories:
+  - repository: MyFileApiClientRepo
+    type: github
+    endpoint: NYCOpportunity
+    name: NYCOpportunity/my-file-api-client
+    ref: main
+
+trigger:
+- dev
+- main
+
+variables:
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    deploymentTarget: 'prod'
+    awsServiceConnection: 'nyco_devops_service_acct_hhs01'
+  ${{ else }}:
+    deploymentTarget: 'dev'
+    awsServiceConnection: 'nyco_devops_service_acct_hhs04'
+
+pool: $(POOL_NAME)
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- checkout: self
+  path: ./my-file-client
+
+- checkout: MyFileApiClientRepo
+  path: ./my-file-api-client
+
+- task: AWSShellScript@1
+  displayName: 'Deploy UI'
+  continueOnError: true
+  inputs:
+    awsCredentials: $(awsServiceConnection)
+    regionName: 'us-east-1'
+    scriptType: 'inline'
+    inlineScript: |
+      cd $(Agent.BuildDirectory)/my-file-client
+      pwd
+      ls -al
+      source ./params.env
+      # export AWS_SECRET_ACCESS_KEY=$(AWS.SecretAccessKey)
+      # export AWS_SESSION_TOKEN=$(AWS.SessionToken)
+      # export AWS_ACCESS_KEY_ID=$(AWS.AccessKeyID)
+      # export AWS_DEFAULT_REGION=$(AWS.Region)
+      # printenv
+      npm install --no-cache
+      npm run ci-deploy

@@ -65,7 +65,7 @@ function Header() {
         </Toolbar>
       </AppBar>
 
-      <Box className="fixed w-full pt-[14px] sm:pt-0 !z-30">
+      <Box className="!fixed w-full top-[62px] sm:pt-0 !z-30">
         <GlobalNavigation />
       </Box>
 

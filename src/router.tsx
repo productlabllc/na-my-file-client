@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import Account from './pages/Account/Account.tsx';
 import TermsOfUse from './pages/TermsOfUse/TermsOfUse.tsx';
 import About from './pages/About/About.tsx';
 import Faq from './pages/FAQ/Faq.tsx';
@@ -13,7 +12,12 @@ import DocumentId from './pages/DocumentId/DocumentId.tsx';
 import DocumentEditId from './pages/DocumentEditId/DocumentEditId.tsx';
 import FamilyMembers from './pages/FamilyMembers/FamilyMembers.tsx';
 import FamilyMemberEditId from './pages/FamilyMemberEditId/FamilyMemberEditId.tsx';
-
+import Profile from './pages/Profile/Profile.tsx';
+import AddFamilyMember from './pages/AddFamilyMember/AddFamilyMember.tsx';
+import EditProfile from './pages/EditProfile/EditProfile.tsx';
+import CreateApplication from './pages/CreateApplication/CreateApplication.tsx';
+import ApplicationChecklist from './pages/ApplicationChecklist/ApplicationChecklist.tsx';
+import ApplicationChecklistItemPage from './pages/ApplicationChecklistItemPage/ApplicationChecklistItemPage.tsx';
 const clientAndAgentRoutes = [
   {
     path: '/upload-generator',
@@ -52,8 +56,25 @@ const clientAndAgentRoutes = [
     element: <FamilyMembers />
   },
   {
+    path: '/create-family-member',
+    element: <AddFamilyMember />
+  },
+  {
     path: '/family-member/edit/:id',
     element: <FamilyMemberEditId />
+  },
+  {
+    path: '/edit-profile',
+    element: <EditProfile />
+  },
+  {
+    path: '/create-application',
+    element: <CreateApplication />
+  },
+  { path: '/application/:organization/:id', element: <ApplicationChecklist /> },
+  {
+    path: '/application/:organization/:organizationId/:checklistTitle/:id',
+    element: <ApplicationChecklistItemPage />
   },
   {
     path: '/',
@@ -68,8 +89,8 @@ const clientRoutes = [
     element: <ClientDashboard />
   },
   {
-    path: '/account',
-    element: <Account />
+    path: '/profile',
+    element: <Profile />
   }
 ];
 

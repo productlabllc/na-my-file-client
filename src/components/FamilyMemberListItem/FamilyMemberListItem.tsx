@@ -15,33 +15,39 @@ import FamilyMember from '../../types/FamilyMember';
 interface FamilyMemberListItemProps {
   member: FamilyMember;
   onClickDeleteOptionOpen: (member: FamilyMember) => void;
-  handleEditFamilyMember: (memberId: string) => void;
+  handleEditFamilyMember: (member: FamilyMember) => void;
+  editAndDeleteIcons?: boolean;
 }
 
 function FamilyMemberListItem({
   member,
   onClickDeleteOptionOpen,
-  handleEditFamilyMember
+  handleEditFamilyMember,
+  editAndDeleteIcons
 }: FamilyMemberListItemProps) {
   return (
     <ListItem
       key={member.id}
       className="!py-[8px] !px-0 my-[8px] !border-2 !rounded-md flex"
       secondaryAction={
-        <Box className="flex flex-row w-[100px]">
-          <ListItemButton
-            onClick={() => onClickDeleteOptionOpen(member)}
-            className="!d-text-body-lg flex flex-row text-secondary"
-          >
-            <DeleteOutlineIcon />
-          </ListItemButton>
-          <ListItemButton
-            onClick={() => handleEditFamilyMember(member.id)}
-            className="!d-text-body-lg flex flex-row text-secondary"
-          >
-            <EditOutlinedIcon />
-          </ListItemButton>
-        </Box>
+        !editAndDeleteIcons ? (
+          <Box className="flex flex-row w-[100px]">
+            <ListItemButton
+              onClick={() => onClickDeleteOptionOpen(member)}
+              className="!d-text-body-lg flex flex-row text-secondary"
+            >
+              <DeleteOutlineIcon />
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => handleEditFamilyMember(member)}
+              className="!d-text-body-lg flex flex-row text-secondary"
+            >
+              <EditOutlinedIcon />
+            </ListItemButton>
+          </Box>
+        ) : (
+          <></>
+        )
       }
     >
       <ListItemAvatar className="pl-[16px] !w-[20px]">

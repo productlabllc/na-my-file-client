@@ -7,9 +7,14 @@ interface BackButtonProps {
   onClick?: MouseEventHandler;
   text?: string;
   navigatePath?: string;
+  removeArrowIcon?: boolean;
 }
 
-function BackButton({ text, navigatePath }: BackButtonProps) {
+function BackButton({
+  text,
+  navigatePath,
+  removeArrowIcon = false
+}: BackButtonProps) {
   const navigate = useNavigate();
 
   const buttonClicked = () => {
@@ -19,9 +24,11 @@ function BackButton({ text, navigatePath }: BackButtonProps) {
   return (
     <Button
       onClick={buttonClicked}
-      className="lg:!text-[20px] sm:!m-text-btn-lg !m-text-btn-lg !text-secondary !normal-case"
+      className="lg:!text-[20px] sm:!m-text-btn-lg !m-text-btn-lg !text-secondary !normal-case !px-1"
     >
-      <ArrowBackIos className="sm:!m-text-btn-md !m-text-btn-sm !mr-2 !mb-[2px]" />
+      {!removeArrowIcon && (
+        <ArrowBackIos className="sm:!m-text-btn-md !m-text-btn-sm !mr-2 !mb-[2px]" />
+      )}
       {text || 'Back'}
     </Button>
   );

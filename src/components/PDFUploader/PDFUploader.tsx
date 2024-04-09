@@ -5,9 +5,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import {
   Typography,
   Box,
-  Tooltip,
   Icon,
-  ClickAwayListener,
   Autocomplete,
   TextField,
   Select,
@@ -33,6 +31,7 @@ import {
 } from '@dnd-kit/sortable';
 
 import { acceptedDocuments } from '../../assets/documentTypes/documentTypes';
+import TooltipUI from '../TooltipUI/TooltipUI';
 const familyMember = ['Yuriy', 'Pavel', 'Leo'];
 
 interface DocumentUpload {
@@ -126,10 +125,6 @@ function PDFUploader({
     }
   }, [editDocumentProp]);
 
-  const [openFamilyToolTip, setOpenFamilyToolTip] = useState(false);
-  const [openDocumentTypeToolTip, setOpenDocumentTypeToolTip] = useState(false);
-  const [openDescribeDocumentToolTip, setOpenDescribeDocumentToolTip] =
-    useState(false);
   const [countChars, setCountChars] = useState<string>('');
   const [uploadedFiles, setUploadedFiles] = useState<DocumentForApi[]>([]);
 
@@ -173,30 +168,6 @@ function PDFUploader({
     setUploadedFiles([...uploadedFiles.filter((f) => id !== f.id)]);
   };
 
-  const handleFamilyTooltip = () => {
-    setOpenFamilyToolTip((prev) => !prev);
-  };
-
-  const handleFamilyTootltipClose = () => {
-    setOpenFamilyToolTip(false);
-  };
-
-  const handleDocumentTypeToolTip = () => {
-    setOpenDocumentTypeToolTip((prev) => !prev);
-  };
-
-  const handleDocumentTypeClose = () => {
-    setOpenDocumentTypeToolTip(false);
-  };
-
-  const handleDescribeDocument = () => {
-    setOpenDescribeDocumentToolTip((prev) => !prev);
-  };
-
-  const handleDescribeDocumentClose = () => {
-    setOpenDescribeDocumentToolTip(false);
-  };
-
   const onSubmit: SubmitHandler<DocumentUpload> = (data) => {
     const newData = {
       ...data,
@@ -216,7 +187,6 @@ function PDFUploader({
   ) => {
     event?.preventDefault();
     const arr = [];
-    console.log('HERE');
     if (!event.target.files) return;
     for (let i = 0; i < event.target.files.length; i++) {
       console.log(event.target.files[i].size);
@@ -241,34 +211,17 @@ function PDFUploader({
       <Box className="">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className="py-[16px] flex flex-row xl:!d-text-body-lg ">
-            <Typography className="!d-text-body-md pt-[2px] xl:pt-0 xl:!d-text-body-lg !mr-[8px]">
+            <Typography className="!d-text-body-md pt-[2px] xl:pt-0 xl:!d-text-body-lg !mr-[8px] !flex !items-center">
               Family member
+              <Icon className="ml-2" id="family-member-info">
+                info_outlined_icon
+              </Icon>
             </Typography>
-            <ClickAwayListener onClickAway={handleFamilyTootltipClose}>
-              <Tooltip
-                arrow
-                disableHoverListener
-                describeChild
-                title={
-                  <Typography>
-                    Select any family members or yourself that will be attach to
-                    the document.
-                  </Typography>
-                }
-                className="!h-[32px] !flex !items-center"
-                onClose={handleFamilyTooltip}
-                open={openFamilyToolTip}
-                disableFocusListener
-                placement="bottom"
-                PopperProps={{
-                  disablePortal: true,
-                  className: '!w-[270px] !opacity-100'
-                }}
-                classes={{ tooltip: '!text-red', popper: '!text-red' }}
-              >
-                <Icon onClick={handleFamilyTooltip}>info_outlined</Icon>
-              </Tooltip>
-            </ClickAwayListener>
+            <TooltipUI
+              anchorSelect="#family-member-info"
+              place="bottom"
+              content="Select any family member or yourself that will be attach to the document"
+            />
           </Box>
           <Controller
             name="familyMember"
@@ -285,36 +238,20 @@ function PDFUploader({
             )}
           />
 
-          <Box className="py-[16px] flex flex-row">
-            <Typography className="!d-text-body-md pt-[2px] xl:pt-0 xl:!d-text-body-lg !mr-[8px]">
+          <Box className="py-[16px]">
+            <Typography className="!d-text-body-md pt-[2px] xl:pt-0 xl:!d-text-body-lg !mr-[8px] !flex !items-center">
               Document Type
+              <Icon className="ml-2" id="document-type-info">
+                info_outlined_icon
+              </Icon>
             </Typography>
-            <ClickAwayListener onClickAway={handleDocumentTypeClose}>
-              <Tooltip
-                arrow
-                disableHoverListener
-                describeChild
-                title={
-                  <Typography>
-                    Select a document type under the select field for the
-                    requirement to your checklist or request.
-                  </Typography>
-                }
-                className="!h-[32px] !flex !items-center"
-                onClose={handleDocumentTypeToolTip}
-                open={openDocumentTypeToolTip}
-                disableFocusListener
-                placement="bottom"
-                PopperProps={{
-                  disablePortal: true,
-                  className: '!w-[270px] !opacity-100'
-                }}
-                classes={{ tooltip: '!text-red', popper: '!text-red' }}
-              >
-                <Icon onClick={handleDocumentTypeToolTip}>info_outlined</Icon>
-              </Tooltip>
-            </ClickAwayListener>
+            <TooltipUI
+              anchorSelect="#document-type-info"
+              place="bottom"
+              content="Select a document type under the select field for the requirement to your checklist or request"
+            />
           </Box>
+
           <Autocomplete
             className="!w-full"
             options={acceptedDocuments.map((type) => {
@@ -335,35 +272,18 @@ function PDFUploader({
             // )}
           ></Autocomplete>
 
-          <Box className="py-[16px] flex flex-row !d-text-body-lg ">
-            <Typography className="!d-text-body-md pt-[2px] xl:pt-0 xl:!d-text-body-lg !mr-[8px]">
+          <Box className="py-[16px] !d-text-body-lg ">
+            <Typography className="!d-text-body-md pt-[2px] xl:pt-0 xl:!d-text-body-lg !mr-[8px] !flex !items-center">
               Describe this document (optional)
+              <Icon className="ml-2" id="desribe-document-info">
+                info_outlined_icon
+              </Icon>
             </Typography>
-            <ClickAwayListener onClickAway={handleDescribeDocumentClose}>
-              <Tooltip
-                arrow
-                disableHoverListener
-                describeChild
-                title={
-                  <Typography>
-                    Describe the document you are uploading in a couple of
-                    words.
-                  </Typography>
-                }
-                className="!h-[32px] !flex !items-center"
-                onClose={handleDescribeDocument}
-                open={openDescribeDocumentToolTip}
-                disableFocusListener
-                placement="bottom"
-                PopperProps={{
-                  disablePortal: true,
-                  className: '!w-[270px] !opacity-100'
-                }}
-                classes={{ tooltip: '!text-red', popper: '!text-red' }}
-              >
-                <Icon onClick={handleDescribeDocument}>info_outlined</Icon>
-              </Tooltip>
-            </ClickAwayListener>
+            <TooltipUI
+              anchorSelect="#desribe-document-info"
+              place="bottom"
+              content="Describe the document you are uploading in a couple of words"
+            />
           </Box>
           <Box>
             <TextField

@@ -39,7 +39,7 @@ function DocumentEditId() {
             />
           )}
           <Box className="mb-[16px]">
-            <BackButton text="Cancel" />
+            <BackButton text="Cancel" removeArrowIcon={true} />
           </Box>
           <Typography className="!m-text-h5 lg:!d-text-h5 !mb-[8px]">
             Edit document

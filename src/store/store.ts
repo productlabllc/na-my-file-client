@@ -5,17 +5,22 @@ import {
   FamilyMemberStore,
   createFamilyMemberSlice
 } from './FamilyMembersSlice';
+import { ApplicationsStore, createApplicationSlice } from './ApplicationsSlice';
 
 // Using the recommended "slices" pattern for our store modules:
 // https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md
 // https://github.com/pmndrs/zustand/blob/main/docs/guides/typescript.md#slices-pattern
 
-export type StoreTypeIntersection = UserSlice & Languages & FamilyMemberStore;
+export type StoreTypeIntersection = UserSlice &
+  Languages &
+  FamilyMemberStore &
+  ApplicationsStore;
 
 export const useBoundStore = create<StoreTypeIntersection>()((...a) => ({
   ...createLanguages(...a),
   ...createUserSlice(...a),
-  ...createFamilyMemberSlice(...a)
+  ...createFamilyMemberSlice(...a),
+  ...createApplicationSlice(...a)
 }));
 
 // This will be replaced by API calls, probably in a separate service file

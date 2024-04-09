@@ -31,7 +31,7 @@ function UploadGenerator() {
             />
           )}
 
-          <BackButton />
+          <BackButton text="Cancel" removeArrowIcon={true} />
           <PDFUploader openAlertProp={openAlertProp} />
         </Box>
       </Box>

@@ -107,7 +107,7 @@ function TabDocuments() {
           onClick={(e) => handleOption(e, params.row)}
           className="!text-secondary !d-text-btn-sm !normal-case"
         >
-          <Icon className="!mr-3">more_horiz_icon</Icon>
+          <Icon className="!mr-3">more_vert_icon</Icon>
           <Typography className="!d-text-btn-sm">Options</Typography>
         </Button>
       )
@@ -219,7 +219,7 @@ function TabDocuments() {
                             onClick={(e) => handleOption(e, document)}
                             className="!d-text-body-lg flex flex-row text-secondary"
                           >
-                            <Icon>more_horiz_icon</Icon>
+                            <Icon>more_vert_icon</Icon>
                             <Typography className="!ml-[8px] hidden sm:block !m-text-btn-md text-secondary">
                               Options
                             </Typography>
