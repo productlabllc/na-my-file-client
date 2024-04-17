@@ -1,6 +1,8 @@
 import { Button, Icon } from '@mui/material';
 import { useAuth } from 'react-oidc-context';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useBoundStore } from '../../store/store';
 
 interface HeaderLinksProps {
   isInSidebar?: boolean;
@@ -9,6 +11,7 @@ interface HeaderLinksProps {
 function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
   const auth = useAuth();
   const navigate = useNavigate();
+  const { resetUserData } = useBoundStore();
 
   return (
     <>
@@ -48,6 +51,7 @@ function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
             console.log('remove user and logging out');
             await auth.removeUser();
             auth.signoutRedirect();
+            resetUserData();
             navigate({ pathname: '/' });
           }, 1500);
         }}

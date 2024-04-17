@@ -14,7 +14,8 @@
     "precommit": "npm run lint",
     "prepare": "husky install",
     "vitest-ui": "vitest --ui",
-    "ci-deploy": ". ./params.env && npm run build && aws s3 sync ./dist/ s3://$UI_BUCKETNAME/ && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths \"/*\"",
+    "ci-set-npmrc": ". ./params.env && ./build-npmrc.js",
+    "ci-deploy": ". ./params.env && ./build-npmrc.js && npm run build && aws s3 sync ./dist/ s3://$UI_BUCKETNAME/ && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths \"/*\"",
     "deploy-dev": "DEPLOYMENT_TARGET=dev . ./params.env && npm run build && aws s3 sync ./dist/ s3://$UI_BUCKETNAME/ && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths \"/*\" && rm -rf ./dist",
     "deploy-prod": "DEPLOYMENT_TARGET=prod . ./params.env && npm run build && aws s3 sync ./dist/ s3://$UI_BUCKETNAME/ && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DIST_ID --paths \"/*\" && rm -rf ./dist"
   },
@@ -28,7 +29,7 @@
     "@mui/material": "^5.13.3",
     "@mui/x-data-grid": "^6.11.0",
     "@mui/x-date-pickers": "^6.18.6",
-    "@myfile/api-client": "file:../na-my-file-api-client/myfile-api-client-1.0.0.tgz",
+    "@myfile/api-client": "^1.1.2",
     "date-fns": "^3.2.0",
     "dayjs": "^1.11.10",
     "i18next": "^23.6.0",

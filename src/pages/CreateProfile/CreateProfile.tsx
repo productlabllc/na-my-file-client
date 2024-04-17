@@ -8,16 +8,34 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { useBoundStore } from '../../store/store';
+import { useAuth } from 'react-oidc-context';
+import { CreateUserRequest } from '@myfile/api-client';
+import { useEffect, useState } from 'react';
+import User from '../../types/UserType';
 
 interface IFormInput {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
   language: string;
+  Email: string;
 }
 
 function CreateProfile() {
+  const auth = useAuth();
   const navigate = useNavigate();
+  const { updateUser, getUserData } = useBoundStore();
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await getUserData();
+      setUser(userData);
+    };
+    fetchUserData();
+  });
+
   const { register, control, handleSubmit, formState, reset } =
     useForm<IFormInput>({
       defaultValues: {
@@ -35,14 +53,30 @@ function CreateProfile() {
   //   }
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const newData = {
-      ...data,
-      language: localStorage.getItem('language'),
-      dateOfBirth: dayjs(data.dateOfBirth).format('MM/DD/YYYY')
+    // const newData = {
+    //   ...data,
+    //   language: localStorage.getItem('language'),
+    //   dateOfBirth: dayjs(data.dateOfBirth).format('MM/DD/YYYY')
+    // };
+    // console.log(newData);
+
+    const language = localStorage.getItem('language');
+
+    const newProfile: CreateUserRequest = {
+      FirstName: data.firstName,
+      LastName: data.lastName,
+      Email: auth.user?.profile.email ? data.Email : '',
+      DOB: data.dateOfBirth,
+      LanguageIsoCode: language ? language : 'en'
     };
-    console.log(newData);
-    navigate('/family-members');
-    reset();
+
+    // console.log(newProfile);
+
+    updateUser(newProfile, auth.user?.id_token).then((user) => {
+      console.log(user);
+      navigate('/family-members');
+      reset();
+    });
   };
 
   // useEffect(() => {
@@ -93,6 +127,7 @@ function CreateProfile() {
                 InputLabelProps={{
                   shrink: true
                 }}
+                value={user?.FirstName}
               />
 
               <p className="d-text-body-md mb-[16px]">
@@ -124,6 +159,7 @@ function CreateProfile() {
                 InputLabelProps={{
                   shrink: true
                 }}
+                value={user?.LastName}
               />
 
               <p className="d-text-body-md mb-[16px]">When were you born?</p>
