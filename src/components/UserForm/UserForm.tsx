@@ -7,12 +7,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import User from '../../types/User';
+import User from '../../types/UserType';
+import { useBoundStore } from '../../store/store';
+
 interface IFormInput {
-  firstName: string | null;
-  lastName: string | null;
-  dateOfBirth: string | null | dayjs.Dayjs;
-  language: string | null;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string | dayjs.Dayjs;
+  language: string;
+  email: string;
 }
 
 interface UserFormProps {
@@ -22,14 +25,16 @@ interface UserFormProps {
 
 function UserForm({ user, updateUser }: UserFormProps) {
   const navigate = useNavigate();
+  const { getUserData } = useBoundStore();
 
   const { register, control, handleSubmit, formState, reset } =
     useForm<IFormInput>({
       defaultValues: {
-        firstName: user?.firstName || null,
-        lastName: user?.lastName || null,
-        dateOfBirth: dayjs(user?.dateOfBirth) || null,
-        language: user?.language || 'en'
+        firstName: user?.FirstName,
+        lastName: user?.LastName,
+        dateOfBirth: user?.DOB,
+        language: user?.LanguageIsoCode || 'en',
+        email: user?.Email
       },
       mode: 'all',
       reValidateMode: 'onChange',
@@ -45,8 +50,13 @@ function UserForm({ user, updateUser }: UserFormProps) {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     const newData: User = {
       ...data,
-      language: localStorage.getItem('language'),
-      dateOfBirth: dayjs(data.dateOfBirth).format('MM/DD/YYYY')
+      LanguageIsoCode: localStorage.getItem('language') || 'en',
+      DOB: dayjs(data.dateOfBirth).format('MM/DD/YYYY'),
+      FirstName: data.firstName,
+      LastName: data.lastName,
+      Email: data.email,
+      // change TOSAcceptedAt to the boolean value after acceptance of TOU by the client
+      TOSAccepted: getUserData().TOSAccepted
     };
     console.log(newData);
     //@ts-expect-error expect ts undefined error
@@ -109,6 +119,7 @@ function UserForm({ user, updateUser }: UserFormProps) {
                 InputLabelProps={{
                   shrink: true
                 }}
+                value={user?.FirstName}
               />
 
               <p className="d-text-body-md mb-[16px]">
@@ -140,6 +151,7 @@ function UserForm({ user, updateUser }: UserFormProps) {
                 InputLabelProps={{
                   shrink: true
                 }}
+                value={user?.LastName}
               />
 
               <p className="d-text-body-md mb-[16px]">When were you born?</p>

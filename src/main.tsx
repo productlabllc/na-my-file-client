@@ -10,6 +10,32 @@ import MUITheme from './MUITheme';
 import NotificationCenter from './components/NotificationCenter/NotificationCenter';
 import './i18n/config.js';
 import { oidcMetadataNonProd } from './lib/nycid-metadata.js';
+import { OpenAPI } from '@myfile/api-client';
+import { User } from 'oidc-client-ts';
+
+OpenAPI.interceptors.request.use((request) => {
+  const getUser = () => {
+    const storageKeys = Object.keys(sessionStorage);
+    const oidcKey = storageKeys.find((k) => k.startsWith('oidc.user'));
+    const oidcData = sessionStorage.getItem(oidcKey || 'empty');
+    if (!oidcKey || !oidcData) {
+      return null;
+    } else {
+      return User.fromStorageString(oidcData);
+    }
+  };
+  const user = getUser();
+  if (!request.headers) {
+    request.headers = {} as HeadersInit;
+  }
+  if (user && !user.expired) {
+    request.headers = {
+      ...request.headers,
+      Authorization: `Bearer ${user.id_token}`
+    };
+  }
+  return request;
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

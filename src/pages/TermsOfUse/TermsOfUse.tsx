@@ -9,17 +9,25 @@ import MyFileLogo from '../../components/MyFileLogo/MyFileLogo';
 import Footer from '../../layouts/Footer/Footer';
 import MDContent from '../../components/MDContent/MDContent';
 import { getMarkDownFile } from '../../utils/importMarkdownFile';
-
 import { useBoundStore } from '../../store/store';
+import { useAuth } from 'react-oidc-context';
+import { UpdateUserRequest } from '@myfile/api-client';
 
 function TermsOfUse() {
   // TODO fetch from CMS based on locale
   // const content = `\nAn h1 header\n============\n\nParagraphs are separated by a blank line.\n\n2nd paragraph. *Italic*, **bold**, and \`monospace\`. Itemized lists\nlook like:\n\n  * this one\n  * that one\n  * the other one\n\nAn h2 header\n------------\n\nHere's a numbered list:\n\n 1. first item\n 2. second item\n 3. third item\n`
   // const { i18n } = useTranslation();
   const navigate = useNavigate();
+  const auth = useAuth();
 
-  const { getAcceptedTermsOfUse, setAcceptedTermsOfUse, getLoggedIn } =
-    useBoundStore();
+  const {
+    getAcceptedTermsOfUse,
+    setAcceptedTermsOfUse,
+    getLoggedIn,
+    updateUser,
+    getUserData,
+    resetUserData
+  } = useBoundStore();
   const { getLang } = useBoundStore();
   const lang = getLang();
 
@@ -33,6 +41,7 @@ function TermsOfUse() {
       : 'pb-[250px]';
 
   useEffect(() => {
+    console.log(getAcceptedTermsOfUse());
     if (lang) {
       const fetchData = async () => {
         try {
@@ -47,15 +56,41 @@ function TermsOfUse() {
 
       fetchData();
     }
-  }, [lang]);
+  }, [lang, getAcceptedTermsOfUse]);
 
   const approveTermsOfUse = () => {
-    setAcceptedTermsOfUse(true);
-    navigate('/create-profile');
+    const userData = getUserData();
+    const updatedUser: UpdateUserRequest = {
+      FirstName: userData.FirstName,
+      LastName: userData.LastName,
+      Email: userData.Email ? userData.Email : '',
+      DOB: userData.DOB,
+      LanguageIsoCode: userData.LanguageIsoCode || 'en-us',
+      TOSAccepted: true
+    };
+
+    updateUser(updatedUser, auth.user?.id_token).then(() => {
+      const fetchedData = getUserData();
+      console.log(fetchedData);
+      setAcceptedTermsOfUse(true);
+      navigate('/create-profile');
+    });
   };
 
   const declineTermsOfUse = () => {
-    navigate('/');
+    setTimeout(async () => {
+      const idpLogoutFrame = document.createElement('iframe');
+      document.body.append(idpLogoutFrame);
+      idpLogoutFrame.style.visibility = 'hidden';
+      idpLogoutFrame.src =
+        'https://accounts-nonprd.nyc.gov/account/idpLogout.htm?x-frames-allow-from=https%3A%2F%2Fmyfile-dev.cityofnewyork.us';
+      document.body.removeChild(idpLogoutFrame);
+      console.log('remove user and logging out');
+      resetUserData();
+      await auth.removeUser();
+      auth.signoutRedirect();
+      navigate({ pathname: '/' });
+    }, 1500);
   };
 
   return (
@@ -68,7 +103,8 @@ function TermsOfUse() {
       >
         <div className="lg:w-[570px] sm:w-[546px]">
           <div className="mb-[24px] relative">
-            {(getAcceptedTermsOfUse() && getLoggedIn()) || !getLoggedIn() ? (
+            {(getAcceptedTermsOfUse() && auth.isAuthenticated) ||
+            !getLoggedIn() ? (
               <BackButton navigatePath="/" />
             ) : (
               ''
@@ -80,7 +116,7 @@ function TermsOfUse() {
             </div>
             <MDContent content={mdText} />
           </Container>
-          {!getAcceptedTermsOfUse() && getLoggedIn() ? (
+          {!getAcceptedTermsOfUse() && auth.isAuthenticated ? (
             <>
               <Button
                 variant="outlined"
@@ -91,7 +127,7 @@ function TermsOfUse() {
               </Button>
               <Button
                 onClick={approveTermsOfUse}
-                href="/create-profile"
+                // href="/family-members"
                 variant="contained"
                 className="!w-full !mb-[24px] !h-12 !bg-primary lg:!m-text-btn-lg sm:!m-text-btn-md !m-text-btn-md !normal-case"
               >

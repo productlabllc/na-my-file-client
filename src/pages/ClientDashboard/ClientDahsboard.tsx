@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Tabs, Tab, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -8,22 +7,19 @@ import { useMediaQuery } from '@mui/material';
 import Header from '../../layouts/Header/Header';
 import TabApplications from '../../components/TabApplications/TabApplications';
 import TabDocuments from '../../components/TabDocuments/TabDocuments';
-import { useAuth } from 'react-oidc-context';
-import { DefaultApi as Api } from '@myfile/api-client';
+// import { useAuth } from 'react-oidc-context';
+// import { DefaultApi as Api } from '@myfile/api-client';
 
 function ClientDashboard() {
-  const auth = useAuth();
-  (async () => {
-    const headers = { Authorization: `Bearer ${auth.user?.id_token}` };
-    console.log(`auth header:
-    ${headers}
-    `);
-    const api = new Api({
-      baseOptions: { headers }
-    });
-    const cases = await api.getCases();
-    console.log(cases);
-  })();
+  // const auth = useAuth();
+  // (async () => {
+  //   const headers = { Authorization: `Bearer ${auth.user?.id_token}` };
+  //   const api = new Api({
+  //     baseOptions: { headers }
+  //   });
+  //   const user = await api.getUser();
+  //   console.log(user);
+  // })();
 
   const [activeTab, setActiveTab] = useState('documents');
   const [searchParams, setSearchParams] = useSearchParams();

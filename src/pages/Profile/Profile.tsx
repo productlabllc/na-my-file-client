@@ -8,23 +8,28 @@ import FamilyMemberListItem from '../../components/FamilyMemberListItem/FamilyMe
 import ConfirmDelete from '../../components/ConfirmDelete/ConfirmDelete';
 
 import { Box, Typography, Divider, Button, List, Dialog } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import FamilyMemberForm from '../../components/FamilyMemberForm/FamilyMemberForm';
 import FamilyMember from '../../types/FamilyMember';
 import { useBoundStore } from '../../store/store';
 
 function Profile() {
   const navigate = useNavigate();
+
   const {
     addFamilyMember,
     getFamilyMembers,
     removeFamilyMember,
     updateFamilyMember,
-    getUser,
+    getUserData,
+    useFetchUserData,
+    // @ts-expect-error fix when store is ready
     updateUser,
     getIsAddFamilyFormOpened,
     setIsAddFamilyFormOpened,
     setIsUpdateFamilyFormOpened,
-    getIsUpdateFamilyFormOpened
+    getIsUpdateFamilyFormOpened,
+    loading
   } = useBoundStore();
 
   useEffect(() => {
@@ -35,15 +40,42 @@ function Profile() {
     getFamilyMembers(),
     addFamilyMember,
     removeFamilyMember,
-    updateFamilyMember
+    updateFamilyMember,
+    useFetchUserData
   ]);
 
-  useEffect(() => {
-    const userData = getUser();
-    setUserData(userData);
-  }, [getUser, updateUser, updateFamilyMember]);
+  // const [userData, setUserData] = useState<{
+  //   firstName: string;
+  //   lastName: string;
+  //   dateOfBirth: string;
+  //   language: string;
+  // } | null>(null);
 
-  const [userData, setUserData] = useState(getUser());
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    language: ''
+  });
+
+  const [spin, setSpin] = useState(false);
+
+  useEffect(() => {
+    const userStoreData = getUserData();
+    if (userStoreData !== null && !loading) {
+      setUserData({
+        firstName: userStoreData.FirstName ?? '',
+        lastName: userStoreData.LastName ?? '',
+        dateOfBirth: userStoreData.DOB ?? '',
+        language: userStoreData.LanguageIsoCode ?? ''
+      });
+
+      if (userStoreData !== null) {
+        setSpin(true);
+      }
+    }
+  }, [getUserData, updateFamilyMember, setUserData, loading]);
+
   const [familyData, setFamilyData] = useState<FamilyMember[]>([
     ...getFamilyMembers()
   ]);
@@ -92,6 +124,11 @@ function Profile() {
   const updateFamilyMemberItem = (updatedMember: FamilyMember) => {
     updateFamilyMember(updatedMember);
   };
+
+  if (!spin) {
+    return <CircularProgress />;
+  }
+
   return (
     <>
       <Header />

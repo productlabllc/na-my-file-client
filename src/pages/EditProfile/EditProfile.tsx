@@ -2,10 +2,11 @@ import { useBoundStore } from '../../store/store';
 import UserForm from '../../components/UserForm/UserForm';
 
 function EditProfile() {
-  const { getUser, updateUser } = useBoundStore();
+  const { getUserData } = useBoundStore();
   return (
     <div>
-      <UserForm user={getUser()} updateUser={updateUser} />
+      {/* @ts-expect-error fix when store is ready */}
+      <UserForm user={getUserData()} updateUser={null} />
     </div>
   );
 }
