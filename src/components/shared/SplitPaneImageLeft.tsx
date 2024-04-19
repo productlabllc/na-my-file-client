@@ -11,11 +11,14 @@ const SplitPaneImageLeft = (props: any) => {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: `url(/hero-img-0${Math.floor(Math.random() * 5) + 1}.jpg)`,
+          backgroundImage: `url(/paperwork-0${Math.floor(Math.random() * 5) + 1}.jpg)`,
           backgroundRepeat: 'no-repeat',
-          backgroundColor: t => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
+          backgroundColor: (t) =>
+            t.palette.mode === 'light'
+              ? t.palette.grey[50]
+              : t.palette.grey[900],
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center'
         }}
       />
       {props.children}

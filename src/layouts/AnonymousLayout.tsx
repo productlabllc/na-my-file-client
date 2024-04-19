@@ -1,14 +1,21 @@
 import * as React from 'react';
 import { User, useAuth } from 'oidc-react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Link, Outlet, Location, useNavigate } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Link,
+  Outlet,
+  Location,
+  useNavigate
+} from 'react-router-dom';
 import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { createRoot } from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import { WSClientTest } from '../WSClientTest';
-import ddnLogo from '../assets/ddn-logo.jpg';
-import { Account, AccountContext } from '../scenes/auth/Account';
+import ddnLogo from '../assets/my-file-logo.svg';
+import { Account, AccountContext } from '../pages/auth/Account';
 import { ColorModeContext, colorTokens } from '../theme';
 
 const AnonymousLayout = () => {

@@ -87,12 +87,12 @@ const clientAndAgentRoutes = [
   {
     path: '/application/:organization/:organizationId/:checklistTitle/:id',
     element: <ApplicationChecklistItemPage />
-  },
-  {
-    path: '/',
-    // element: <LandingPage />
-    element: <LandingPage />
   }
+  // {
+  //   path: '/',
+  //   // element: <LandingPage />
+  //   element: <LandingPage />
+  // }
 ];
 
 const clientRoutes = [
