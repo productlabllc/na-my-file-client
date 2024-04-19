@@ -19,16 +19,16 @@ import CreateApplication from './pages/CreateApplication/CreateApplication.tsx';
 import ApplicationChecklist from './pages/ApplicationChecklist/ApplicationChecklist.tsx';
 import ApplicationChecklistItemPage from './pages/ApplicationChecklistItemPage/ApplicationChecklistItemPage.tsx';
 
-import Login from './pages/auth/Login';
-import Signup from './pages/auth/Signup';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import ConfirmRegistration from './pages/auth/ConfirmRegistration';
-import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin';
+import Login from './pages/auth/Login.tsx';
+import Signup from './pages/auth/Signup.tsx';
+import ForgotPassword from './pages/auth/ForgotPassword.tsx';
+import ConfirmRegistration from './pages/auth/ConfirmRegistration.tsx';
+import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx';
 // Error Page & Layouts
-import ErrorPage from './error-page';
-import MainLayout from './layouts/MainLayout';
-import AnonymousLayout from './layouts/AnonymousLayout';
-import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft';
+import ErrorPage from './error-page.tsx';
+import MainLayout from './layouts/MainLayout.tsx';
+import AnonymousLayout from './layouts/AnonymousLayout.tsx';
+import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
 
 const clientAndAgentRoutes = [
   {
