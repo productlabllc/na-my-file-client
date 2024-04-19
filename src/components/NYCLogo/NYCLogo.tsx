@@ -6,8 +6,8 @@ function NYCLogo() {
       <img
         src={NYCLogoIcon}
         className="h-[20px] lg:h-[16px]"
-        aria-label="NYC"
-        alt="NYC"
+        aria-label="My File"
+        alt="My File"
       />
     </div>
   );

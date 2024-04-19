@@ -5,8 +5,8 @@ function MyFileLogoWhite() {
     <img
       src={myFileLogoFull}
       className={`h-[77px] w-[90px]`}
-      aria-label="MyFile NYC"
-      alt="MyFile NYC"
+      aria-label="MyFile"
+      alt="MyFile"
     />
   );
 }
