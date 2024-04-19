@@ -13,27 +13,31 @@ import {
   Grid,
   Typography,
   InputAdornment,
-  IconButton,
+  IconButton
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/ddn-logo.jpg';
+import ddnLogo from '../../assets/my-file-logo.svg';
 import Copyright from '../../components/shared/Copyright';
 import { AccountContext } from './Account';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
 
 export default () => {
-  const [stage, setStage] = useState<'request-code' | 'change-password'>('request-code');
+  const [stage, setStage] = useState<'request-code' | 'change-password'>(
+    'request-code'
+  );
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] = useState(false);
+  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
+    useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
   const navigate = useNavigate();
 
-  const { sendForgotPasswordCode, changePasswordWithCode } = useContext(AccountContext);
+  const { sendForgotPasswordCode, changePasswordWithCode } =
+    useContext(AccountContext);
 
   useEffect(() => {
     if (stage === 'change-password') {
@@ -65,19 +69,26 @@ export default () => {
       if (!isValidPassword(password)) {
         errorList = [
           ...errorList,
-          'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+=',
+          'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+='
         ];
       } else if (password !== passwordConfirmation) {
-        errorList = [...errorList, 'Password and Password Confirmation do not match.'];
+        errorList = [
+          ...errorList,
+          'Password and Password Confirmation do not match.'
+        ];
       } else {
         try {
-          const result = await changePasswordWithCode(email, verificationCode, password);
+          const result = await changePasswordWithCode(
+            email,
+            verificationCode,
+            password
+          );
           navigate('/login');
         } catch (err: any) {
           if (err.name === 'CodeMismatchException') {
             errorList = [
               ...errorList,
-              "Confirmation code provided is not valid. You can use the 'Resend' link below to receive a new one.",
+              "Confirmation code provided is not valid. You can use the 'Resend' link below to receive a new one."
             ];
           }
           console.log(err);
@@ -95,7 +106,7 @@ export default () => {
           mx: 4,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <img src={ddnLogo} width="64" />
@@ -107,7 +118,7 @@ export default () => {
         <Box
           component="form"
           noValidate
-          onSubmit={async event => await onSubmit(event)}
+          onSubmit={async (event) => await onSubmit(event)}
           sx={{ mt: 1, width: '80%', maxWidth: '600px' }}
         >
           <TextField
@@ -120,7 +131,7 @@ export default () => {
             autoComplete="email"
             autoFocus
             disabled={stage === 'change-password'}
-            onChange={event => setEmail(event.target.value.trim())}
+            onChange={(event) => setEmail(event.target.value.trim())}
           />
           {stage === 'change-password' && (
             <>
@@ -133,7 +144,9 @@ export default () => {
                 name="verificationCode"
                 autoComplete="verificationCode"
                 autoFocus
-                onChange={event => setVerificationCode(event.target.value.trim())}
+                onChange={(event) =>
+                  setVerificationCode(event.target.value.trim())
+                }
               />
               <TextField
                 margin="normal"
@@ -144,7 +157,7 @@ export default () => {
                 type={passwordIsVisible ? 'text' : 'password'}
                 id="password"
                 autoComplete="current-password"
-                onChange={event => setPassword(event.target.value.trim())}
+                onChange={(event) => setPassword(event.target.value.trim())}
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (
@@ -156,7 +169,7 @@ export default () => {
                         {passwordIsVisible ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
-                  ),
+                  )
                 }}
               />
               <TextField
@@ -167,19 +180,29 @@ export default () => {
                 label="New Password Confirmation"
                 type={passwordIsVisible ? 'text' : 'password'}
                 id="passwordConfirmation"
-                onChange={event => setPasswordConfirmation(event.target.value.trim())}
+                onChange={(event) =>
+                  setPasswordConfirmation(event.target.value.trim())
+                }
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => setPasswordConfirmationIsVisible(!passwordConfirmationIsVisible)}
+                        onClick={() =>
+                          setPasswordConfirmationIsVisible(
+                            !passwordConfirmationIsVisible
+                          )
+                        }
                       >
-                        {passwordConfirmationIsVisible ? <Visibility /> : <VisibilityOff />}
+                        {passwordConfirmationIsVisible ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
                       </IconButton>
                     </InputAdornment>
-                  ),
+                  )
                 }}
               />
             </>
@@ -203,8 +226,15 @@ export default () => {
             </Typography>
           )}
 
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            {stage === 'request-code' ? 'Get Verification Code' : 'Change Password'}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {stage === 'request-code'
+              ? 'Get Verification Code'
+              : 'Change Password'}
           </Button>
           <Grid container>
             <Grid item xs>

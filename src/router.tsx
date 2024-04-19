@@ -18,6 +18,18 @@ import EditProfile from './pages/EditProfile/EditProfile.tsx';
 import CreateApplication from './pages/CreateApplication/CreateApplication.tsx';
 import ApplicationChecklist from './pages/ApplicationChecklist/ApplicationChecklist.tsx';
 import ApplicationChecklistItemPage from './pages/ApplicationChecklistItemPage/ApplicationChecklistItemPage.tsx';
+
+import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ConfirmRegistration from './pages/auth/ConfirmRegistration';
+import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin';
+// Error Page & Layouts
+import ErrorPage from './error-page';
+import MainLayout from './layouts/MainLayout';
+import AnonymousLayout from './layouts/AnonymousLayout';
+import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft';
+
 const clientAndAgentRoutes = [
   {
     path: '/upload-generator',
@@ -78,6 +90,7 @@ const clientAndAgentRoutes = [
   },
   {
     path: '/',
+    // element: <LandingPage />
     element: <LandingPage />
   }
 ];
@@ -108,7 +121,54 @@ const clientRoutes = [
 
 const router = createBrowserRouter([
   ...clientAndAgentRoutes,
-  ...clientRoutes
+  ...clientRoutes,
+  {
+    path: '/',
+    element: <AnonymousLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/login',
+        element: (
+          <SplitPaneImageLeft>
+            <Login />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/signup',
+        element: (
+          <SplitPaneImageLeft>
+            <Signup />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/confirm-registration',
+        element: (
+          <SplitPaneImageLeft>
+            <ConfirmRegistration />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ForgotPassword />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/change-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ChangePasswordAfterLogin />
+          </SplitPaneImageLeft>
+        )
+      }
+    ]
+  }
   // ...agentRoutes
 ]);
 

@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/ddn-logo.jpg';
+import ddnLogo from '../../assets/my-file-logo.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import Copyright from '../../components/shared/Copyright';
 import { useAppState } from '../../app-state-store';

@@ -1,10 +1,23 @@
-import { CognitoUserAttribute, ISignUpResult } from 'amazon-cognito-identity-js';
+import {
+  CognitoUserAttribute,
+  ISignUpResult
+} from 'amazon-cognito-identity-js';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Link, Paper, Box, Grid, Typography, InputAdornment, IconButton } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  InputAdornment,
+  IconButton
+} from '@mui/material';
 import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/ddn-logo.jpg';
+import ddnLogo from '../../assets/my-file-logo.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import Copyright from '../../components/shared/Copyright';
 
@@ -12,7 +25,10 @@ import UserPool from '../../lib/user-pool';
 import PhoneNumber from '../../components/shared/PhoneNumber';
 import { MuiTelInput } from 'mui-tel-input';
 import { useAppState } from '../../app-state-store';
-import { confirmPartnerUserRegistration, validateRegistrationData } from '../../api-service';
+import {
+  confirmPartnerUserRegistration,
+  validateRegistrationData
+} from '../../api-service';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
 
 const Signup = () => {
@@ -25,14 +41,16 @@ const Signup = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [registrationCode, setRegistrationCode] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] = useState(false);
+  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
+    useState(false);
   const [emailIsLockedDown, setEmailIsLockedDown] = useState(false);
-  const [registrationCodeIsLockedDown, setRegistrationCodeIsLockedDown] = useState(false);
+  const [registrationCodeIsLockedDown, setRegistrationCodeIsLockedDown] =
+    useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
 
   const navigate = useNavigate();
-  const appStateUser = useAppState(state => state.appUser);
-  const appStateSnackbar = useAppState(state => state.snackbar);
+  const appStateUser = useAppState((state) => state.appUser);
+  const appStateSnackbar = useAppState((state) => state.snackbar);
 
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -57,7 +75,10 @@ const Signup = () => {
     let errorList: Array<string> = [];
 
     if (firstName.trim() === '' || lastName.trim() === '') {
-      errorList = [...errorList, 'First Name and Last Name are both required fields.'];
+      errorList = [
+        ...errorList,
+        'First Name and Last Name are both required fields.'
+      ];
     } else if (!isValidEmail(email)) {
       errorList = [...errorList, 'Email address is not valid.'];
     } else if (email !== emailConfirmation) {
@@ -65,20 +86,26 @@ const Signup = () => {
     } else if (!isValidPassword(password)) {
       errorList = [
         ...errorList,
-        'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+=',
+        'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+='
       ];
     } else if (password !== passwordConfirmation) {
-      errorList = [...errorList, 'Password and Password Confirmation do not match.'];
+      errorList = [
+        ...errorList,
+        'Password and Password Confirmation do not match.'
+      ];
     } else if (registrationCode.trim() === '') {
       errorList = [...errorList, 'Registration code is not valid.'];
     } else {
       try {
         const { status, PartnerAccountId } = (await validateRegistrationData({
           registrationCode,
-          email,
+          email
         })) as any;
         if (status !== 200) {
-          errorList = [...errorList, `The registration code provided is not valid.`];
+          errorList = [
+            ...errorList,
+            `The registration code provided is not valid.`
+          ];
         } else {
           console.log(`Retrieved PartnerAccountId: ${PartnerAccountId}`);
           UserPool.signUp(
@@ -87,37 +114,41 @@ const Signup = () => {
             [
               new CognitoUserAttribute({
                 Name: 'given_name',
-                Value: firstName,
+                Value: firstName
               }),
               new CognitoUserAttribute({
                 Name: 'family_name',
-                Value: lastName,
+                Value: lastName
               }),
               new CognitoUserAttribute({
                 Name: 'nickname',
-                Value: registrationCode,
-              }),
+                Value: registrationCode
+              })
             ],
             [],
             async (err, data) => {
               if (err) {
                 console.error(err);
-                errorList = [...errorList, `Signup error occurred: ${err.name}`];
+                errorList = [
+                  ...errorList,
+                  `Signup error occurred: ${err.name}`
+                ];
               } else {
                 console.log(data);
                 const { userSub } = data!;
-                const confirmedRegistrationResponse = await confirmPartnerUserRegistration({
-                  email,
-                  partnerId: PartnerAccountId,
-                  regCognitoId: userSub,
-                });
+                const confirmedRegistrationResponse =
+                  await confirmPartnerUserRegistration({
+                    email,
+                    partnerId: PartnerAccountId,
+                    regCognitoId: userSub
+                  });
                 console.log(`Confirmed Platform Registration Response:
               ${JSON.stringify(confirmPartnerUserRegistration, null, 2)}
               `);
                 appStateUser.setEmail(email);
                 navigate('/login');
               }
-            },
+            }
           );
         }
       } catch (err) {
@@ -155,7 +186,7 @@ const Signup = () => {
           mx: 4,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <img src={ddnLogo} width="64" />
@@ -180,7 +211,7 @@ const Signup = () => {
             autoComplete="firstName"
             autoFocus
             value={firstName}
-            onChange={event => setFirstName(event.target.value.trim())}
+            onChange={(event) => setFirstName(event.target.value.trim())}
           />
 
           {/* LAST NAME */}
@@ -193,7 +224,7 @@ const Signup = () => {
             name="lastName"
             autoComplete="lastName"
             value={lastName}
-            onChange={event => setLastName(event.target.value.trim())}
+            onChange={(event) => setLastName(event.target.value.trim())}
           />
 
           {/* MOBILE PHONE */}
@@ -203,7 +234,7 @@ const Signup = () => {
             fullWidth
             defaultCountry="US"
             value={mobile}
-            onChange={value => {
+            onChange={(value) => {
               console.log(`val: ${value}`);
               setMobile(value || '');
             }}
@@ -220,7 +251,7 @@ const Signup = () => {
             autoComplete="email"
             value={email}
             disabled={emailIsLockedDown}
-            onChange={event => setEmail(event.target.value.trim())}
+            onChange={(event) => setEmail(event.target.value.trim())}
           />
 
           {/* CONFIRM EMAIL */}
@@ -234,7 +265,9 @@ const Signup = () => {
             autoComplete="confirmEmail"
             value={emailConfirmation}
             disabled={emailIsLockedDown}
-            onChange={event => setEmailConfirmation(event.target.value.trim())}
+            onChange={(event) =>
+              setEmailConfirmation(event.target.value.trim())
+            }
           />
 
           {/* PASSWORD */}
@@ -247,7 +280,7 @@ const Signup = () => {
             type={passwordIsVisible ? 'text' : 'password'}
             id="password"
             autoComplete="current-password"
-            onChange={event => setPassword(event.target.value.trim())}
+            onChange={(event) => setPassword(event.target.value.trim())}
             InputProps={{
               // <-- This is where the toggle button is added.
               endAdornment: (
@@ -259,7 +292,7 @@ const Signup = () => {
                     {passwordIsVisible ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
           />
 
@@ -273,19 +306,29 @@ const Signup = () => {
             type={passwordConfirmationIsVisible ? 'text' : 'password'}
             id="passwordConfirmation"
             autoComplete="current-password"
-            onChange={event => setPasswordConfirmation(event.target.value.trim())}
+            onChange={(event) =>
+              setPasswordConfirmation(event.target.value.trim())
+            }
             InputProps={{
               // <-- This is where the toggle button is added.
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() => setPasswordConfirmationIsVisible(!passwordConfirmationIsVisible)}
+                    onClick={() =>
+                      setPasswordConfirmationIsVisible(
+                        !passwordConfirmationIsVisible
+                      )
+                    }
                   >
-                    {passwordConfirmationIsVisible ? <Visibility /> : <VisibilityOff />}
+                    {passwordConfirmationIsVisible ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
           />
 
@@ -300,14 +343,19 @@ const Signup = () => {
             autoComplete="registrationCode"
             value={registrationCode}
             disabled={registrationCodeIsLockedDown}
-            onChange={event => setRegistrationCode(event.target.value.trim())}
+            onChange={(event) => setRegistrationCode(event.target.value.trim())}
           />
 
           {errorMessages.map((m, idx) => (
             <FormErrorMessage message={m} key={idx} />
           ))}
 
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
             Register
           </Button>
           <Grid container>

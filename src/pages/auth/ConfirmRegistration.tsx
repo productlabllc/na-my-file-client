@@ -13,11 +13,11 @@ import {
   Grid,
   Typography,
   InputAdornment,
-  IconButton,
+  IconButton
 } from '@mui/material';
 import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/ddn-logo.jpg';
+import ddnLogo from '../../assets/my-file-logo.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import Copyright from '../../components/shared/Copyright';
 import { useAppState } from '../../app-state-store';
@@ -27,8 +27,8 @@ const ConfirmRegistration = () => {
   const [emailIsDisabled, setEmailIsDisabled] = useState(false);
   const [confirmationCode, setConfirmationCode] = useState('');
   const navigate = useNavigate();
-  const appStateUser = useAppState(state => state.appUser);
-  const appStateSnackbar = useAppState(state => state.snackbar);
+  const appStateUser = useAppState((state) => state.appUser);
+  const appStateSnackbar = useAppState((state) => state.snackbar);
 
   useEffect(() => {
     console.log('set email');
@@ -42,12 +42,12 @@ const ConfirmRegistration = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     confirmUserRegistration(email, confirmationCode)
-      .then(data => {
+      .then((data) => {
         console.log('Registration code validated.');
         console.log(data);
         navigate('/login');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('Error on registration code validation:');
         console.log(err);
       });
@@ -61,16 +61,22 @@ const ConfirmRegistration = () => {
           mx: 4,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <img src={ddnLogo} width="64" />
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           Affiliate Portal Registration Confirmation
         </Typography>
-        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1, width: '80%', maxWidth: '600px' }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={onSubmit}
+          sx={{ mt: 1, width: '80%', maxWidth: '600px' }}
+        >
           <Typography variant="body2">
-            You must validate your email before logging in for the first time. Please enter the code sent to your email.
+            You must validate your email before logging in for the first time.
+            Please enter the code sent to your email.
           </Typography>
           <TextField
             margin="normal"
@@ -94,9 +100,14 @@ const ConfirmRegistration = () => {
             name="confirmationCode"
             autoComplete="confirmationCode"
             autoFocus
-            onChange={event => setConfirmationCode(event.target.value.trim())}
+            onChange={(event) => setConfirmationCode(event.target.value.trim())}
           />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
             Confirm Registration Code
           </Button>
           <Grid container>
