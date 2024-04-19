@@ -1,9 +1,9 @@
 import { Link, Divider } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import NYCMayorsOffice from '../../assets/nyc-mayors-office.svg';
+// import NYCMayorsOffice from '../../assets/nyc-mayors-office.svg';
 
 function Footer() {
-  const copyrightText = `© 2023 City of New York. All Rights Reserved. NYC Mayor’s Office for Economic Opportunity is a trademark and service mark of the City of New York.`;
+  const copyrightText = `© 2024 New America. All Rights Reserved.`;
   return (
     <>
       <footer
@@ -11,11 +11,11 @@ function Footer() {
       >
         {/* TODO replace with correct logo SVG */}
         <div className="flex xl:flex-row flex-col lg:justify-between justify-center items-center w-full">
-          <img
+          {/* <img
             alt="nyc-logo"
             src={NYCMayorsOffice}
             className="h-12 pb-1 fill-white"
-          />
+          /> */}
 
           <div className="d-text-footer mt-[8px] lg:mt-0 ">
             <Link
