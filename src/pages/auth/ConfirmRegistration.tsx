@@ -66,7 +66,7 @@ const ConfirmRegistration = () => {
       >
         <img src={ddnLogo} width="64" />
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
-          Affiliate Portal Registration Confirmation
+          My File Registration Confirmation
         </Typography>
         <Box
           component="form"

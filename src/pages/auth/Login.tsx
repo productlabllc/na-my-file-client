@@ -102,7 +102,7 @@ const Login = () => {
       >
         <img src={ddnLogo} width="64" />
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
-          Partner Portal Sign in
+          My File Sign in
         </Typography>
         <Box
           component="form"

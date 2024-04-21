@@ -30,6 +30,10 @@ import MainLayout from './layouts/MainLayout.tsx';
 import AnonymousLayout from './layouts/AnonymousLayout.tsx';
 import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
 
+import TestComponent from './pages/TestComponent.tsx';
+
+import { AccountContext } from './pages/auth/Account.tsx';
+
 const clientAndAgentRoutes = [
   {
     path: '/upload-generator',
@@ -87,12 +91,63 @@ const clientAndAgentRoutes = [
   {
     path: '/application/:organization/:organizationId/:checklistTitle/:id',
     element: <ApplicationChecklistItemPage />
-  }
+  },
   // {
   //   path: '/',
   //   // element: <LandingPage />
   //   element: <LandingPage />
   // }
+  {
+    path: '/',
+    element: <AnonymousLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/login',
+        element: (
+          <SplitPaneImageLeft>
+            <Login />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/signup',
+        element: (
+          <SplitPaneImageLeft>
+            <Signup />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/confirm-registration',
+        element: (
+          <SplitPaneImageLeft>
+            <ConfirmRegistration />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ForgotPassword />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/change-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ChangePasswordAfterLogin />
+          </SplitPaneImageLeft>
+        )
+      }
+    ]
+  },
+  {
+    path: '/test',
+    element: <TestComponent />
+  }
 ];
 
 const clientRoutes = [
