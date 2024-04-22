@@ -18,6 +18,22 @@ import EditProfile from './pages/EditProfile/EditProfile.tsx';
 import CreateApplication from './pages/CreateApplication/CreateApplication.tsx';
 import ApplicationChecklist from './pages/ApplicationChecklist/ApplicationChecklist.tsx';
 import ApplicationChecklistItemPage from './pages/ApplicationChecklistItemPage/ApplicationChecklistItemPage.tsx';
+
+import Login from './pages/auth/Login.tsx';
+import Signup from './pages/auth/Signup.tsx';
+import ForgotPassword from './pages/auth/ForgotPassword.tsx';
+import ConfirmRegistration from './pages/auth/ConfirmRegistration.tsx';
+import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx';
+// Error Page & Layouts
+import ErrorPage from './error-page.tsx';
+import MainLayout from './layouts/MainLayout.tsx';
+import AnonymousLayout from './layouts/AnonymousLayout.tsx';
+import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
+
+import TestComponent from './pages/TestComponent.tsx';
+
+import { AccountContext } from './pages/auth/Account.tsx';
+
 const clientAndAgentRoutes = [
   {
     path: '/upload-generator',
@@ -76,9 +92,61 @@ const clientAndAgentRoutes = [
     path: '/application/:organization/:organizationId/:checklistTitle/:id',
     element: <ApplicationChecklistItemPage />
   },
+  // {
+  //   path: '/',
+  //   // element: <LandingPage />
+  //   element: <LandingPage />
+  // }
   {
     path: '/',
-    element: <LandingPage />
+    element: <AnonymousLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/login',
+        element: (
+          <SplitPaneImageLeft>
+            <Login />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/signup',
+        element: (
+          <SplitPaneImageLeft>
+            <Signup />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/confirm-registration',
+        element: (
+          <SplitPaneImageLeft>
+            <ConfirmRegistration />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ForgotPassword />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/change-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ChangePasswordAfterLogin />
+          </SplitPaneImageLeft>
+        )
+      }
+    ]
+  },
+  {
+    path: '/test',
+    element: <TestComponent />
   }
 ];
 
@@ -108,7 +176,54 @@ const clientRoutes = [
 
 const router = createBrowserRouter([
   ...clientAndAgentRoutes,
-  ...clientRoutes
+  ...clientRoutes,
+  {
+    path: '/',
+    element: <AnonymousLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/login',
+        element: (
+          <SplitPaneImageLeft>
+            <Login />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/signup',
+        element: (
+          <SplitPaneImageLeft>
+            <Signup />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/confirm-registration',
+        element: (
+          <SplitPaneImageLeft>
+            <ConfirmRegistration />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ForgotPassword />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/change-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ChangePasswordAfterLogin />
+          </SplitPaneImageLeft>
+        )
+      }
+    ]
+  }
   // ...agentRoutes
 ]);
 
