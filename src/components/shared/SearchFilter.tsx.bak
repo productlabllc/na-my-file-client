@@ -1,10 +1,22 @@
-import { Typography, Box, useTheme, Modal, Button, Stack, Chip, useMediaQuery } from '@mui/material';
+import {
+  Typography,
+  Box,
+  useTheme,
+  Modal,
+  Button,
+  Stack,
+  Chip,
+  useMediaQuery
+} from '@mui/material';
 import { colorTokens } from '../../theme';
 import { useAppState } from '../../app-state-store';
 import { useEffect, useState } from 'react';
 import { FilterAltOutlined } from '@mui/icons-material';
 import { SearchFilterType } from '../../lib/types-and-interfaces';
-import { isMobileSize, isNotDesktopSize } from '../../lib/media-queries-implemented'; // Media Query Size
+import {
+  isMobileSize,
+  isNotDesktopSize
+} from '../../lib/media-queries-implemented'; // Media Query Size
 
 type GroupNumberSelectorChipPropsType = {
   groupNumber: string;
@@ -19,7 +31,7 @@ const GroupNumberSelectorChip = ({
   label,
   selected,
   existingSelection,
-  onClickHandler,
+  onClickHandler
 }: GroupNumberSelectorChipPropsType) => {
   return (
     <Chip
@@ -42,16 +54,22 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
   const isNotDesktop = useMediaQuery(`(max-width: ${isNotDesktopSize}px)`); // Media Query for Mobile
   const {
     globals: { globalGroupNumberFilter, setGlobalGroupNumberFilter },
-    partnerDetail,
+    partnerDetail
   } = useAppState();
-  const [showSearchFilterModal, setSearchFilterModal] = useState<boolean>(false);
-  const [selectedGroupNumbers, setSelectedGroupNumbers] = useState<string[]>(globalGroupNumberFilter || []);
-  const [filterStateHasChanged, setFilterStateHasChanged] = useState<boolean>(false);
+  const [showSearchFilterModal, setSearchFilterModal] =
+    useState<boolean>(false);
+  const [selectedGroupNumbers, setSelectedGroupNumbers] = useState<string[]>(
+    globalGroupNumberFilter || []
+  );
+  const [filterStateHasChanged, setFilterStateHasChanged] =
+    useState<boolean>(false);
 
   const evaluateFilterDiff = (proposedSelectedGroupNumbers: Array<string>) => {
     const localFilterIsDifferentThanGlobalFilter = !(
       globalGroupNumberFilter &&
-      proposedSelectedGroupNumbers.every((val, idx) => globalGroupNumberFilter.some(gn => gn === val)) &&
+      proposedSelectedGroupNumbers.every((val, idx) =>
+        globalGroupNumberFilter.some((gn) => gn === val)
+      ) &&
       globalGroupNumberFilter.length === proposedSelectedGroupNumbers.length
     );
     setFilterStateHasChanged(localFilterIsDifferentThanGlobalFilter);
@@ -61,7 +79,9 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
     const isCurrentlySelected = selectedGroupNumbers.includes(groupNumber);
     let proposedSelectedGroupNumbers: Array<string> = [];
     if (isCurrentlySelected) {
-      proposedSelectedGroupNumbers = selectedGroupNumbers.filter(gn => gn !== groupNumber);
+      proposedSelectedGroupNumbers = selectedGroupNumbers.filter(
+        (gn) => gn !== groupNumber
+      );
       // setGlobalGroupNumberFilter(selectedGroupNumbers.filter(gn => gn !== groupNumber));
     } else {
       proposedSelectedGroupNumbers = [...selectedGroupNumbers, groupNumber];
@@ -105,13 +125,14 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
             borderRadius: '10px',
             overflowY: 'auto',
             maxHeight: isMobile ? '90vh' : '70vh',
-            padding: isMobile ? '14px' : '20px',
+            padding: isMobile ? '14px' : '20px'
           }}
         >
           <Typography
             sx={{
-              color: colors.greenAccent[theme.palette.mode === 'dark' ? 600 : 400],
-              marginBottom: '40px',
+              color:
+                colors.greenAccent[theme.palette.mode === 'dark' ? 600 : 400],
+              marginBottom: '40px'
             }}
             variant="h2"
           >
@@ -119,7 +140,7 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
             <Button
               variant="text"
               color="info"
-              onClick={event => {
+              onClick={(event) => {
                 evaluateFilterDiff([]);
                 setSelectedGroupNumbers([]);
               }}
@@ -132,48 +153,69 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
           <Box
             sx={{
               display: 'block',
-              overflowWrap: 'anywhere',
+              overflowWrap: 'anywhere'
             }}
           >
-            {partnerDetail.groupNumberHierarchy!.directGroupNumbers.map(({ GroupNumberValue, PartnerName }) => (
-              <GroupNumberSelectorChip
-                groupNumber={GroupNumberValue}
-                label={`${GroupNumberValue}`}
-                existingSelection={
-                  !!(globalGroupNumberFilter && globalGroupNumberFilter.some(gn => gn === GroupNumberValue))
-                }
-                selected={selectedGroupNumbers.some(gn => gn === GroupNumberValue)}
-                onClickHandler={toggleSelectGroupNumber}
-              />
-            ))}
+            {partnerDetail.groupNumberHierarchy!.directGroupNumbers.map(
+              ({ GroupNumberValue, PartnerName }) => (
+                <GroupNumberSelectorChip
+                  groupNumber={GroupNumberValue}
+                  label={`${GroupNumberValue}`}
+                  existingSelection={
+                    !!(
+                      globalGroupNumberFilter &&
+                      globalGroupNumberFilter.some(
+                        (gn) => gn === GroupNumberValue
+                      )
+                    )
+                  }
+                  selected={selectedGroupNumbers.some(
+                    (gn) => gn === GroupNumberValue
+                  )}
+                  onClickHandler={toggleSelectGroupNumber}
+                />
+              )
+            )}
           </Box>
-          {partnerDetail.groupNumberHierarchy && partnerDetail.groupNumberHierarchy.primaryGroupNumbers.length > 0 && (
-            <>
-              <Typography variant="h4" sx={{ marginTop: '8px' }}>
-                Primary Referred Group Numbers
-              </Typography>
-              <Box
-                sx={{
-                  display: 'block',
-                  overflowWrap: 'anywhere',
-                }}
-              >
-                {partnerDetail.groupNumberHierarchy!.primaryGroupNumbers.map(({ GroupNumberValue, PartnerName }) => (
-                  <GroupNumberSelectorChip
-                    groupNumber={GroupNumberValue}
-                    label={`${GroupNumberValue} (${PartnerName})`}
-                    existingSelection={
-                      !!(globalGroupNumberFilter && globalGroupNumberFilter.some(gn => gn === GroupNumberValue))
-                    }
-                    selected={selectedGroupNumbers.some(gn => gn === GroupNumberValue)}
-                    onClickHandler={toggleSelectGroupNumber}
-                  />
-                ))}
-              </Box>
-            </>
-          )}
           {partnerDetail.groupNumberHierarchy &&
-            partnerDetail.groupNumberHierarchy.secondaryGroupNumbers.length > 0 && (
+            partnerDetail.groupNumberHierarchy.primaryGroupNumbers.length >
+              0 && (
+              <>
+                <Typography variant="h4" sx={{ marginTop: '8px' }}>
+                  Primary Referred Group Numbers
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'block',
+                    overflowWrap: 'anywhere'
+                  }}
+                >
+                  {partnerDetail.groupNumberHierarchy!.primaryGroupNumbers.map(
+                    ({ GroupNumberValue, PartnerName }) => (
+                      <GroupNumberSelectorChip
+                        groupNumber={GroupNumberValue}
+                        label={`${GroupNumberValue} (${PartnerName})`}
+                        existingSelection={
+                          !!(
+                            globalGroupNumberFilter &&
+                            globalGroupNumberFilter.some(
+                              (gn) => gn === GroupNumberValue
+                            )
+                          )
+                        }
+                        selected={selectedGroupNumbers.some(
+                          (gn) => gn === GroupNumberValue
+                        )}
+                        onClickHandler={toggleSelectGroupNumber}
+                      />
+                    )
+                  )}
+                </Box>
+              </>
+            )}
+          {partnerDetail.groupNumberHierarchy &&
+            partnerDetail.groupNumberHierarchy.secondaryGroupNumbers.length >
+              0 && (
               <>
                 <Typography variant="h4" sx={{ marginTop: '8px' }}>
                   Secondary Referred Group Numbers
@@ -181,7 +223,7 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
                 <Box
                   sx={{
                     display: 'block',
-                    overflowWrap: 'anywhere',
+                    overflowWrap: 'anywhere'
                   }}
                 >
                   {partnerDetail.groupNumberHierarchy!.secondaryGroupNumbers.map(
@@ -190,12 +232,19 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
                         groupNumber={GroupNumberValue}
                         label={`${GroupNumberValue} (${PartnerName})`}
                         existingSelection={
-                          !!(globalGroupNumberFilter && globalGroupNumberFilter.some(gn => gn === GroupNumberValue))
+                          !!(
+                            globalGroupNumberFilter &&
+                            globalGroupNumberFilter.some(
+                              (gn) => gn === GroupNumberValue
+                            )
+                          )
                         }
-                        selected={selectedGroupNumbers.some(gn => gn === GroupNumberValue)}
+                        selected={selectedGroupNumbers.some(
+                          (gn) => gn === GroupNumberValue
+                        )}
                         onClickHandler={toggleSelectGroupNumber}
                       />
-                    ),
+                    )
                   )}
                 </Box>
               </>
@@ -209,7 +258,7 @@ const SearchFilter = ({ onSaveFilterHandler }: SearchFilterPropsType) => {
                 setSearchFilterModal(false);
                 setGlobalGroupNumberFilter([...selectedGroupNumbers]);
                 onSaveFilterHandler({
-                  groupNumberFilter: selectedGroupNumbers,
+                  groupNumberFilter: selectedGroupNumbers
                 });
               }}
             >

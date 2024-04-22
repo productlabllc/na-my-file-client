@@ -12,14 +12,14 @@ import {
   InputAdornment,
   IconButton
 } from '@mui/material';
-import { AccountContext } from './Account';
+// import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ddnLogo from '../../assets/my-file-logo.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import Copyright from '../../components/shared/Copyright';
 
 import UserPool from '../../lib/user-pool';
-import PhoneNumber from '../../components/shared/PhoneNumber';
+// import PhoneNumber from '../../components/shared/PhoneNumber';
 import { MuiTelInput } from 'mui-tel-input';
 import { useAppState } from '../../app-state-store';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
@@ -40,7 +40,7 @@ const Signup = () => {
 
   const navigate = useNavigate();
   const appStateUser = useAppState((state) => state.appUser);
-  const appStateSnackbar = useAppState((state) => state.snackbar);
+  // const appStateSnackbar = useAppState((state) => state.snackbar);
 
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
@@ -99,7 +99,7 @@ const Signup = () => {
               errorList = [...errorList, `Signup error occurred: ${err.name}`];
             } else {
               console.log(data);
-              const { userSub } = data!;
+              // const { userSub } = data!;
               appStateUser.setEmail(email);
               navigate('/login');
             }

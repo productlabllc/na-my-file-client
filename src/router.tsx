@@ -4,7 +4,7 @@ import TermsOfUse from './pages/TermsOfUse/TermsOfUse.tsx';
 import About from './pages/About/About.tsx';
 import Faq from './pages/FAQ/Faq.tsx';
 import ClientDashboard from './pages/ClientDashboard/ClientDahsboard.tsx';
-import LandingPage from './pages/LandingPage/LandingPage.tsx';
+// import LandingPage from './pages/LandingPage/LandingPage.tsx';
 import NycAuth from './pages/NycAuth/NycAuth.tsx';
 import CreateProfile from './pages/CreateProfile/CreateProfile.tsx';
 import UploadGenerator from './pages/UploadGenerator/UploadGenerator.tsx';
@@ -26,13 +26,13 @@ import ConfirmRegistration from './pages/auth/ConfirmRegistration.tsx';
 import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx';
 // Error Page & Layouts
 import ErrorPage from './error-page.tsx';
-import MainLayout from './layouts/MainLayout.tsx';
+// import MainLayout from './layouts/MainLayout.tsx';
 import AnonymousLayout from './layouts/AnonymousLayout.tsx';
 import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
 
 import TestComponent from './pages/TestComponent.tsx';
 
-import { AccountContext } from './pages/auth/Account.tsx';
+// import { AccountContext } from './pages/auth/Account.tsx';
 
 const clientAndAgentRoutes = [
   {

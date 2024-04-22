@@ -1,7 +1,7 @@
 import {
   ImpersonationContextDataType,
   LOCAL_STORAGE_KEYS,
-  PartnerClaimDataType,
+  // PartnerClaimDataType,
   USER_STATUS
 } from './lib/types-and-interfaces';
 import { getSession } from './pages/auth/Account';
@@ -22,10 +22,10 @@ const getImpersonationContext = () => {
   return impersonationContext;
 };
 
-const getImpersonationPartnerId = () => {
-  const { partnerId } = getImpersonationContext() || {};
-  return partnerId;
-};
+// const getImpersonationPartnerId = () => {
+//   const { partnerId } = getImpersonationContext() || {};
+//   return partnerId;
+// };
 
 const getImpersonationContextHeaders = (): Record<string, string> => {
   const impersonationContext = getImpersonationContext();
@@ -523,28 +523,28 @@ export type InviteTeamMemberType = {
     | 'PARTNER_ACCOUNT_ADMIN';
 };
 
-export const inviteTeamMember = async (inviteData: InviteTeamMemberType) => {
-  const {
-    idToken: {
-      payload: { 'cognito:username': cognitoUserId }
-    }
-  } = await getSession();
-  const response = await fetch(
-    `${VITE_API_ENDPOINT}/registration/generate-partner-registration-code`,
-    {
-      method: 'POST',
-      headers: {
-        ...(await getAuthenticatedBaseHeaders())
-      },
-      body: JSON.stringify(inviteData)
-    }
-  );
-  let data = { status: response.status };
-  if (response.ok) {
-    data = { ...data, ...(await response.json()) };
-  }
-  return data as any;
-};
+// export const inviteTeamMember = async (inviteData: InviteTeamMemberType) => {
+//   const {
+//     idToken: {
+//       payload: { 'cognito:username': cognitoUserId }
+//     }
+//   } = await getSession();
+//   const response = await fetch(
+//     `${VITE_API_ENDPOINT}/registration/generate-partner-registration-code`,
+//     {
+//       method: 'POST',
+//       headers: {
+//         ...(await getAuthenticatedBaseHeaders())
+//       },
+//       body: JSON.stringify(inviteData)
+//     }
+//   );
+//   let data = { status: response.status };
+//   if (response.ok) {
+//     data = { ...data, ...(await response.json()) };
+//   }
+//   return data as any;
+// };
 
 type ConfirmPartnerUserRegistrationType = {
   partnerId: string;

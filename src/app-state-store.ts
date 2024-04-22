@@ -1,17 +1,25 @@
 import { create } from 'zustand';
-import { } from './api-service';
+import {} from './api-service';
 import dayjs, { Dayjs } from 'dayjs';
-import { getCurrentMonthDateRange, getImpersonationContextFromLocalStorage, getSearchFilterFromLocalStorage } from './lib/utils';
-import { ImpersonationContextDataType, LOCAL_STORAGE_KEYS, PartnerGroupNumberHierarchyType } from './lib/types-and-interfaces';
-const { currentDayOfCurrentMonthUTC, firstDayOfCurrentMonthUTC, firstDayOfPreviousMonthUTC } =
-  getCurrentMonthDateRange();
-const localStorageImpersonationContext = getImpersonationContextFromLocalStorage();
-const localStorageSearchFilter = getSearchFilterFromLocalStorage();
-
-console.log({
+// import { getCurrentMonthDateRange, getImpersonationContextFromLocalStorage, getSearchFilterFromLocalStorage } from './lib/utils';
+import {
+  // ImpersonationContextDataType,
+  LOCAL_STORAGE_KEYS
+  // PartnerGroupNumberHierarchyType
+} from './lib/types-and-interfaces';
+const {
   currentDayOfCurrentMonthUTC,
   firstDayOfCurrentMonthUTC,
-});
+  firstDayOfPreviousMonthUTC
+} = getCurrentMonthDateRange();
+const localStorageImpersonationContext =
+  getImpersonationContextFromLocalStorage();
+const localStorageSearchFilter = getSearchFilterFromLocalStorage();
+
+// console.log({
+//   currentDayOfCurrentMonthUTC,
+//   firstDayOfCurrentMonthUTC
+// });
 
 export type AppStateType = {
   anyData: {
@@ -22,7 +30,9 @@ export type AppStateType = {
     hasReferralAccounts?: boolean;
     setHasReferralAccounts: (hasReferralAccounts: boolean) => void;
     groupNumberHierarchy?: PartnerGroupNumberHierarchyType;
-    setGroupNumberHierarchy: (groupNumberHierarchy: PartnerGroupNumberHierarchyType) => void;
+    setGroupNumberHierarchy: (
+      groupNumberHierarchy: PartnerGroupNumberHierarchyType
+    ) => void;
   };
   appUser: {
     email: string;
@@ -61,16 +71,16 @@ export type AppStateType = {
   reset: () => void;
 };
 
-export const useAppState = create<AppStateType>(set => ({
+export const useAppState = create<AppStateType>((set) => ({
   anyData: {
     data: undefined,
     setData: (data: any) =>
       set((state: AppStateType) => ({
         anyData: {
           ...state.anyData,
-          data,
-        },
-      })),
+          data
+        }
+      }))
   },
   partnerDetail: {
     hasReferralAccounts: false,
@@ -78,17 +88,23 @@ export const useAppState = create<AppStateType>(set => ({
       set((state: AppStateType) => ({
         partnerDetail: {
           ...state.partnerDetail,
-          hasReferralAccounts,
-        },
+          hasReferralAccounts
+        }
       })),
-    groupNumberHierarchy: { directGroupNumbers: [], primaryGroupNumbers: [], secondaryGroupNumbers: [] },
-    setGroupNumberHierarchy: (groupNumberHierarchy: PartnerGroupNumberHierarchyType) =>
+    groupNumberHierarchy: {
+      directGroupNumbers: [],
+      primaryGroupNumbers: [],
+      secondaryGroupNumbers: []
+    },
+    setGroupNumberHierarchy: (
+      groupNumberHierarchy: PartnerGroupNumberHierarchyType
+    ) =>
       set((state: AppStateType) => ({
         partnerDetail: {
           ...state.partnerDetail,
-          groupNumberHierarchy,
-        },
-      })),
+          groupNumberHierarchy
+        }
+      }))
   },
   appUser: {
     email: '',
@@ -96,8 +112,8 @@ export const useAppState = create<AppStateType>(set => ({
       set((state: AppStateType) => ({
         appUser: {
           ...state.appUser,
-          email,
-        },
+          email
+        }
       })),
     userSessionData: undefined,
     setUserSessionData: (atts: Record<string, any>) =>
@@ -106,12 +122,12 @@ export const useAppState = create<AppStateType>(set => ({
           ...state.appUser,
           userSessionData: {
             ...state.appUser.userSessionData,
-            ...atts,
-          },
-        },
+            ...atts
+          }
+        }
       })),
     platformUserProfile: {
-      PartnerUserRoles: [{ PartnerAccount: { CommonName: '' } }],
+      PartnerUserRoles: [{ PartnerAccount: { CommonName: '' } }]
     },
     setPlatformUserProfile: (profile: any) =>
       set((state: AppStateType) => ({
@@ -119,24 +135,31 @@ export const useAppState = create<AppStateType>(set => ({
           ...state.appUser,
           platformUserProfile: {
             ...state.appUser.platformUserProfile,
-            ...profile,
-          },
-        },
-      })),
+            ...profile
+          }
+        }
+      }))
   },
   impersonationContext: {
-    partnerId: localStorageImpersonationContext ? localStorageImpersonationContext.partnerId : undefined,
-    partnerRole: localStorageImpersonationContext ? localStorageImpersonationContext.partnerRole : undefined,
+    partnerId: localStorageImpersonationContext
+      ? localStorageImpersonationContext.partnerId
+      : undefined,
+    partnerRole: localStorageImpersonationContext
+      ? localStorageImpersonationContext.partnerRole
+      : undefined,
     setImpersonationContext: (partnerId: string, partnerRole: string) =>
       set((state: AppStateType) => {
         const context = {
           impersonationContext: {
             ...state.impersonationContext,
             partnerId,
-            partnerRole,
-          },
+            partnerRole
+          }
         };
-        localStorage.setItem(LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT, JSON.stringify(context.impersonationContext));
+        localStorage.setItem(
+          LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT,
+          JSON.stringify(context.impersonationContext)
+        );
         return context;
       }),
     clearImpersonationContext: () =>
@@ -145,12 +168,12 @@ export const useAppState = create<AppStateType>(set => ({
           impersonationContext: {
             ...state.impersonationContext,
             partnerId: undefined,
-            partnerRole: undefined,
-          },
+            partnerRole: undefined
+          }
         };
         localStorage.removeItem(LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT);
         return context;
-      }),
+      })
   },
   snackbar: {
     open: false,
@@ -159,31 +182,36 @@ export const useAppState = create<AppStateType>(set => ({
       set((state: AppStateType) => ({
         snackbar: {
           ...state.snackbar,
-          open,
-        },
+          open
+        }
       })),
     setMessage: (message: string) =>
       set((state: AppStateType) => ({
         snackbar: {
           ...state.snackbar,
-          message,
-        },
-      })),
+          message
+        }
+      }))
   },
   affiliates: {
-    claimsList: [],
+    claimsList: []
   },
   globals: {
-    globalGroupNumberFilter: localStorageSearchFilter ? localStorageSearchFilter.groupNumberFilter : [],
+    globalGroupNumberFilter: localStorageSearchFilter
+      ? localStorageSearchFilter.groupNumberFilter
+      : [],
     setGlobalGroupNumberFilter: (groupNumbers: Array<string>) =>
       set((state: AppStateType) => {
         const searchFilter = {
           globals: {
             ...state.globals,
-            globalGroupNumberFilter: groupNumbers,
-          },
+            globalGroupNumberFilter: groupNumbers
+          }
         };
-        localStorage.setItem(LOCAL_STORAGE_KEYS.SEARCH_FILTER, JSON.stringify(searchFilter.globals.globalGroupNumberFilter));
+        localStorage.setItem(
+          LOCAL_STORAGE_KEYS.SEARCH_FILTER,
+          JSON.stringify(searchFilter.globals.globalGroupNumberFilter)
+        );
         return searchFilter;
       }),
     clearGlobalGroupNumberFilter: () =>
@@ -191,8 +219,8 @@ export const useAppState = create<AppStateType>(set => ({
         const searchFilter = {
           globals: {
             ...state.globals,
-            globalGroupNumberFilter: [],
-          },
+            globalGroupNumberFilter: []
+          }
         };
         localStorage.removeItem(LOCAL_STORAGE_KEYS.SEARCH_FILTER);
         return searchFilter;
@@ -202,45 +230,45 @@ export const useAppState = create<AppStateType>(set => ({
       set((state: AppStateType) => ({
         globals: {
           ...state.globals,
-          globalDateFrom,
-        },
+          globalDateFrom
+        }
       })),
     globalDateTo: dayjs(currentDayOfCurrentMonthUTC).subtract(1, 'day'), //.subtract((new Date(currentDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
     setGlobalDateTo: (globalDateTo: Dayjs) =>
       set((state: AppStateType) => ({
         globals: {
           ...state.globals,
-          globalDateTo,
-        },
+          globalDateTo
+        }
       })),
     showDataLoader: false,
     setShowDataLoader: (showDataLoader: boolean) =>
       set((state: AppStateType) => ({
         globals: {
           ...state.globals,
-          showDataLoader,
-        },
+          showDataLoader
+        }
       })),
     globalMessage: '',
     setGlobalMessage: (globalMessage: string) =>
       set((state: AppStateType) => ({
         globals: {
           ...state.globals,
-          globalMessage,
-        },
-      })),
+          globalMessage
+        }
+      }))
   },
   reset: () => {
     set((state: AppStateType) => ({
       affiliates: {
-        claimsList: [],
+        claimsList: []
       },
       appUser: {
         ...state.appUser,
         email: '',
         platformUserProfile: {},
-        userSessionData: undefined,
-      },
+        userSessionData: undefined
+      }
     }));
-  },
+  }
 }));

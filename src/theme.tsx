@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 import { ThemeOptions, createTheme } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material';
 import { updatePlatformUserProfile } from './api-service';
@@ -17,7 +17,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#525252',
           700: '#3d3d3d',
           800: '#292929',
-          900: '#141414',
+          900: '#141414'
         },
         primary: {
           100: '#d0d1d5',
@@ -28,7 +28,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#101624',
           700: '#0c101b',
           800: '#080b12',
-          900: '#040509',
+          900: '#040509'
         },
         greenAccent: {
           100: '#dbf5ee',
@@ -39,7 +39,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#3da58a',
           700: '#2e7c67',
           800: '#1e5245',
-          900: '#0f2922',
+          900: '#0f2922'
         },
         redAccent: {
           100: '#f8dcdb',
@@ -50,7 +50,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#af3f3b',
           700: '#832f2c',
           800: '#58201e',
-          900: '#2c100f',
+          900: '#2c100f'
         },
         blueAccent: {
           100: '#e1e2fe',
@@ -61,8 +61,8 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#535ac8',
           700: '#3e4396',
           800: '#29b6f6',
-          900: '#151632',
-        },
+          900: '#151632'
+        }
       }
     : {
         grey: {
@@ -74,7 +74,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#858585',
           700: '#a3a3a3',
           800: '#c2c2c2',
-          900: '#e0e0e0',
+          900: '#e0e0e0'
         },
         primary: {
           100: '#040509',
@@ -85,7 +85,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#1F2A40',
           700: '#727681',
           800: '#a1a4ab',
-          900: '#d0d1d5',
+          900: '#d0d1d5'
         },
         greenAccent: {
           100: '#0f2922',
@@ -96,7 +96,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#70d8bd',
           700: '#94e2cd',
           800: '#b7ebde',
-          900: '#dbf5ee',
+          900: '#dbf5ee'
         },
         redAccent: {
           100: '#2c100f',
@@ -107,7 +107,7 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#e2726e',
           700: '#e99592',
           800: '#f1b9b7',
-          900: '#f8dcdb',
+          900: '#f8dcdb'
         },
         blueAccent: {
           100: '#151632',
@@ -118,8 +118,8 @@ export const colorTokens = (mode: PaletteMode) =>
           600: '#868dfb',
           700: '#a4a9fc',
           800: '#c3c6fd',
-          900: '#e1e2fe',
-        },
+          900: '#e1e2fe'
+        }
       };
 
 // mui theme settings
@@ -132,91 +132,91 @@ export const themeSettings = (mode: PaletteMode) => {
       ...(mode === 'dark'
         ? {
             primary: {
-              main: colors.primary[500],
+              main: colors.primary[500]
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: colors.greenAccent[500]
             },
             neutral: {
               dark: colors.grey[700],
               main: colors.grey[500],
-              light: colors.grey[100],
+              light: colors.grey[100]
             },
             background: {
-              default: colors.primary[500],
-            },
+              default: colors.primary[500]
+            }
           }
         : {
             primary: {
-              main: colors.primary[100],
+              main: colors.primary[100]
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: colors.greenAccent[500]
             },
             neutral: {
               dark: colors.grey[700],
               main: colors.grey[500],
-              light: colors.grey[100],
+              light: colors.grey[100]
             },
             background: {
-              default: '#fcfcfc',
-            },
-          }),
+              default: '#fcfcfc'
+            }
+          })
     },
     typography: {
       allVariants: {
-        fontFamily: ["'Source Sans 3'", 'sans-serif'].join(','),
+        fontFamily: ["'Source Sans 3'", 'sans-serif'].join(',')
       },
       fontFamily: ["'Source Sans 3'", 'sans-serif'].join(','),
       fontSize: 14,
       h1: {
-        fontSize: 40,
+        fontSize: 40
       },
       h2: {
-        fontSize: 32,
+        fontSize: 32
       },
       h3: {
-        fontSize: 24,
+        fontSize: 24
       },
       h4: {
-        fontSize: 20,
+        fontSize: 20
       },
       h5: {
-        fontSize: 16,
+        fontSize: 16
       },
       h6: {
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
     components: {
       MuiInputBase: {
         styleOverrides: {
           root: {
-            color: colors.primary[200],
+            color: colors.primary[200]
             // backgroundColor: '#ffffff',
-          },
-        },
+          }
+        }
       },
       MuiOutlinedInput: {
         styleOverrides: {
           notchedOutline: {
-            borderColor: `${colors.primary[200]} !important`,
-          },
-        },
+            borderColor: `${colors.primary[200]} !important`
+          }
+        }
       },
       MuiInputLabel: {
         styleOverrides: {
           root: {
-            color: `${colors.primary[200]} !important`,
-          },
-        },
+            color: `${colors.primary[200]} !important`
+          }
+        }
       },
       MuiTextField: {
         defaultProps: {
-          variant: 'outlined',
-        },
-      },
-    },
+          variant: 'outlined'
+        }
+      }
+    }
   };
 
   return themeOptions;
@@ -227,17 +227,17 @@ export type ColorModeContextType = {
   toggleColorMode: () => {};
   setColorMode: (mode: 'dark' | 'light') => {};
 };
-export const ColorModeContext = React.createContext({
-  toggleColorMode: () => {},
-  setColorMode: (mode: 'dark' | 'light') => {},
-});
+// export const ColorModeContext = React.createContext({
+//   toggleColorMode: () => {},
+//   setColorMode: (mode: 'dark' | 'light') => {},
+// });
 
 export const useMode = () => {
   const [mode, setMode] = React.useState<PaletteMode>('dark');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode(prev => {
+        setMode((prev) => {
           const mode = prev === 'dark' ? 'light' : 'dark';
           updatePlatformUserProfile({ themeMode: mode });
           return mode;
@@ -245,9 +245,9 @@ export const useMode = () => {
       },
       setColorMode: (mode: 'dark' | 'light') => {
         setMode(mode);
-      },
+      }
     }),
-    [],
+    []
   );
 
   const theme = React.useMemo(() => createTheme(themeSettings(mode)), [mode]);

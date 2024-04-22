@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Avatar,
+  // Avatar,
   Button,
-  CssBaseline,
+  // CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   Link,
   Paper,
   Box,
@@ -26,16 +26,15 @@ import FormErrorMessage from '../../components/shared/FormErrorMessage';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmationCode, setConfirmationCode] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-  const [userNotConfirmed, setUserNotConfirmed] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
   const navigate = useNavigate();
   const appStateAnyData = useAppState((state) => state.anyData);
   const appStateUser = useAppState((state) => state.appUser);
-  const appStateSnackbar = useAppState((state) => state.snackbar);
+  // const appStateSnackbar = useAppState((state) => state.snackbar);
 
-  const { authenticate, sendForgotPasswordCode } = useContext(AccountContext);
+  // const { authenticate, sendForgotPasswordCode } = useContext(AccountContext);
+  const { authenticate } = useContext(AccountContext);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
