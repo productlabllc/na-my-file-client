@@ -53,7 +53,7 @@ const Login = () => {
       try {
         const data = await authenticate!(email, password);
         console.log('Logged in!', data);
-        navigate('/account');
+        navigate('/client-dashboard');
       } catch (err: any) {
         if (err.name === 'UserNotConfirmedException') {
           errorList = [...errorList, 'Email not confirmed for user.'];
