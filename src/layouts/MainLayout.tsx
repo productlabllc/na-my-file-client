@@ -1,32 +1,32 @@
 import * as React from 'react';
-import { User, useAuth } from 'oidc-react';
-import ReactDOM from 'react-dom/client';
+// import { User, useAuth } from 'oidc-react';
+// import ReactDOM from 'react-dom/client';
 import {
-  createBrowserRouter,
-  RouterProvider,
-  Link,
+  // createBrowserRouter,
+  // RouterProvider,
+  // Link,
   Outlet,
-  useNavigate,
-  redirect
+  useNavigate
+  // redirect
 } from 'react-router-dom';
 import {
   Account,
   AccountContext,
   getPlatformUser
-} from '../scenes/auth/Account';
-import Sidebar from '../scenes/shared/Sidebar';
-import Dashboard from '../scenes/account/Dashboard';
-import Topbar from '../scenes/shared/Topbar';
-import Loader from '../components/shared/Loader.tsx.bak';
+} from '../pages/auth/Account';
+// import Sidebar from '../pages/shared/Sidebar';
+// import Dashboard from '../pages/account/Dashboard';
+// import Topbar from '../scenes/shared/Topbar';
+// import Loader from '../components/shared/Loader.tsx.bak';
 import { useAppState } from '../app-state-store';
 import { Box, useTheme } from '@mui/material';
 import { ColorModeContext, colorTokens } from '../theme';
 import { getActivePlatformMessage } from '../api-service';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {
-  isMobileSize,
-  isNotDesktopSize
-} from '../lib/media-queries-implemented'; // Media Query Size
+// import {
+//   isMobileSize,
+//   isNotDesktopSize
+// } from '../lib/media-queries-implemented'; // Media Query Size
 
 const MainLayout = () => {
   const [userSession, setUserSession] = React.useState<Record<string, any>>({});

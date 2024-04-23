@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { AccountContext } from './Account';
 
@@ -13,7 +13,9 @@ export default () => {
 
     getSession!().then(({ user, email }) => {
       authenticate!(email, password).then(() => {
-        const attributes = [new CognitoUserAttribute({ Name: 'email', Value: newEmail })];
+        const attributes = [
+          new CognitoUserAttribute({ Name: 'email', Value: newEmail })
+        ];
 
         user.updateAttributes(attributes, (err: Error, results: any) => {
           if (err) {
@@ -30,10 +32,16 @@ export default () => {
     <div>
       <form onSubmit={onSubmit}>
         <label>New Email</label>
-        <input value={newEmail} onChange={event => setNewEmail(event.target.value)} />
+        <input
+          value={newEmail}
+          onChange={(event) => setNewEmail(event.target.value)}
+        />
 
         <label>Current password</label>
-        <input value={password} onChange={event => setPassword(event.target.value)} />
+        <input
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
 
         <button type="submit">Change password</button>
       </form>

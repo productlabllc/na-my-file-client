@@ -1,10 +1,10 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
 import {
   CognitoUser,
   AuthenticationDetails,
   CognitoUserSession,
-  CognitoUserAttribute,
-  IAuthenticationCallback
+  CognitoUserAttribute
+  // IAuthenticationCallback
 } from 'amazon-cognito-identity-js';
 import Pool from '../../lib/user-pool';
 import { AppStateType, useAppState } from '../../app-state-store';

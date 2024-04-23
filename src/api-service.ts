@@ -80,7 +80,8 @@ export const getPlatformUserProfile = async () => {
       })) as any;
       return confirmPartnerUserRegistration({
         email,
-        partnerId: getImpersonationPartnerId() || PartnerAccountId
+        partnerId: PartnerAccountId
+        // partnerId: getImpersonationPartnerId() || PartnerAccountId
       });
     }
   }
@@ -135,7 +136,8 @@ export const getIngestionStatus = async () => {
 
 export const getPartnerInfo = async (partnerId: string) => {
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}`,
+    // `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}`,
     {
       method: 'GET',
       headers: {
@@ -166,7 +168,7 @@ export const getPartnerSummary = async (
     filter: JSON.stringify(filter)
   });
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/summary?${qs}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/summary?${qs}`,
     {
       method: 'GET',
       headers: {
@@ -203,7 +205,7 @@ export const getPartnerClaimsDetail = async (
     filter: JSON.stringify(filter)
   });
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/claims?${qs}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/claims?${qs}`,
     {
       method: 'GET',
       headers: {
@@ -242,7 +244,7 @@ export const getPartnerTeamMembers = async (
   isPending: boolean = false
 ) => {
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/users?isPending=${isPending}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/users?isPending=${isPending}`,
     {
       method: 'GET',
       headers: {
@@ -259,7 +261,7 @@ export const getPartnerTeamMembers = async (
 
 export const getPartnerPrimaryReferredAccounts = async (partnerId: string) => {
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/primary-referred`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/primary-referred`,
     {
       method: 'GET',
       headers: {
@@ -276,7 +278,7 @@ export const getPartnerPrimaryReferredAccounts = async (partnerId: string) => {
 
 export const getPartnerGroupNumberHierarchy = async (partnerId: string) => {
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/group-numbers`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/group-numbers`,
     {
       method: 'GET',
       headers: {
@@ -316,7 +318,7 @@ export const deletePartnerTeamMember = async ({
   userId: string;
 }) => {
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/users/${userId}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/users/${userId}`,
     {
       method: 'DELETE',
       headers: {
@@ -341,7 +343,7 @@ export const updatePartnerTeamMember = async ({
   status: USER_STATUS;
 }) => {
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/users/${userId}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/users/${userId}`,
     {
       method: 'PATCH',
       headers: {
@@ -371,7 +373,7 @@ export const deletePlatformMessage = async (messageId: string) => {
 };
 
 export const getDdnPartnerAccounts = async (
-  partnerId: string,
+  // partnerId: string,
   textQuery: string,
   sortBy: string = 'CommonName',
   sortDirection: string = 'asc',
@@ -421,7 +423,7 @@ export const getPartnerClaimsDetailDirect = async (
     filter: JSON.stringify(filter)
   });
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/claims-breakdown?${qs}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/claims-breakdown?${qs}`,
     {
       method: 'GET',
       headers: {
@@ -459,7 +461,7 @@ export const getPartnerClaimsDetailPrimary = async (
     filter: JSON.stringify(filter)
   });
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/claims-breakdown?${qs}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/claims-breakdown?${qs}`,
     {
       method: 'GET',
       headers: {
@@ -497,7 +499,7 @@ export const getPartnerClaimsDetailSecondary = async (
     filter: JSON.stringify(filter)
   });
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/claims-breakdown?${qs}`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/claims-breakdown?${qs}`,
     {
       method: 'GET',
       headers: {
@@ -564,7 +566,7 @@ export const confirmPartnerUserRegistration = async ({
     ? { idToken: { payload: { 'cognito:username': regCognitoId } } }
     : await getSession();
   const response = await fetch(
-    `${VITE_API_ENDPOINT}/partner/${getImpersonationPartnerId() || partnerId}/confirm-user-registration`,
+    `${VITE_API_ENDPOINT}/partner/${partnerId}/confirm-user-registration`,
     {
       method: 'POST',
       headers: {},

@@ -1,24 +1,24 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Avatar,
+  // Avatar,
   Button,
-  CssBaseline,
+  // CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   Link,
   Paper,
   Box,
   Grid,
-  Typography,
-  InputAdornment,
-  IconButton
+  Typography
+  // InputAdornment,
+  // IconButton
 } from '@mui/material';
 import { AccountContext } from './Account';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+// import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ddnLogo from '../../assets/my-file-logo.svg';
-import { isValidEmail, isValidPassword } from '../../lib/utils';
+// import { isValidEmail, isValidPassword } from '../../lib/utils';
 import Copyright from '../../components/shared/Copyright';
 import { useAppState } from '../../app-state-store';
 
@@ -28,7 +28,7 @@ const ConfirmRegistration = () => {
   const [confirmationCode, setConfirmationCode] = useState('');
   const navigate = useNavigate();
   const appStateUser = useAppState((state) => state.appUser);
-  const appStateSnackbar = useAppState((state) => state.snackbar);
+  // const appStateSnackbar = useAppState((state) => state.snackbar);
 
   useEffect(() => {
     console.log('set email');

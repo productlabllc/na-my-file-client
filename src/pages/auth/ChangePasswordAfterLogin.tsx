@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Avatar,
+  // Avatar,
   Button,
-  CssBaseline,
+  // CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   Link,
   Paper,
   Box,
@@ -25,7 +25,8 @@ import FormErrorMessage from '../../components/shared/FormErrorMessage';
 
 const ChangePasswordAfterLogin = () => {
   const appStateAnyData = useAppState((state) => state.anyData);
-  const [email, setEmail] = useState(appStateAnyData.data.email);
+  // const [email, setEmail] = useState(appStateAnyData.data.email);
+  const [email] = useState(appStateAnyData.data.email);
   const [temporaryPassword, setTemporaryPassword] = useState(
     appStateAnyData.data.temporaryPassword
   );
@@ -36,11 +37,11 @@ const ChangePasswordAfterLogin = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
     useState(false);
-  const [userNotConfirmed, setUserNotConfirmed] = useState(false);
+  // const [userNotConfirmed, setUserNotConfirmed] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
   const navigate = useNavigate();
   const appStateUser = useAppState((state) => state.appUser);
-  const appStateSnackbar = useAppState((state) => state.snackbar);
+  // const appStateSnackbar = useAppState((state) => state.snackbar);
 
   const { changePasswordForAuthenticatedUser } = useContext(AccountContext);
 
@@ -48,7 +49,12 @@ const ChangePasswordAfterLogin = () => {
     event.preventDefault();
     let errorList: Array<string> = [];
 
-    if (!isValidPassword(temporaryPassword)) {
+    if (!isValidEmail(email)) {
+      errorList = [
+        ...errorList,
+        'Email does not seem valid. Please check your email.'
+      ];
+    } else if (!isValidPassword(temporaryPassword)) {
       errorList = [
         ...errorList,
         'Temporary password does not seem valid. Please check your email to ensure you have the correct temporary password.'

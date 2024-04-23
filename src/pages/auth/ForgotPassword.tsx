@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Avatar,
+  // Avatar,
   Button,
-  CssBaseline,
+  // CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  // FormControlLabel,
+  // Checkbox,
   Link,
   Paper,
   Box,
@@ -53,7 +53,8 @@ export default () => {
       if (isValidEmail(email)) {
         try {
           console.log('sending code...');
-          const result = await sendForgotPasswordCode(email);
+          // const result = await sendForgotPasswordCode(email);
+          await sendForgotPasswordCode(email);
           console.log('initial stage set');
           setStage('change-password');
         } catch (err: any) {
@@ -78,11 +79,8 @@ export default () => {
         ];
       } else {
         try {
-          const result = await changePasswordWithCode(
-            email,
-            verificationCode,
-            password
-          );
+          // const result = await changePasswordWithCode(
+          await changePasswordWithCode(email, verificationCode, password);
           navigate('/login');
         } catch (err: any) {
           if (err.name === 'CodeMismatchException') {

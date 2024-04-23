@@ -1,4 +1,4 @@
-import * as React from 'react';
+// import * as React from 'react';
 import { Box, Theme, Typography } from '@mui/material';
 import { SxProps } from '@mui/material';
 
@@ -10,9 +10,9 @@ export default function PropertyAndValue(props: {
 }) {
   const { sx, propertyName, valueText, isTitleComponent = true } = props;
 
-  const propertyNameStyle: SxProps<Theme> = theme => ({
+  const propertyNameStyle: SxProps<Theme> = (_theme) => ({
     textTransform: isTitleComponent ? 'uppercase' : 'none',
-    fontWeight: isTitleComponent ? 'bold' : 'normal',
+    fontWeight: isTitleComponent ? 'bold' : 'normal'
     // color: theme.palette.primary[500],
   });
 
@@ -32,9 +32,9 @@ export default function PropertyAndValue(props: {
     return retVal;
   };
 
-  const valueTextStyle: SxProps<Theme> = theme => ({
+  const valueTextStyle: SxProps<Theme> = (theme) => ({
     fontWeight: isTitleComponent ? 'bold' : 'normal',
-    color: theme.palette.primary.light,
+    color: theme.palette.primary.light
   });
 
   return (
@@ -42,7 +42,7 @@ export default function PropertyAndValue(props: {
       sx={{
         marginRight: '1.5em',
         flexDirection: 'column',
-        ...sx,
+        ...sx
       }}
     >
       <Typography sx={propertyNameStyle} variant="body2">
