@@ -5,7 +5,7 @@ import {
   // createBrowserRouter,
   // RouterProvider,
   // Link,
-  Outlet,
+  // Outlet,
   useNavigate
   // redirect
 } from 'react-router-dom';
@@ -19,43 +19,48 @@ import {
 // import Topbar from '../scenes/shared/Topbar';
 // import Loader from '../components/shared/Loader.tsx.bak';
 import { useAppState } from '../app-state-store';
-import { Box, useTheme } from '@mui/material';
-import { ColorModeContext, colorTokens } from '../theme';
+// import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
+// import { colorTokens } from '../theme';
 // import { ColorModeContext, colorTokens } from '../theme';
 import { getActivePlatformMessage } from '../api-service';
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 // import {
 //   isMobileSize,
 //   isNotDesktopSize
 // } from '../lib/media-queries-implemented'; // Media Query Size
 
 const MainLayout = () => {
-  const [userSession, setUserSession] = React.useState<Record<string, any>>({});
+  // const [userSession, setUserSession] = React.useState<Record<string, any>>({});
+  // const [setUserSession] = React.useState<Record<string, any>>({});
   // const [globalMessage, setGlobalMessage] = React.useState<string>('');
-  const { getSession, logout } = React.useContext(AccountContext);
+  // const { getSession, logout } = React.useContext(AccountContext);
+  const { getSession } = React.useContext(AccountContext);
   const navigate = useNavigate();
   const appStateGlobals = useAppState((state) => state.globals);
-  const theme = useTheme();
-  const colors = colorTokens('dark');
-  const colorMode = React.useContext(ColorModeContext);
-  const appStateUser = useAppState((state) => state.appUser);
+  // const theme = useTheme();
+  // const colors = colorTokens('dark');
+  // const colorMode = React.useContext(ColorModeContext);
+  // const appStateUser = useAppState((state) => state.appUser);
   const { globalMessage, setGlobalMessage } = appStateGlobals;
-  const isMobile = useMediaQuery(`(max-width: ${isMobileSize}px)`); // Media Query for Mobile
-  const isNotDesktop = useMediaQuery(`(max-width: ${isNotDesktopSize}px)`); // Media Query for Mobile
+  // const isMobile = useMediaQuery(`(max-width: ${isMobileSize}px)`); // Media Query for Mobile
+  // const isNotDesktop = useMediaQuery(`(max-width: ${isNotDesktopSize}px)`); // Media Query for Mobile
 
   React.useEffect(() => {
     getSession!()
       .then((session) => {
         console.log('Session: ', session);
-        setUserSession(session);
+        // setUserSession(session);
       })
       .catch((err: any) => {
+        console.log('Error getting session: ', err);
         navigate('/login');
       });
     getPlatformUser()
-      .then((user: any) => {
-        colorMode.setColorMode(user.ThemeMode || 'dark');
-      })
+      // .then((user: any) => {
+      //   // colorMode.setColorMode(user.ThemeMode || 'dark');
+      //   // colorMode.setColorMode(user.ThemeMode || 'dark');
+      // })
       .catch();
     getActivePlatformMessage()
       .then((data: any) => {
@@ -67,7 +72,9 @@ const MainLayout = () => {
           setGlobalMessage('');
         }
       })
-      .catch((err: any) => {});
+      .catch((err: any) => {
+        console.log('Error getting session: ', err);
+      });
     const cancelIntervalHandle = setInterval(
       () => {
         getActivePlatformMessage()
@@ -80,7 +87,9 @@ const MainLayout = () => {
               setGlobalMessage('');
             }
           })
-          .catch((err: any) => {});
+          .catch((err: any) => {
+            console.log('Error getting session: ', err);
+          });
       },
       1000 * 60 * 15
     );
@@ -89,16 +98,16 @@ const MainLayout = () => {
     };
   }, []);
 
-  const performLogout = async () => {
-    logout();
-    navigate('/login');
-  };
+  // const performLogout = async () => {
+  //   logout();
+  //   navigate('/login');
+  // };
 
   return (
     <>
       <Account>
-        <Loader isLoading={appStateGlobals.showDataLoader} />
-        <Sidebar user={userSession}></Sidebar>
+        {/* <Loader isLoading={appStateGlobals.showDataLoader} /> */}
+        {/* <Sidebar user={userSession}></Sidebar> */}
         <main className="content">
           {globalMessage !== '' && (
             <Box
@@ -106,8 +115,8 @@ const MainLayout = () => {
                 minHeight: '40px',
                 backgroundColor: '#077BB0',
                 textAlign: 'center',
-                margin: isMobile ? '8px 8px 8px 68px' : '8px', // add margin to top and bottom for mobile
-                borderRadius: isMobile ? '6px' : '4px',
+                // margin: isMobile ? '8px 8px 8px 68px' : '8px', // add margin to top and bottom for mobile
+                // borderRadius: isMobile ? '6px' : '4px',
                 alignItems: 'center',
                 display: 'flex',
                 justifyContent: 'center',
@@ -117,12 +126,12 @@ const MainLayout = () => {
               {globalMessage}
             </Box>
           )}
-          <Topbar></Topbar>
-          {location.pathname === '/account' ? (
-            <Dashboard></Dashboard>
+          {/* <Topbar></Topbar> */}
+          {/* {location.pathname === '/account' ? (
+            // <Dashboard></Dashboard>
           ) : (
-            <Outlet />
-          )}
+            // <Outlet />
+          )} */}
         </main>
       </Account>
     </>
