@@ -29,10 +29,10 @@ export type AppStateType = {
   partnerDetail: {
     hasReferralAccounts?: boolean;
     setHasReferralAccounts: (hasReferralAccounts: boolean) => void;
-    groupNumberHierarchy?: PartnerGroupNumberHierarchyType;
-    setGroupNumberHierarchy: (
-      groupNumberHierarchy: PartnerGroupNumberHierarchyType
-    ) => void;
+    // groupNumberHierarchy?: PartnerGroupNumberHierarchyType;
+    // setGroupNumberHierarchy: (
+    // groupNumberHierarchy: PartnerGroupNumberHierarchyType
+    // ) => void;
   };
   appUser: {
     email: string;
@@ -42,10 +42,10 @@ export type AppStateType = {
     platformUserProfile: any;
     setPlatformUserProfile: (profile: any) => any;
   };
-  impersonationContext: ImpersonationContextDataType & {
-    setImpersonationContext: (partnerId: string, partnerRole: string) => void;
-    clearImpersonationContext: () => void;
-  };
+  // impersonationContext: ImpersonationContextDataType & {
+  //   setImpersonationContext: (partnerId: string, partnerRole: string) => void;
+  //   clearImpersonationContext: () => void;
+  // };
   snackbar: {
     open?: boolean;
     message?: string;
@@ -95,16 +95,16 @@ export const useAppState = create<AppStateType>((set) => ({
       directGroupNumbers: [],
       primaryGroupNumbers: [],
       secondaryGroupNumbers: []
-    },
-    setGroupNumberHierarchy: (
-      groupNumberHierarchy: PartnerGroupNumberHierarchyType
-    ) =>
-      set((state: AppStateType) => ({
-        partnerDetail: {
-          ...state.partnerDetail,
-          groupNumberHierarchy
-        }
-      }))
+    }
+    // setGroupNumberHierarchy: (
+    //   groupNumberHierarchy: PartnerGroupNumberHierarchyType
+    // ) =>
+    //   set((state: AppStateType) => ({
+    //     partnerDetail: {
+    //       ...state.partnerDetail,
+    //       groupNumberHierarchy
+    //     }
+    //   }))
   },
   appUser: {
     email: '',
@@ -140,41 +140,41 @@ export const useAppState = create<AppStateType>((set) => ({
         }
       }))
   },
-  impersonationContext: {
-    partnerId: localStorageImpersonationContext
-      ? localStorageImpersonationContext.partnerId
-      : undefined,
-    partnerRole: localStorageImpersonationContext
-      ? localStorageImpersonationContext.partnerRole
-      : undefined,
-    setImpersonationContext: (partnerId: string, partnerRole: string) =>
-      set((state: AppStateType) => {
-        const context = {
-          impersonationContext: {
-            ...state.impersonationContext,
-            partnerId,
-            partnerRole
-          }
-        };
-        localStorage.setItem(
-          LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT,
-          JSON.stringify(context.impersonationContext)
-        );
-        return context;
-      }),
-    clearImpersonationContext: () =>
-      set((state: AppStateType) => {
-        const context = {
-          impersonationContext: {
-            ...state.impersonationContext,
-            partnerId: undefined,
-            partnerRole: undefined
-          }
-        };
-        localStorage.removeItem(LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT);
-        return context;
-      })
-  },
+  // impersonationContext: {
+  //   partnerId: localStorageImpersonationContext
+  //     ? localStorageImpersonationContext.partnerId
+  //     : undefined,
+  //   partnerRole: localStorageImpersonationContext
+  //     ? localStorageImpersonationContext.partnerRole
+  //     : undefined,
+  //   setImpersonationContext: (partnerId: string, partnerRole: string) =>
+  //     set((state: AppStateType) => {
+  //       const context = {
+  //         impersonationContext: {
+  //           ...state.impersonationContext,
+  //           partnerId,
+  //           partnerRole
+  //         }
+  //       };
+  //       localStorage.setItem(
+  //         LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT,
+  //         JSON.stringify(context.impersonationContext)
+  //       );
+  //       return context;
+  //     }),
+  //   clearImpersonationContext: () =>
+  //     set((state: AppStateType) => {
+  //       const context = {
+  //         impersonationContext: {
+  //           ...state.impersonationContext,
+  //           partnerId: undefined,
+  //           partnerRole: undefined
+  //         }
+  //       };
+  //       localStorage.removeItem(LOCAL_STORAGE_KEYS.IMPERSONATION_CONTEXT);
+  //       return context;
+  //     })
+  // },
   snackbar: {
     open: false,
     message: '',
@@ -197,9 +197,9 @@ export const useAppState = create<AppStateType>((set) => ({
     claimsList: []
   },
   globals: {
-    globalGroupNumberFilter: localStorageSearchFilter
-      ? localStorageSearchFilter.groupNumberFilter
-      : [],
+    // globalGroupNumberFilter: localStorageSearchFilter
+    //   ? localStorageSearchFilter.groupNumberFilter
+    //   : [],
     setGlobalGroupNumberFilter: (groupNumbers: Array<string>) =>
       set((state: AppStateType) => {
         const searchFilter = {
@@ -225,7 +225,8 @@ export const useAppState = create<AppStateType>((set) => ({
         localStorage.removeItem(LOCAL_STORAGE_KEYS.SEARCH_FILTER);
         return searchFilter;
       }),
-    globalDateFrom: dayjs(firstDayOfPreviousMonthUTC), //.subtract((new Date(firstDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
+    // globalDateFrom: dayjs(firstDayOfPreviousMonthUTC), //.subtract((new Date(firstDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
+    globalDateFrom: dayjs(12), //.subtract((new Date(firstDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
     setGlobalDateFrom: (globalDateFrom: Dayjs) =>
       set((state: AppStateType) => ({
         globals: {
@@ -233,7 +234,8 @@ export const useAppState = create<AppStateType>((set) => ({
           globalDateFrom
         }
       })),
-    globalDateTo: dayjs(currentDayOfCurrentMonthUTC).subtract(1, 'day'), //.subtract((new Date(currentDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
+    // globalDateTo: dayjs(currentDayOfCurrentMonthUTC).subtract(1, 'day'), //.subtract((new Date(currentDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
+    globalDateTo: dayjs(12).subtract(1, 'day'), //.subtract((new Date(currentDayOfCurrentMonthUTC)).getTimezoneOffset(), 'minutes'),
     setGlobalDateTo: (globalDateTo: Dayjs) =>
       set((state: AppStateType) => ({
         globals: {
