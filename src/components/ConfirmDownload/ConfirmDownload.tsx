@@ -13,10 +13,11 @@ import {
 } from '@mui/material';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 
-import Document from '../../types/Document';
+import { GeneratedUserFile } from '@myfile/api-client';
+import { useTranslation } from 'react-i18next';
 
 interface ConfirmDownloadProps {
-  document?: Document | null;
+  document?: GeneratedUserFile | null;
   isDownloadDialogOpen: boolean;
   onClickDownloadOptionClose?: () => void;
   handleDownloadOption?: () => void;
@@ -28,40 +29,35 @@ function ConfirmDownload({
   onClickDownloadOptionClose,
   handleDownloadOption
 }: ConfirmDownloadProps) {
+  const { t } = useTranslation('docs');
   return (
     <Dialog
       classes={{ paper: 'w-[343px] sm:w-[434px] relative' }}
       open={isDownloadDialogOpen}
       onClose={onClickDownloadOptionClose}
     >
-      <Button
-        onClick={onClickDownloadOptionClose}
-        className="!text-black !absolute !right-1 !top-3"
-      >
+      <Button onClick={onClickDownloadOptionClose} className="!text-black !absolute !right-1 !top-3">
         <Icon>close</Icon>
       </Button>
       <DialogTitle className="!m-text-body-lg-bold sm:!d-text-body-lg-bold !pb-0 !pl-3">
-        Do you want to download ?
+        {t('downloadWarning')}
       </DialogTitle>
 
       <DialogContent className="!pl-5 !pb-1">
         <List className="w-full">
-          <ListItem
-            key={document?.id}
-            className="!py-[8px] !px-0 border-b-2 flex"
-          >
+          <ListItem key={document?.id} className="!py-[8px] !px-0 border-b-2 flex">
             <ListItemAvatar className="!min-w-10">
               <InsertDriveFileOutlinedIcon />
             </ListItemAvatar>
             <ListItemText className="flex flex-col flex-4 !w-3/4 ">
               <Typography className="pb-[4px] sm:!m-text-body-md !m-text-body-sm !w-full !truncate !...">
-                {document?.title}
+                {document?.Title}
               </Typography>
               <Typography className="pb-[4px] sm:!m-text-body-md !m-text-body-sm opacity-60 w-3/4">
-                {document?.createdAt}
+                {document?.CreatedAt}
               </Typography>
               <Typography className="sm:!m-text-body-md !m-text-body-sm !w-3/4">
-                {document?.familyMemberUser}
+                {document?.FromUserFiles?.[0]?.UserFamilyMember?.FirstName}
               </Typography>
             </ListItemText>
           </ListItem>
@@ -73,7 +69,7 @@ function ConfirmDownload({
           className="!text-secondary !d-text-btn-sm sm:!d-text-btn-md !normal-case"
           onClick={onClickDownloadOptionClose}
         >
-          View
+          {t('cancel')}
         </Button>
         <Button
           variant="contained"
@@ -81,7 +77,7 @@ function ConfirmDownload({
           onClick={handleDownloadOption}
           autoFocus
         >
-          Download
+          {t('downloadConfirm')}
         </Button>
       </DialogActions>
     </Dialog>

@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
 // import { useTranslation } from 'react-i18next';
-import { Container, Button, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import { Button, Box, Typography, Divider } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
 
-import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
-import BackButton from '../../components/BackButton/BackButton';
-import MyFileLogo from '../../components/MyFileLogo/MyFileLogo';
-import Footer from '../../layouts/Footer/Footer';
-import MDContent from '../../components/MDContent/MDContent';
-import { getMarkDownFile } from '../../utils/importMarkdownFile';
+// import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
+// import BackButton from '../../components/BackButton/BackButton';
+// import MyFileLogo from '../../components/MyFileLogo/MyFileLogo';
+// import Footer from '../../layouts/Footer/Footer';
+// import MDContent from '../../components/MDContent/MDContent';
+// import { getMarkDownFile } from '../../utils/importMarkdownFile';
 import { useBoundStore } from '../../store/store';
 import { useAuth } from 'react-oidc-context';
-import { UpdateUserRequest } from '@namyfile/api-client';
+import { UpdateUserRequest } from '@myfile/api-client';
+import { useTranslation, Trans } from 'react-i18next';
+import BackButton from '../../components/BackButton/BackButton';
 
 function TermsOfUse() {
   // TODO fetch from CMS based on locale
@@ -19,96 +21,66 @@ function TermsOfUse() {
   // const { i18n } = useTranslation();
   const navigate = useNavigate();
   const auth = useAuth();
+  const { t } = useTranslation('termsOfUse');
+  // getLoggedIn
+  const { getTOSAccepted, updateUser } = useBoundStore();
 
-  const {
-    getAcceptedTermsOfUse,
-    setAcceptedTermsOfUse,
-    getLoggedIn,
-    updateUser,
-    getUserData,
-    resetUserData
-  } = useBoundStore();
-  const { getLang } = useBoundStore();
-  const lang = getLang();
-
-  console.log('getMarkDownUrl', getAcceptedTermsOfUse());
-  console.log(getLoggedIn());
-
-  const [mdText, setMdText] = useState('');
-  const paddingBottom =
-    !getAcceptedTermsOfUse() && getLoggedIn()
-      ? 'pb-[50px] md:pb-[80px] lg:pb-[88px]'
-      : 'pb-[250px]';
+  const topRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    console.log(getAcceptedTermsOfUse());
-    if (lang) {
-      const fetchData = async () => {
-        try {
-          const data = await getMarkDownFile('terms-of-use', lang);
-
-          setMdText(data);
-        } catch (error) {
-          // console.log(lang)
-          console.error('Error fetching data:', error);
-        }
-      };
-
-      fetchData();
+    if (topRef.current) {
+      topRef.current.focus();
+      window.scrollTo(0, 0);
     }
-  }, [lang, getAcceptedTermsOfUse]);
+  }, []);
+
+  // console.log('getMarkDownUrl', getTOSAccepted());
+  // console.log(getLoggedIn());
+
+  // const [mdText, setMdText] = useState('');
+  // const paddingBottom = !getTOSAccepted() && getLoggedIn() ? 'pb-[50px] md:pb-[80px] lg:pb-[88px]' : 'pb-[250px]';
+  const TOU = getTOSAccepted();
+
+  // useEffect(() => {
+  //   if (i18n.language) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const data = await getMarkDownFile('terms-of-use', i18n.language);
+
+  //         setMdText(data);
+  //       } catch (error) {
+  //         // console.log(lang)
+  //         console.error('Error fetching data:', error);
+  //       }
+  //     };
+
+  //     fetchData();
+  //   }
+  // }, [i18n.language]);
 
   const approveTermsOfUse = () => {
-    const userData = getUserData();
     const updatedUser: UpdateUserRequest = {
-      FirstName: userData.FirstName,
-      LastName: userData.LastName,
-      Email: userData.Email ? userData.Email : '',
-      DOB: userData.DOB,
-      LanguageIsoCode: userData.LanguageIsoCode || 'en-us',
       TOSAccepted: true
     };
 
-    updateUser(updatedUser, auth.user?.id_token).then(() => {
-      const fetchedData = getUserData();
-      console.log(fetchedData);
-      setAcceptedTermsOfUse(true);
+    updateUser(updatedUser).then(() => {
       navigate('/create-profile');
     });
   };
 
-  const declineTermsOfUse = () => {
-    setTimeout(async () => {
-      const idpLogoutFrame = document.createElement('iframe');
-      document.body.append(idpLogoutFrame);
-      idpLogoutFrame.style.visibility = 'hidden';
-      idpLogoutFrame.src =
-        'https://accounts-nonprd.nyc.gov/account/idpLogout.htm?x-frames-allow-from=https%3A%2F%2Fmyfile-dev.cityofnewyork.us';
-      document.body.removeChild(idpLogoutFrame);
-      console.log('remove user and logging out');
-      resetUserData();
-      await auth.removeUser();
-      auth.signoutRedirect();
-      navigate({ pathname: '/' });
-    }, 1500);
-  };
+  // const navigateToPrevPage = () => {
+  //   navigate(-1);
+  // };
 
   return (
-    <div className="min-h-[100vh] relative">
-      <Box className="fixed top-0 w-full !z-20">
+    <Box className="min-h-[100vh] relative block lg:flex lg:justify-center">
+      {/* <Box className="fixed top-0 w-full !z-20">
         <GlobalNavigation />
-      </Box>
-      <div
-        className={`flex items-center flex-col !pt-[70px] !w-full px-[16px] sm:px-0 !h-full ${paddingBottom}`}
-      >
+      </Box> */}
+      {/* <div className={`flex items-center flex-col !pt-[70px] !w-full px-[16px] sm:px-0 !h-full ${paddingBottom}`}>
         <div className="lg:w-[570px] sm:w-[546px]">
           <div className="mb-[24px] relative">
-            {(getAcceptedTermsOfUse() && auth.isAuthenticated) ||
-            !getLoggedIn() ? (
-              <BackButton navigatePath="/" />
-            ) : (
-              ''
-            )}
+            {(TOU && auth.isAuthenticated) || !getLoggedIn() ? <BackButton navigatePath="/" /> : ''}
           </div>
           <Container className="!pb-[30px] !px-0">
             <div>
@@ -116,35 +88,111 @@ function TermsOfUse() {
             </div>
             <MDContent content={mdText} />
           </Container>
-          {!getAcceptedTermsOfUse() && auth.isAuthenticated ? (
+          {!TOU && auth.isAuthenticated ? (
             <>
               <Button
                 variant="outlined"
                 className="w-full !mb-[20px] !h-12 lg:!m-text-btn-lg sm:!m-text-btn-md !m-text-btn-md  !normal-case"
-                onClick={declineTermsOfUse}
+                component={Link}
+                to="/logout"
               >
-                Decline & log out
+                {t('declineTOU')}
               </Button>
               <Button
                 onClick={approveTermsOfUse}
-                // href="/family-members"
                 variant="contained"
                 className="!w-full !mb-[24px] !h-12 !bg-primary lg:!m-text-btn-lg sm:!m-text-btn-md !m-text-btn-md !normal-case"
               >
-                Agree
+                {t('acceptTOU')}
               </Button>
             </>
           ) : (
             ''
           )}
         </div>
-      </div>
-      {(getAcceptedTermsOfUse() && getLoggedIn()) || !getLoggedIn() ? (
-        <Footer />
-      ) : (
-        ''
-      )}
-    </div>
+      </div> */}
+      {/* {(getTOSAccepted() && getLoggedIn()) || !getLoggedIn() ? <Footer /> : ''} */}
+      <Box
+        ref={topRef}
+        tabIndex={0}
+        className="w-full mt-[48px] lg:w-[805px] lg:mt-[116px] px-[16px] focus:outline-none"
+      >
+        {(auth.isAuthenticated && TOU) || !auth.isAuthenticated ? (
+          <Box className="mb-[46px] lg:mb-[56px]">
+            <BackButton navigatePath="/" text="Back" />
+          </Box>
+        ) : (
+          ''
+        )}
+        <Box className="mb-[40px] lg:!mb-[56px]">
+          <Typography className="!m-text-h2 lg:!d-text-h2 !text-secondary !mb-[24px] lg:!mb-[32px]">
+            {t('termsOfUseHeader')}
+          </Typography>
+          <Divider className="!border-[1px] !border-[#999CA4] !border-opacity-30"></Divider>
+        </Box>
+        <Box>
+          <Box className="!mb-[36px]">
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">
+              {t('acceptingFollowingTermsParagraph')}
+            </Typography>
+          </Box>
+
+          <Box className="mb-[24px]">
+            <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('defitionTitle')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">
+              <Trans ns="termsOfUse" i18nKey={'definitionsParagraph'} components={{ br: <br /> }} />
+            </Typography>
+          </Box>
+
+          <Box className="mb-[24px]">
+            <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('purposeTitle')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">
+              <Trans ns="termsOfUse" i18nKey={'purposeParagraph'} components={{ br: <br /> }} />
+            </Typography>
+          </Box>
+
+          <Box className="mb-[24px]">
+            <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('useTitle')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">
+              <Trans ns="termsOfUse" i18nKey={'useParagraph'} components={{ br: <br /> }} />
+            </Typography>
+          </Box>
+
+          <Box className="mb-[48px]">
+            <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('scopeTitle')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">
+              <Trans ns="termsOfUse" i18nKey={'scopeParagraph'} components={{ br: <br /> }} />
+            </Typography>
+          </Box>
+
+          <Box className="mb-[76px]">
+            <Typography>{t('reservedRights')}</Typography>
+          </Box>
+
+          {!TOU && auth.isAuthenticated ? (
+            <Box className="mb-[76px]">
+              <Button
+                variant="outlined"
+                className="w-full !mb-[20px] !h-12 lg:!m-text-btn-lg sm:!m-text-btn-md !m-text-btn-md  !normal-case"
+                component={Link}
+                to="/logout"
+              >
+                {t('declineTOU')}
+              </Button>
+              <Button
+                onClick={approveTermsOfUse}
+                variant="contained"
+                className="!w-full !mb-[24px] !h-12 !bg-primary lg:!m-text-btn-lg sm:!m-text-btn-md !m-text-btn-md !normal-case"
+              >
+                {t('acceptTOU')}
+              </Button>
+            </Box>
+          ) : (
+            ''
+          )}
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

@@ -7,39 +7,42 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import User from '../../types/UserType';
+// import User from '../../types/UserType';
+import { UpdateUserRequest } from '@myfile/api-client';
 import { useBoundStore } from '../../store/store';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string | dayjs.Dayjs;
-  language: string;
-  email: string;
+  FirstName: string;
+  LastName: string;
+  DOB: string | dayjs.Dayjs;
+  LanguageIsoCode: string;
 }
 
 interface UserFormProps {
-  user?: User;
-  updateUser?: (userData: User) => void;
+  user?: UpdateUserRequest;
+  updateUser?: (userData: UpdateUserRequest) => void;
 }
 
-function UserForm({ user, updateUser }: UserFormProps) {
+function UserForm({ user }: UserFormProps) {
   const navigate = useNavigate();
-  const { getUserData } = useBoundStore();
+  const { updateUser, getUserData, loading } = useBoundStore();
 
-  const { register, control, handleSubmit, formState, reset } =
-    useForm<IFormInput>({
-      defaultValues: {
-        firstName: user?.FirstName,
-        lastName: user?.LastName,
-        dateOfBirth: user?.DOB,
-        language: user?.LanguageIsoCode || 'en',
-        email: user?.Email
-      },
-      mode: 'all',
-      reValidateMode: 'onChange',
-      shouldFocusError: true
-    });
+  const { t } = useTranslation('user');
+
+  const { register, control, handleSubmit, formState, reset } = useForm<IFormInput>({
+    defaultValues: {
+      FirstName: user?.FirstName || '',
+      LastName: user?.LastName || '',
+      DOB: dayjs(user?.DOB).add(1, 'day') || '',
+      LanguageIsoCode: user?.LanguageIsoCode || 'en-us'
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+    shouldFocusError: true
+  });
+
   const { errors } = formState;
   //   const updatedLanguage = (event) => {
   //     localStorage.removeItem('language')
@@ -48,22 +51,31 @@ function UserForm({ user, updateUser }: UserFormProps) {
   //   }
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const newData: User = {
+    const newData: UpdateUserRequest = {
       ...data,
-      LanguageIsoCode: localStorage.getItem('language') || 'en',
-      DOB: dayjs(data.dateOfBirth).format('MM/DD/YYYY'),
-      FirstName: data.firstName,
-      LastName: data.lastName,
-      Email: data.email,
-      // change TOSAcceptedAt to the boolean value after acceptance of TOU by the client
-      TOSAccepted: getUserData().TOSAccepted
+      LanguageIsoCode: localStorage.getItem('language') || 'en-us',
+      DOB: dayjs(data.DOB).format('MM/DD/YYYY'),
+      FirstName: data.FirstName,
+      LastName: data.LastName
     };
-    console.log(newData);
-    //@ts-expect-error expect ts undefined error
     updateUser(newData);
     navigate(-1);
     reset();
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await getUserData();
+      reset({
+        FirstName: userData.FirstName || '',
+        LastName: userData.LastName || '',
+        DOB: dayjs(userData.DOB).add(1, 'day') || '',
+        LanguageIsoCode: userData.LanguageIsoCode || localStorage.getItem('language') || 'en-us'
+      });
+    };
+    fetchUserData();
+  }, [getUserData, user, reset, loading]);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div>
@@ -79,105 +91,87 @@ function UserForm({ user, updateUser }: UserFormProps) {
               <p className="d-text-h5 text-secondary">Profile creation</p>
             </Box> */}
             <Box className="!w-full flex justify-end">
-              <Button
-                className="!normal-case !text-secondary !d-text-btn-md"
-                onClick={() => navigate(-1)}
-              >
+              <Button className="!normal-case !text-secondary !d-text-btn-md" onClick={() => navigate(-1)}>
                 <Icon fontSize="medium" className="mr-2">
                   close_icon
                 </Icon>{' '}
-                Close
+                {t('close')}
               </Button>
             </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <p className="d-text-body-md mb-[16px]">
-                What is your first name?
-              </p>
+              <p className="d-text-body-md mb-[16px]">{t('firstName')}</p>
 
               <TextField
-                {...register('firstName', {
-                  required: 'First name is required',
+                {...register('FirstName', {
+                  required: t('validations.firstNameRequired'),
                   maxLength: {
                     value: 25,
-                    message: 'Maximum length is 10 characters'
+                    message: t('validations.charMax')
                   },
                   minLength: {
                     value: 2,
-                    message: 'Minimum length is 2 character'
+                    message: t('validations.charMin')
                   },
                   pattern: {
                     value:
                       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,. '-]+$/u,
-                    message: 'Invalid first name'
+                    message: t('validations.firstNameInvalid')
                   }
                 })}
                 className="w-full !pb-[24px]"
                 placeholder="First name"
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message}
+                error={!!errors.FirstName}
+                helperText={errors.FirstName?.message}
                 label="First Name"
                 InputLabelProps={{
                   shrink: true
                 }}
-                value={user?.FirstName}
               />
 
-              <p className="d-text-body-md mb-[16px]">
-                What is your last name?
-              </p>
+              <p className="d-text-body-md mb-[16px]">{t('lastName')}</p>
 
               <TextField
-                {...register('lastName', {
-                  required: 'Last name is required',
+                {...register('LastName', {
+                  required: t('validations.lastNameRequired'),
                   maxLength: {
                     value: 25,
-                    message: 'Maximum length is 10 characters'
+                    message: t('validations.charMax')
                   },
                   minLength: {
                     value: 2,
-                    message: 'Minimum length is 2 character'
+                    message: t('validations.charMin')
                   },
                   pattern: {
                     value:
                       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,. '-]+$/u,
-                    message: 'Invalid last name'
+                    message: t('validations.lastNameInvalid')
                   }
                 })}
                 className="w-full !mb-[24px]"
                 placeholder="Last name"
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
+                error={!!errors.LastName}
+                helperText={errors.LastName?.message}
                 label="Last name"
                 InputLabelProps={{
                   shrink: true
                 }}
-                value={user?.LastName}
               />
 
-              <p className="d-text-body-md mb-[16px]">When were you born?</p>
+              <p className="d-text-body-md mb-[16px]">{t('DOB')}</p>
               <Controller
-                name="dateOfBirth"
+                name="DOB"
                 control={control}
                 rules={{
-                  required: 'Provide your date of birth',
+                  required: t('validations.DOBRequired'),
                   validate: {
-                    isValid: (v) =>
-                      dayjs(v).isValid() || 'Provide valid date of birth',
-                    yearGreaterThan: (v) =>
-                      dayjs(v).get('year') >= 1920 ||
-                      'Provide higher year than 1919',
+                    isValid: (v) => dayjs(v).isValid() || t('validations.DOBValid'),
+                    yearGreaterThan: (v) => dayjs(v).get('year') >= 1920 || t('validations.DOBMax'),
                     monthNotHigherThan: (v) =>
-                      !!dayjs(v).isBefore(dayjs()) ||
-                      `Provide date of birth before todays date ${dayjs().format(
-                        'MM/DD/YYYY'
-                      )}. `,
+                      !!dayjs(v).isBefore(dayjs()) || `${t('validations.DOBMin')} ${dayjs().format('MM/DD/YYYY')}. `,
                     olderThan18: (v) => {
                       const today = dayjs();
                       const eighteenYearsAgo = today.subtract(18, 'years');
-                      return (
-                        dayjs(v).isBefore(eighteenYearsAgo) ||
-                        'You must be 18 or older'
-                      );
+                      return dayjs(v).isBefore(eighteenYearsAgo) || t('validations.DOBAdult');
                     }
                   }
                 }}
@@ -185,7 +179,7 @@ function UserForm({ user, updateUser }: UserFormProps) {
                   <DateField
                     {...field}
                     sx={
-                      errors.dateOfBirth?.message
+                      errors.DOB?.message
                         ? {
                             '& .MuiOutlinedInput-root': {
                               // - The Input-root, inside the TextField-root
@@ -210,7 +204,7 @@ function UserForm({ user, updateUser }: UserFormProps) {
                     }
                     slotProps={{
                       textField: {
-                        helperText: errors.dateOfBirth?.message
+                        helperText: errors.DOB?.message
                       }
                     }}
                     className="w-full !mb-[50px]"
@@ -235,7 +229,7 @@ function UserForm({ user, updateUser }: UserFormProps) {
                   type="submit"
                   disabled={!formState.isValid}
                 >
-                  Save
+                  {t('save')}
                 </Button>
               </Box>
             </form>

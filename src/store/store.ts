@@ -1,11 +1,12 @@
 import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 import { UserSlice, createUserSlice } from './UserSlice';
 import { Languages, createLanguages } from './Languages';
-import {
-  FamilyMemberStore,
-  createFamilyMemberSlice
-} from './FamilyMembersSlice';
+import { FamilyMemberStore, createFamilyMemberSlice } from './FamilyMembersSlice';
 import { ApplicationsStore, createApplicationSlice } from './ApplicationsSlice';
+import { DocumentsStore, createDocumentsSlice } from './DocumentsSlice';
+import { ActivityLogStore, createActivityLogSlice } from './ActivityLogSlice';
+import { AgentSideStore, createAgentSideSlice } from './AgentSideSlice';
 
 // Using the recommended "slices" pattern for our store modules:
 // https://github.com/pmndrs/zustand/blob/main/docs/guides/slices-pattern.md
@@ -14,14 +15,22 @@ import { ApplicationsStore, createApplicationSlice } from './ApplicationsSlice';
 export type StoreTypeIntersection = UserSlice &
   Languages &
   FamilyMemberStore &
-  ApplicationsStore;
+  ApplicationsStore &
+  DocumentsStore &
+  ActivityLogStore &
+  AgentSideStore;
 
-export const useBoundStore = create<StoreTypeIntersection>()((...a) => ({
-  ...createLanguages(...a),
-  ...createUserSlice(...a),
-  ...createFamilyMemberSlice(...a),
-  ...createApplicationSlice(...a)
-}));
+export const useBoundStore = create<StoreTypeIntersection>()(
+  immer((...a) => ({
+    ...createLanguages(...a),
+    ...createUserSlice(...a),
+    ...createFamilyMemberSlice(...a),
+    ...createApplicationSlice(...a),
+    ...createDocumentsSlice(...a),
+    ...createActivityLogSlice(...a),
+    ...createAgentSideSlice(...a)
+  }))
+);
 
 // This will be replaced by API calls, probably in a separate service file
 // export const populateStore = (skipFakeDelay?: boolean) =>

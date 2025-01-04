@@ -1,4 +1,6 @@
-import FamilyMember from './FamilyMember';
+// import FamilyMemberType from './FamilyMemberType';
+import { FamilyMember, GetCaseResponse } from '@myfile/api-client';
+
 import ChecklistGroupType from './ChecklistGroupType';
 
 interface HPDApplicationType {
@@ -7,8 +9,10 @@ interface HPDApplicationType {
   createdAt: string;
   organization: string;
   ssn?: string;
+  caseAttributes?: GetCaseResponse['CaseAttributes'];
   familyMembers: FamilyMember[];
   shelterName?: string;
+  buildingUnit?: string;
   checklistItems?: ChecklistGroupType[];
 }
 

@@ -14,8 +14,8 @@ import { useBoundStore } from '../../store/store';
 function About() {
   // const { i18n } = useTranslation();
   const [mdText, setMdText] = useState('');
-  const { getLang } = useBoundStore();
-  const lang = getLang();
+  const { getUserLang } = useBoundStore();
+  const lang = getUserLang();
 
   useEffect(() => {
     if (lang) {

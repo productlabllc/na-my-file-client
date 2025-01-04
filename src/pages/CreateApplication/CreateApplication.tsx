@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useBoundStore } from '../../store/store';
+import { useMemo, useState, useCallback } from 'react';
+// import { useBoundStore } from '../../store/store';
 import Header from '../../layouts/Header/Header';
 import { Box, SelectChangeEvent } from '@mui/material';
 import dayjs from 'dayjs';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import StepOneApplication from '../../components/StepOneApplication/StepOneApplication';
 import StepTwoPATHApplication from '../../components/StepTwoPATHApplication/StepTwoPATHApplication';
 import StepTwoHPDApplication from '../../components/StepTwoHPDApplication/StepTwoHPDApplication';
@@ -13,13 +13,17 @@ import StepFourApplication from '../../components/StepFourApplication/StepFourAp
 
 import { useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import FamilyMember from '../../types/FamilyMember';
+import { useApi } from '../../utils/use-api';
+import { useAsync } from 'react-use';
+import { FamilyMember } from '@myfile/api-client';
+
 interface FormInput {
   organization: string;
-  caseNumber: string | undefined;
-  ssn: string | undefined;
+  caseNumber: string;
+  ssn: string;
   familyMembers: FamilyMember[];
-  shelterName: string | undefined;
+  shelterName: string;
+  buildingUnit: string;
 }
 
 const shelters = [
@@ -34,16 +38,17 @@ const shelters = [
   'Jamaica Residence Family Shelter-Queens'
 ];
 
+const buildingUnits = ['Rockaway Village Apartments – Phase 4', 'Rockaway Village Apartments – Phase 5'];
+
 function CreateApplication() {
   const navigate = useNavigate();
-  const { getFamilyMembers, addAppicationHPD, addAppicationPATH } =
-    useBoundStore();
   const [step, setStep] = useState(0);
-  const [organization, setOrganization] = useState('PATH');
+  const [organization, setOrganization] = useState('');
   const [caseNumber, setCaseNumber] = useState<string>('');
   const [shelterData, setShelterData] = useState(shelters[0]);
-  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
+  const [buildingUnitData, setBuildingUnitData] = useState(buildingUnits[0]);
   const [ssn, setSnn] = useState('');
+  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
 
   const methods = useForm<FormInput>({
     defaultValues: {
@@ -54,34 +59,58 @@ function CreateApplication() {
     shouldFocusError: true
   });
 
-  useEffect(() => {
-    setFamilyMembers([...getFamilyMembers()]);
-  }, [getFamilyMembers()]);
+  const api = useApi();
+  const { value: workflows } = useAsync(() => api.getWorkflows());
 
-  const onSubmitApplication: SubmitHandler<FormInput> = (data) => {
-    if (data.organization === 'HPD') {
-      const newData = {
-        id: uuidv4(),
-        organization: data.organization,
-        createdAt: dayjs().format('MM/DD/YYYY'),
-        status: 'Active',
-        ssn: ssn,
-        shelterName: shelterData,
-        familyMembers: [...familyMembers]
-      };
-      addAppicationHPD(newData);
-      navigate(`/application/${data.organization}/${newData.id}`);
-    } else {
-      const newData = {
-        id: uuidv4(),
-        createdAt: dayjs().format('MM/DD/YYYY'),
-        status: 'Active',
-        organization: data.organization,
-        caseNumber: data.caseNumber,
-        familyMembers: [...familyMembers]
-      };
-      addAppicationPATH(newData);
-      navigate(`/application/${data.organization}/${newData.id}`);
+  const workflowTypeToId = useMemo(
+    () =>
+      workflows?.reduce(
+        (acc, workflow) => {
+          acc[workflow?.id] = workflow.Type ?? '';
+          return acc;
+        },
+        {} as Record<string, string>
+      ) ?? {},
+    [workflows]
+  );
+
+  const getFamilyMembersData = useCallback(async () => {
+    try {
+      const value: FamilyMember[] = await api.getFamilyMembers();
+      setFamilyMembers(value);
+    } catch (error) {
+      console.error('Failed to fetch family members:', error);
+    }
+  }, [api]);
+
+  const onSubmitApplication: SubmitHandler<FormInput> = async (data) => {
+    const workflow = workflows!.find((ele) => ele.id === data.organization);
+    try {
+      const caseData = await api.createCase({
+        requestBody: {
+          WorkflowId: workflow!.id,
+          FamilyMemberIds: familyMembers.map((ele) => ele.id),
+          /**
+           * After some debug data.family member is always empty
+           * and the Logic in FamilyMemberBlock is localize only to that component
+           * Feel free to undo this any time.
+           */
+          // data.familyMembers?.map((ele) => ele.id),
+          CaseIdentifier: data.caseNumber,
+          CaseTitle: `${workflow!.Type}-${dayjs().format('MM/DD/YYYY')}`,
+          CaseType: workflow!.Type!,
+          SSN: ssn,
+          CaseAttributes: [
+            { name: 'ssn', value: ssn },
+            { name: 'shelterName', value: shelterData },
+            { name: 'buildingUnit', value: buildingUnitData },
+            { name: 'status', value: 'Active' }
+          ].filter((ele) => ele.value)
+        }
+      });
+      navigate(`/application/${caseData.CaseType}/${caseData.id}`);
+    } catch (error) {
+      console.warn('error while creating case: ', error);
     }
   };
 
@@ -93,6 +122,10 @@ function CreateApplication() {
         return prevStep;
       }
     });
+
+    if (step == 2) {
+      getFamilyMembersData();
+    }
   };
 
   const prevStep = () => {
@@ -100,6 +133,8 @@ function CreateApplication() {
       if (prevStep > 0) {
         if (prevStep === 1) {
           setCaseNumber('');
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           methods.setValue('caseNumber', '');
           setSnn('');
           methods.setValue('ssn', '');
@@ -112,38 +147,38 @@ function CreateApplication() {
     });
   };
 
-  function formatSSN(value: string) {
-    if (!value) return value;
-    const ssn = value.replace(/[^\d]/g, '');
-    const ssnLength = ssn.length;
+  // function formatSSN(value: string) {
+  //   if (!value) return value;
+  //   const ssn = value.replace(/[^\d]/g, '');
+  //   const ssnLength = ssn.length;
 
-    if (ssnLength < 4) return ssn;
+  //   if (ssnLength < 4) return ssn;
 
-    if (ssnLength < 6) {
-      return `${ssn.slice(0, 3)}-${ssn.slice(3)}`;
-    }
+  //   if (ssnLength < 6) {
+  //     return `${ssn.slice(0, 3)}-${ssn.slice(3)}`;
+  //   }
 
-    // finally, if the ssnLength is greater then 6, we add the last
-    // bit of formatting and return it.
-    return `${ssn.slice(0, 3)}-${ssn.slice(3, 5)}-${ssn.slice(5, 9)}`;
-  }
+  //   // finally, if the ssnLength is greater then 6, we add the last
+  //   // bit of formatting and return it.
+  //   return `${ssn.slice(0, 3)}-${ssn.slice(3, 5)}-${ssn.slice(5, 9)}`;
+  // }
 
   const handleSSN = (e: React.ChangeEvent<HTMLInputElement>) => {
     // setSnn(e.target.value);
     // setValue('ssn', e.target.value);
-    const formattedSSN = formatSSN(e.target.value);
-    methods.setValue('ssn', formattedSSN);
-    setSnn(formattedSSN);
+    // const formattedSSN = formatSSN();
+    if (e.target.value.length < 12) {
+      methods.setValue('ssn', e.target.value.toString());
+      setSnn(e.target.value.toString());
+    }
   };
 
   const handleChangeOrganization = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setOrganization(e.target.value);
     methods.setValue('organization', e.target.value);
   };
 
   const handleChangeCasenumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     // if (e.target.value.length === 0) {
     //   // methods.trigger('caseNumber');
     // }
@@ -155,9 +190,13 @@ function CreateApplication() {
   };
 
   const handleChangeShelter = (e: SelectChangeEvent) => {
-    console.log(e.target.value);
     setShelterData(e.target.value);
     methods.setValue('shelterName', e.target.value);
+  };
+
+  const handleChangeBuildingUnit = (e: SelectChangeEvent) => {
+    setBuildingUnitData(e.target.value);
+    methods.setValue('buildingUnit', e.target.value);
   };
 
   return (
@@ -177,9 +216,10 @@ function CreateApplication() {
                   nextStep={nextStep}
                   handleChangeOrganization={handleChangeOrganization}
                   organization={organization}
+                  workflows={workflows}
                 />
               )}
-              {(step === 1 && organization === 'PATH' && (
+              {(step === 1 && workflowTypeToId[organization] === 'PATH' && (
                 <StepTwoPATHApplication
                   organization={organization}
                   handleChangeCasenumber={handleChangeCasenumber}
@@ -188,10 +228,13 @@ function CreateApplication() {
                   caseNumber={caseNumber}
                 />
               )) ||
-                (step === 1 && organization === 'HPD' && (
+                (step === 1 && workflowTypeToId[organization] === 'HPD' && (
                   <StepTwoHPDApplication
                     shelterData={shelterData}
                     handleChangeShelter={handleChangeShelter}
+                    handleChangeBuildingUnit={handleChangeBuildingUnit}
+                    buildingUnits={buildingUnits}
+                    buildingUnitData={buildingUnitData}
                     shelters={shelters}
                     handleSSN={handleSSN}
                     organization={organization}
@@ -200,13 +243,12 @@ function CreateApplication() {
                     nextStep={nextStep}
                   />
                 ))}
-              {step === 2 && (
-                <StepThreeApplication prevStep={prevStep} nextStep={nextStep} />
-              )}
+              {step === 2 && <StepThreeApplication prevStep={prevStep} nextStep={nextStep} />}
               {step === 3 && (
                 <StepFourApplication
                   organization={organization}
                   shelterData={shelterData}
+                  organizationType={workflowTypeToId[organization]!}
                   caseNumber={caseNumber}
                   ssn={ssn}
                   familyMembers={familyMembers}

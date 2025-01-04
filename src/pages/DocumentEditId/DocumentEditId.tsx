@@ -5,54 +5,74 @@ import PDFUploader from '../../components/PDFUploader/PDFUploader';
 import Header from '../../layouts/Header/Header';
 import BackButton from '../../components/BackButton/BackButton';
 import AlertPopup from '../../components/AlertPopup/AlertPopup';
+import { FILE_REACHED_MORE_THAN_10_MB, FILE_FAILED_DIMENSIONS } from '../../utils/client-toast-messages';
 
-import documentData from '../../assets/mock-data/mock-documents.json';
-import Document from '../../types/Document';
-
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, CircularProgress } from '@mui/material';
+import { useApi } from '../../utils/use-api';
+import { useAsync } from 'react-use';
+import { useTranslation } from 'react-i18next';
+import { useBoundStore } from '../../store/store';
 
 function DocumentEditId() {
   const { id } = useParams();
-  const alertText =
-    ' Your document could not be uploaded. The document is over 10MB.';
-  const document = useMemo<Document | undefined>(
-    () => documentData?.find((document) => document.id === id),
-    [documentData]
-  );
+
+  const { t } = useTranslation('docs');
+  // const alertText = t('docToBig');
+
+  const api = useApi();
+  const { value: document } = useAsync(() => {
+    return api.getGenerateFileById({ id: id! });
+  });
   const [openAlert, setOpenAlert] = useState(false);
+  const { uploadSpinner, toastMessageActionTypeClient } = useBoundStore();
 
   const openAlertProp = () => {
     console.log('Open alert');
     setOpenAlert(true);
   };
-  console.log(document);
+
+  const AlertPopupCallback = useMemo(() => {
+    switch (toastMessageActionTypeClient) {
+      case FILE_REACHED_MORE_THAN_10_MB: {
+        return <AlertPopup setOpenAlert={setOpenAlert} severity="error" text={t('docToBig')} />;
+      }
+      case FILE_FAILED_DIMENSIONS: {
+        return (
+          <AlertPopup
+            setOpenAlert={setOpenAlert}
+            severity="error"
+            text={'One or more files failed. Please, provide minimum dimensions with width and height of 200px.'}
+          />
+        );
+      }
+    }
+  }, [openAlert]);
+
   return (
     <>
       <Header />
       <Box className="!px-[20px] pt-[68px] sm:!flex sm:!justify-center !w-full">
-        <Box className="sm:!w-[660px] relative">
-          {openAlert && (
-            <AlertPopup
-              setOpenAlert={setOpenAlert}
-              severity="error"
-              text={alertText}
-            />
-          )}
-          <Box className="mb-[16px]">
-            <BackButton text="Cancel" removeArrowIcon={true} />
+        {uploadSpinner ? (
+          <Box className="flex justify-center items-center !h-[90dvh]">
+            <CircularProgress />
           </Box>
-          <Typography className="!m-text-h5 lg:!d-text-h5 !mb-[8px]">
-            Edit document
-          </Typography>
-          <Typography className="!m-text-body-md lg:!d-text-body-md">
-            You can change the document information and upload a new copy.
-          </Typography>
-          <PDFUploader
-            openAlertProp={openAlertProp}
-            buttonNameProp="Save document"
-            editDocumentProp={document}
-          />
-        </Box>
+        ) : (
+          <Box className="sm:!w-[660px] relative">
+            {openAlert && AlertPopupCallback}
+            <Box className="mb-[16px]">
+              <BackButton text={t('returnButton')} />
+            </Box>
+            <Typography className="!m-text-h5 lg:!d-text-h5 !mb-[8px]">{t('editDoc')}</Typography>
+            <Typography className="!m-text-body-md lg:!d-text-body-md !mb-[24px]">{t('changeAbility')}</Typography>
+            <PDFUploader
+              openAlertProp={openAlertProp}
+              buttonNameProp="Save document"
+              editDocumentProp={document}
+              applicationId={undefined}
+              checklistId={undefined}
+            />
+          </Box>
+        )}
       </Box>
     </>
   );

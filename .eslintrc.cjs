@@ -18,6 +18,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-console': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
-    'react/jsx-key': 'warn'
+    'react/jsx-key': 'warn',
+    '@typescript-eslint/no-explicit-any': 'warn'
   }
 }

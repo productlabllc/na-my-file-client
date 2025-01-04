@@ -1,44 +1,140 @@
 [
   {
-    "id": "1",
-    "date": "2023-10-01T04:00:00.000Z",
-    "principal": {
-      "id": "1",
-      "name": "someone@email.gov"
-    },
-    "actionDescription": "edited details of",
-    "resource": {
-      "id": "1",
-      "type": "DOCUMENT",
-      "name": "Document name"
+    "ActivityType": "CLIENT_DOWNLOAD_DOCUMENT_SELF",
+    "ActivityValue": "User (myfile-001@yopmail.com - e4790d3d69ac4d0a9162908bc33602f0) retrieved all family member.",
+    "CreatedAt": "2024-05-09T00:05:38.084Z",
+    "id": "fe76215a-a152-49a1e-a7ef57011f2c",
+    "ActivityGeneratedByUserId": "26bdec-055c-4960-8fa1-d69f53a728e2",
+    "User": {
+      "id": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+      "LegacyId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "FirstName": "Wesley-Tester",
+      "LastName": "Reid Testery",
+      "IdpId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "Email": "myfile-001@yopmail.com",
+      "CreatedAt": "2024-02-27T07:15:01.572Z",
+      "LastModifiedAt": "2024-05-07T14:57:22.713Z",
+      "DeletedAt": null,
+      "LanguageIsoCode": "en-us",
+      "DOB": "1975-12-04T00:00:00.000Z",
+      "PPAcceptedAt": null,
+      "TOSAcceptedAt": "2024-04-16T09:02:03.373Z",
+      "TOSAccepted": true
     }
   },
   {
-    "id": "2",
-    "date": "2023-10-08T04:00:00.000Z",
-    "principal": {
-      "id": "1",
-      "name": "someone@email.gov"
-    },
-    "actionDescription": "accessed",
-    "resource": {
-      "id": "2",
-      "type": "COLLECTION",
-      "name": "Collection name"
+    "ActivityType": "CLIENT_GET_ALL_USER_FAMILY_MEMBERS",
+    "ActivityValue": "User (myfile-001@yopmail.com - e4790d3d69ac4d0a9162908bc33602f0) retrieved all family member.",
+    "CreatedAt": "2024-05-09T00:05:38.084Z",
+    "id": "fe715a-52-49a1-813e-a7ef57011f2c",
+    "ActivityGeneratedByUserId": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+    "User": {
+      "id": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+      "LegacyId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "FirstName": "Wesley-Tester",
+      "LastName": "Reid Testery",
+      "IdpId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "Email": "myfile-001@yopmail.com",
+      "CreatedAt": "2024-02-27T07:15:01.572Z",
+      "LastModifiedAt": "2024-05-07T14:57:22.713Z",
+      "DeletedAt": null,
+      "LanguageIsoCode": "en-us",
+      "DOB": "1975-12-04T00:00:00.000Z",
+      "PPAcceptedAt": null,
+      "TOSAcceptedAt": "2024-04-16T09:02:03.373Z",
+      "TOSAccepted": true
     }
   },
   {
-    "id": "3",
-    "date": "2023-10-08T04:00:00.000Z",
-    "principal": {
-      "id": "2",
-      "name": "someone.else@email.gov"
-    },
-    "actionDescription": "edited details of",
-    "resource": {
-      "id": "1",
-      "type": "DOCUMENT",
-      "name": "Document name"
+    "ActivityType": "CLIENT_CREATE_FAMILY_MEMBER",
+    "ActivityValue": "User (myfile-001@yopmail.com - e4790d3d69ac4d0a9162908bc33602f0) created family member.",
+    "CreatedAt": "2024-05-09T00:05:37.866Z",
+    "id": "4c12ee-4599-41fd-ae01-9776c60f1a03",
+    "ActivityGeneratedByUserId": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+    "User": {
+      "id": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+      "LegacyId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "FirstName": "Wesley-Tester",
+      "LastName": "Reid Testery",
+      "IdpId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "Email": "myfile-001@yopmail.com",
+      "CreatedAt": "2024-02-27T07:15:01.572Z",
+      "LastModifiedAt": "2024-05-07T14:57:22.713Z",
+      "DeletedAt": null,
+      "LanguageIsoCode": "en-us",
+      "DOB": "1975-12-04T00:00:00.000Z",
+      "PPAcceptedAt": null,
+      "TOSAcceptedAt": "2024-04-16T09:02:03.373Z",
+      "TOSAccepted": true
+    }
+  },
+  {
+    "ActivityType": "CLIENT_DELETE_FAMILY_MEMBERS",
+    "ActivityValue": "User (myfile-001@yopmail.com - e4790d3d69ac4d0a9162908bc33602f0) deleted family members (d391fe79-2e25-428b-a977-aafe0378a183).",
+    "CreatedAt": "2024-05-09T00:05:10.343Z",
+    "id": "ca87e8-a082-4543-9105-7dd90119",
+    "ActivityGeneratedByUserId": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+    "User": {
+      "id": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+      "LegacyId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "FirstName": "Wesley-Tester",
+      "LastName": "Reid Testery",
+      "IdpId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "Email": "myfile-001@yopmail.com",
+      "CreatedAt": "2024-02-27T07:15:01.572Z",
+      "LastModifiedAt": "2024-05-07T14:57:22.713Z",
+      "DeletedAt": null,
+      "LanguageIsoCode": "en-us",
+      "DOB": "1975-12-04T00:00:00.000Z",
+      "PPAcceptedAt": null,
+      "TOSAcceptedAt": "2024-04-16T09:02:03.373Z",
+      "TOSAccepted": true
+    }
+  },
+  {
+    "ActivityType": "CLIENT_UPDATE_DOCUMENT_SELF",
+    "ActivityValue": "User (myfile-001@yopmail.com - e4790d3d69ac4d0a9162908bc33602f0) created family member.",
+    "CreatedAt": "2024-05-09T00:05:37.866Z",
+    "id": "4ccb12ee-9-41fd-ae01-9776c60f1a03",
+    "ActivityGeneratedByUserId": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+    "User": {
+      "id": "26bde6ec-055c-60-8fa1-d69f53a8e2",
+      "LegacyId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "FirstName": "Wesley-Tester",
+      "LastName": "Reid Testery",
+      "IdpId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "Email": "myfile-001@yopmail.com",
+      "CreatedAt": "2024-02-27T07:15:01.572Z",
+      "LastModifiedAt": "2024-05-07T14:57:22.713Z",
+      "DeletedAt": null,
+      "LanguageIsoCode": "en-us",
+      "DOB": "1975-12-04T00:00:00.000Z",
+      "PPAcceptedAt": null,
+      "TOSAcceptedAt": "2024-04-16T09:02:03.373Z",
+      "TOSAccepted": true
+    }
+  },
+  {
+    "ActivityType": "CLIENT_UPDATE_DOCUMENT_FAMILY_MEMBER",
+    "ActivityValue": "User (myfile-001@yopmail.com - e4790d3d69ac4d0a9162908bc33602f0) created family member.",
+    "CreatedAt": "2024-05-09T00:05:37.866Z",
+    "id": "4ccb12ee-4599-41fd-ae776c60f1a03",
+    "ActivityGeneratedByUserId": "26bde6ec-055c-4960-8fa1-d69f53a728e2",
+    "User": {
+      "id": "26bde6ec-055c-498fa1-d69f53a728e2",
+      "LegacyId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "FirstName": "Wesley-Tester",
+      "LastName": "Reid Testery",
+      "IdpId": "e4790d3d69ac4d0a9162908bc33602f0",
+      "Email": "myfile-001@yopmail.com",
+      "CreatedAt": "2024-02-27T07:15:01.572Z",
+      "LastModifiedAt": "2024-05-07T14:57:22.713Z",
+      "DeletedAt": null,
+      "LanguageIsoCode": "en-us",
+      "DOB": "1975-12-04T00:00:00.000Z",
+      "PPAcceptedAt": null,
+      "TOSAcceptedAt": "2024-04-16T09:02:03.373Z",
+      "TOSAccepted": true
     }
   }
 ]

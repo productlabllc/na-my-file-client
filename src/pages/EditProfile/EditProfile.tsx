@@ -3,10 +3,11 @@ import UserForm from '../../components/UserForm/UserForm';
 
 function EditProfile() {
   const { getUserData } = useBoundStore();
+  const user = getUserData();
   return (
     <div>
       {/* @ts-expect-error fix when store is ready */}
-      <UserForm user={getUserData()} updateUser={null} />
+      <UserForm user={user} updateUser={null} />
     </div>
   );
 }

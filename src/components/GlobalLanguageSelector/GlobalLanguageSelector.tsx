@@ -1,70 +1,56 @@
 import { useState, useEffect } from 'react';
-import {
-  Select,
-  MenuItem,
-  FormControl,
-  Icon,
-  SelectChangeEvent
-} from '@mui/material';
+import { Select, MenuItem, FormControl, Icon, SelectChangeEvent } from '@mui/material';
 import { languages } from '../../assets/languages/languages';
 import { ExpandMore } from '@mui/icons-material';
 import { useBoundStore } from '../../store/store';
+import { UpdateUserRequest } from '@myfile/api-client';
+import { useAuth } from 'react-oidc-context';
+import { useTranslation } from 'react-i18next';
 
 const LanguageSelector = () => {
+  const auth = useAuth();
+
   const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
-  const [language, setLanguage] = useState(localStorage.getItem('language'));
-  const { setLang, getLang } = useBoundStore();
+  const { getUserLang, updateUser, loading } = useBoundStore();
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = useState<string | undefined>(i18n.language);
 
   const handleClick = (event: { currentTarget: Element }) => {
     setAnchorEl(event.currentTarget);
   };
 
   useEffect(() => {
-    // Get user language API call
-    if (language) {
-      setLang(language);
-    } else {
-      localStorage.setItem('language', 'en');
-      setLanguage('en');
-      setLang('en');
+    if (auth.isAuthenticated) {
+      setLanguage(getUserLang());
     }
-
-    if (!localStorage.getItem('language')) {
-      localStorage.setItem('language', getLang());
-      setLanguage(localStorage.getItem('language') as string);
-    }
-  }, [language]);
+  }, [getUserLang, setLanguage, language, loading, auth.isAuthenticated]);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleLanguageChange = (event: SelectChangeEvent<string | null>) => {
-    setLanguage(event.target.value);
-
-    if (!localStorage.getItem('language')) {
-      localStorage.setItem(
-        'language',
-        (event.target as HTMLInputElement).value
-      );
+    const newLang: UpdateUserRequest = {
+      LanguageIsoCode: event.target.value?.toString() as unknown as HTMLInputElement['value']
+    };
+    if (auth.isAuthenticated) {
+      updateUser(newLang).then(() => {
+        setLanguage(getUserLang());
+      });
     } else {
-      localStorage.removeItem('language');
-      localStorage.setItem(
-        'language',
-        (event.target as HTMLInputElement).value
-      );
+      if (newLang.LanguageIsoCode) {
+        i18n.changeLanguage(newLang.LanguageIsoCode);
+        setLanguage(i18n.language);
+      }
     }
-
-    setLanguage(localStorage.getItem('language'));
-    setLang(localStorage.language);
   };
 
   return (
     <div className="flex items-center">
       {/* Selector */}
 
-      <Icon data-testid="language-icon" className="!text-[20px]">
+      <Icon data-testid="language-icon" className="!text-[17px]">
         translate
       </Icon>
       <FormControl
@@ -73,21 +59,21 @@ const LanguageSelector = () => {
         }}
       >
         <Select
-          id="language-menu-2 "
+          id="language-menu-2"
           open={open}
           value={language}
           onChange={(e) => handleLanguageChange(e)}
           onClose={handleClose}
           onOpen={(e) => handleClick(e)}
-          className="!pr-[6px] !stroke-black !d-text-body-md lg:!d-text-body-sm !w-[150px] !pt-0"
+          className="!pr-[6px] !stroke-black !d-text-body-sm lg:!d-text-body-xsm !min-w-[130px] !pt-0"
           IconComponent={ExpandMore}
           data-testid="select-language"
-
-          // sx={{
-          //   '.MuiSvgIcon-root': {
-          //     color: 'primary'
-          //   }
-          // }}
+          sx={{
+            '.MuiSvgIcon-root': {
+              height: '20px',
+              paddingTop: '3px'
+            }
+          }}
         >
           {Object.keys(languages).map((code) => (
             <MenuItem key={code} value={code}>

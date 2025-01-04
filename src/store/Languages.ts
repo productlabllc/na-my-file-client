@@ -7,12 +7,7 @@ export interface Languages {
   setLang: (lang: string) => void;
 }
 
-export const createLanguages: StateCreator<
-  StoreTypeIntersection,
-  [],
-  [],
-  Languages
-> = (set, get) => ({
+export const createLanguages: StateCreator<StoreTypeIntersection, [], [], Languages> = (set, get) => ({
   lang: '',
   getLang: () => get().lang,
   setLang: (lang: string) => set({ lang })

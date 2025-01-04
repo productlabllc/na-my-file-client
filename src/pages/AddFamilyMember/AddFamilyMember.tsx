@@ -5,7 +5,8 @@ import { Box } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
 import { useBoundStore } from '../../store/store';
-import FamilyMember from '../../types/FamilyMember';
+// import FamilyMemberType from '../../types/FamilyMemberType';
+import { FamilyMember } from '@myfile/api-client';
 
 function AddFamilyMember() {
   const navigate = useNavigate();
@@ -24,10 +25,7 @@ function AddFamilyMember() {
       <Box className="fixed top-0 w-full !z-20">
         <GlobalNavigation />
       </Box>
-      <FamilyMemberForm
-        updateFamilyMemberList={addNewFamilyMember}
-        closeFormFamilyWindow={closeFormFamilyWindow}
-      />
+      <FamilyMemberForm updateFamilyMemberList={addNewFamilyMember} closeFormFamilyWindow={closeFormFamilyWindow} />
     </>
   );
 }

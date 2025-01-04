@@ -13,14 +13,7 @@ function MyFileLogo({ center, variant, notClickable }: MyFileLogoProps) {
 
   const renderImage = () => {
     if (variant === 'icon') {
-      return (
-        <img
-          src={myFileLogoIcon}
-          className={logoClass}
-          aria-label="MyFile NYC"
-          alt="MyFile NYC"
-        />
-      );
+      return <img src={myFileLogoIcon} className={logoClass} aria-label="MyFile NYC" alt="MyFile NYC" />;
     } else {
       return (
         <img

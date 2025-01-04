@@ -6,9 +6,7 @@ describe('GlobalNavigation', () => {
   it('has text official nyc text', () => {
     render(<GlobalNavigation />);
 
-    expect(screen.getByTestId('official-nyc-text')).toHaveTextContent(
-      'Official website of the City of New York'
-    );
+    expect(screen.getByTestId('official-nyc-text')).toHaveTextContent('Official website of the City of New York');
   });
 
   //   it('contains component <NYCLogo/>', () => {

@@ -3,7 +3,7 @@ interface Languages {
   [key: string]: string;
 }
 export const languages: Languages = {
-  en: 'English',
+  'en-us': 'English',
   es: 'Español',
   fr: 'Français',
   ch: '中文',

@@ -1,0 +1,15 @@
+{
+  "termsOfUseHeader": "Terms of Use",
+  "acceptingFollowingTermsParagraph": "Please read and accept the following terms of use (Terms) carefully before using My File NYC. By accessing My File NYC, you understand and agree to these terms.",
+  "defitionTitle": "I. Definitions",
+  "definitionsParagraph": "a. Account: an account that a User creates to use the NYC Datalocker.<br/> b. City: the City of New York.<br/> c. User: a person who, on their own or with the assistance of another, has created an Account to use the NYC Datalocker.<br/> d. NYC Datalocker: This NYC Datalocker, where a User can upload, store, and share documents with City agencies.<br/> e. NYC.ID: the City’s centralized user authentication and self-service account management system.",
+  "purposeTitle": "II. Purpose",
+  "purposeParagraph": "a. The City has created this NYC Datalocker to provide a free, simple, and secure tool for New Yorkers to store and share any documents required by City agencies to apply for City programs and benefits; to reduce the overall effort expended by residents to retrieve and produce documentation necessary to receive services from the City; and to improve the provision of government services.<br/> b. Users may use the NYC Datalocker to:<br/>i. store documents that may be needed to apply for City services;<br/> ii. share documents with City agencies; and<br/> iii. provide feedback on the NYC Datalocker.",
+  "useTitle": "III. Use",
+  "useParagraph": "a. The City does not guarantee that information uploaded to the NYC Datalocker will be accepted by all City agencies.<br/> b. By sharing a document with a City agency, Users grant to that City agency permission to download, retain, and use the document for any purpose the City agency would use a similar document submitted physically.<br/> c. The NYC Datalocker allows Users to delete documents stored in the NYC Datalocker. This feature does not affect copies of documents that have been downloaded by City agencies.<br/>d. Login for Datalocker is managed by NYC.ID.",
+  "scopeTitle": "IV. Scope",
+  "scopeParagraph": "a. These Terms set forth the rights and responsibilities of Users.<br/> b. These Terms supplement the Terms of Use for NYC.gov, the Privacy Policy for NYC.gov, and NYC.ID’s Terms of Use. By using this NYC Datalocker, Users agree to those Terms.<br/> c. These Terms are effective upon the User’s acceptance of the terms<br/> d. If a person is authorized by a User to assist a User in creating or using an Account on the NYC Datalocker, the User represents that the person:<br/> i. has the full legal authority to bind the User to these Terms;<br/> ii. the person has have read and understands these Terms; and<br/> iii. the person agrees, on behalf of the User, to these Terms.",
+  "reservedRights": "© 2024 City of New York. All Rights Reserved.",
+  "declineTOU": "Decline & log out",
+  "acceptTOU": "Agree"
+}

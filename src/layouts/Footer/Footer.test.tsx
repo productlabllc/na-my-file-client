@@ -21,10 +21,7 @@ describe('Footer', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('link', { name: 'Terms of Use' })).toHaveAttribute(
-      'href',
-      '/terms-of-use'
-    );
+    expect(screen.getByRole('link', { name: 'Terms of Use' })).toHaveAttribute('href', '/terms-of-use');
   });
 
   it('redirects to the "/about" page', () => {
@@ -34,10 +31,7 @@ describe('Footer', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute(
-      'href',
-      '/about'
-    );
+    expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
   });
 
   it('redirects to the "/faq" page', () => {
@@ -47,10 +41,7 @@ describe('Footer', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('link', { name: 'FAQ' })).toHaveAttribute(
-      'href',
-      '/faq'
-    );
+    expect(screen.getByRole('link', { name: 'FAQ' })).toHaveAttribute('href', '/faq');
   });
 
   it('has MyFile brand copyright', () => {

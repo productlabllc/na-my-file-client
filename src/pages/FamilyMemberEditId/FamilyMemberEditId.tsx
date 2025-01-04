@@ -3,21 +3,18 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
-import FamilyMember from '../../types/FamilyMember';
 import { useBoundStore } from '../../store/store';
 
 import FamilyMemberForm from '../../components/FamilyMemberForm/FamilyMemberForm';
 import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
+import { FamilyMember } from '@myfile/api-client';
 
 function FamilyMemberEditId() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getFamilyMembers, updateFamilyMember } = useBoundStore();
 
-  const familyMember = useMemo(
-    () => getFamilyMembers().find((member) => member.id === id),
-    [id, getFamilyMembers()]
-  );
+  const familyMember = useMemo(() => getFamilyMembers().find((member) => member.id === id), [getFamilyMembers, id]);
 
   const closeFormFamilyWindow = () => {
     navigate(-1);

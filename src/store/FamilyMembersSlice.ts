@@ -1,66 +1,107 @@
 import { StateCreator } from 'zustand';
 import { StoreTypeIntersection } from './store';
-import FamilyMember from '../types/FamilyMember';
+import * as api from '@myfile/api-client';
 
 /*
   This slice handles the current user session.
 */
 
 export interface FamilyMemberStore {
-  familyData: FamilyMember[];
+  loading: boolean;
+  familyData: api.FamilyMember[];
   isAddFamilyFormOpened: boolean;
   isUpdateFamilyFormOpened: boolean;
+  isDeleteDialogOpen: boolean;
 
-  getFamilyMembers: () => FamilyMember[];
-  addFamilyMember: (familyMember: FamilyMember) => void;
+  fetchFamilyMembers: () => Promise<api.FamilyMember[]>;
+  getFamilyMembers: () => api.FamilyMember[];
+  createFamilyMember: (familyMember: api.CreateFamilyMemberRequest) => void;
+  addFamilyMember: (familyMember: api.FamilyMember) => void;
   removeFamilyMember: (familyMember: string) => void;
-  updateFamilyMember: (familyMember: FamilyMember) => void;
+  updateFamilyMember: (familyMember: api.UpdateFamilyMemberRequest) => void;
   setIsAddFamilyFormOpened: (isOpened: boolean) => void;
   getIsAddFamilyFormOpened: () => boolean;
   setIsUpdateFamilyFormOpened: (isOpened: boolean) => void;
   getIsUpdateFamilyFormOpened: () => boolean;
+  setIsDeleteDialogOpen: (isDeleted: boolean) => void;
 }
 
-export const createFamilyMemberSlice: StateCreator<
-  StoreTypeIntersection,
-  [],
-  [],
-  FamilyMemberStore
-> = (set, get) => ({
+export const createFamilyMemberSlice: StateCreator<StoreTypeIntersection, [], [], FamilyMemberStore> = (set, get) => ({
+  loading: false,
+  isDeleteDialogOpen: false,
   familyData: [],
   isAddFamilyFormOpened: false,
   isUpdateFamilyFormOpened: false,
+  setIsDeleteDialogOpen: (isDeleted) => set({ isDeleteDialogOpen: isDeleted }),
   setIsUpdateFamilyFormOpened: (isOpened: boolean) =>
     set({
       isUpdateFamilyFormOpened: isOpened
     }),
   getIsUpdateFamilyFormOpened: () => get().isUpdateFamilyFormOpened,
   getIsAddFamilyFormOpened: () => get().isAddFamilyFormOpened,
-  setIsAddFamilyFormOpened: (isOpened: boolean) =>
-    set({ isAddFamilyFormOpened: isOpened }),
-  addFamilyMember: (member: FamilyMember) => {
+  setIsAddFamilyFormOpened: (isOpened: boolean) => set({ isAddFamilyFormOpened: isOpened }),
+  createFamilyMember: async (member) => {
+    try {
+      set({ loading: true, error: null });
+      const familyMember = await api.createUserFamilyMember({
+        requestBody: member
+      });
+      set((state) => ({
+        familyData: [familyMember, ...state.familyData],
+        loading: false
+      }));
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+  addFamilyMember: async (member) => {
     set((state) => ({ familyData: [member, ...state.familyData] }));
   },
-  removeFamilyMember: (memberId: string) => {
-    set((state) => ({
-      familyData: state.familyData.filter((member) => member.id !== memberId)
-    }));
+  removeFamilyMember: async (memberId: string) => {
+    try {
+      set({ loading: true, error: null });
+      await api.deleteFamilyMember({
+        requestBody: [memberId]
+      });
+      set((state) => ({
+        familyData: state.familyData.filter((member) => member.id !== memberId),
+        loading: false
+      }));
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+  },
+  fetchFamilyMembers: async () => {
+    try {
+      set({ loading: true, error: null });
+      const familyMembers = await api.getFamilyMembers();
+      set(() => ({
+        familyData: [...familyMembers],
+        loading: false
+      }));
+      return familyMembers;
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
+    return [];
   },
   getFamilyMembers: () => {
-    // console.log(get().familyData);
     return get().familyData;
   },
-  updateFamilyMember: (member: FamilyMember) => {
-    // console.log(member);
-
-    set((state) => {
-      return {
-        familyData: state.familyData.map((memberData) =>
-          memberData.id === member.id
-            ? { ...memberData, ...member }
-            : memberData
-        )
-      };
-    });
+  updateFamilyMember: async (member: api.UpdateFamilyMemberRequest) => {
+    try {
+      set({ loading: true, error: null });
+      const familyMember = await api.updateUserFamilyMember({
+        requestBody: member
+      });
+      set((state) => ({
+        familyData: state.familyData.map((member) =>
+          member.id === familyMember.id ? { ...member, ...familyMember } : member
+        ),
+        loading: false
+      }));
+    } catch (error) {
+      set({ error: (error as Error).message, loading: false });
+    }
   }
 });

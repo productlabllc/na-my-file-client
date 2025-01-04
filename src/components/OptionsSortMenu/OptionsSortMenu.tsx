@@ -1,55 +1,69 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Menu, MenuItem, Typography } from '@mui/material';
 
-import Document from '../../types/Document';
+import { GeneratedUserFile } from '@myfile/api-client';
+import { useTranslation } from 'react-i18next';
 
-interface OptionsSortProps {
+interface OptionsSortProps<D> {
   anchorElSortMenu: HTMLElement | null;
   setAnchorElSortMenu: Dispatch<SetStateAction<HTMLElement | null>>;
-  setData: Dispatch<SetStateAction<Document[] | null>>;
-  data: Document[];
+  setData: Dispatch<SetStateAction<D[]>>;
+  data: D[];
 }
 
-function OptionsSortMenu({
+function OptionsSortMenu<D extends GeneratedUserFile>({
   anchorElSortMenu,
   setAnchorElSortMenu,
   setData,
   data
-}: OptionsSortProps) {
+}: OptionsSortProps<D>) {
+  const { t } = useTranslation('docs');
+
   const handleCloseSortMenu = () => {
     setAnchorElSortMenu(null);
   };
 
   const sortByAZ = () => {
-    setData([...data].sort((a, b) => a.title.localeCompare(b.title)));
-    setAnchorElSortMenu(null);
+    if (data) {
+      setData([...data].sort((a, b) => (a?.Title && b?.Title ? a?.Title.localeCompare(b.Title) : -1)));
+      setAnchorElSortMenu(null);
+    }
   };
   const sortByZA = () => {
-    setData([...data].sort((a, b) => b.title.localeCompare(a.title)));
-    setAnchorElSortMenu(null);
+    if (data) {
+      setData([...data].sort((a, b) => (a?.Title && b?.Title ? b?.Title.localeCompare(a?.Title) : -1)));
+      setAnchorElSortMenu(null);
+    }
   };
 
-  const sortByClosestDay = () => {
-    setData(
-      [...data].sort((a, b): number => {
-        return (
-          new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()
-        );
-      })
-    );
-    setAnchorElSortMenu(null);
-  };
+  // const sortByClosestDay = () => {
+  //   if (data) {
+  //     setData(
+  //       [...data].sort((a, b): number => {
+  //         if (b?.CreatedAt && a?.CreatedAt) {
+  //           return new Date(b?.CreatedAt).valueOf() - new Date(a.CreatedAt).valueOf();
+  //         }
+  //         return -1;
+  //       })
+  //     );
+  //     setAnchorElSortMenu(null);
+  //   }
+  // };
 
-  const sortByFarthestDay = () => {
-    setData(
-      [...data].sort((a, b) => {
-        return (
-          new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf()
-        );
-      })
-    );
-    setAnchorElSortMenu(null);
-  };
+  // const sortByFarthestDay = () => {
+  //   if (data) {
+  //     setData(
+  //       [...data].sort((a, b) => {
+  //         if (a?.CreatedAt && b?.CreatedAt) {
+  //           return new Date(a?.CreatedAt).valueOf() - new Date(b.CreatedAt).valueOf();
+  //         }
+  //         return -1;
+  //       })
+  //     );
+  //     setAnchorElSortMenu(null);
+  //   }
+  // };
+
   return (
     <>
       <Menu
@@ -57,6 +71,7 @@ function OptionsSortMenu({
         anchorEl={anchorElSortMenu}
         open={Boolean(anchorElSortMenu)}
         onClose={handleCloseSortMenu}
+        className=""
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right'
@@ -72,30 +87,18 @@ function OptionsSortMenu({
           }
         }}
       >
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={sortByAZ}
-        >
-          <Typography>Document Name A-Z</Typography>
+        <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={sortByAZ}>
+          <Typography>{t('sortDocsAZ')}</Typography>
         </MenuItem>
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={sortByZA}
-        >
-          <Typography>Document Name Z-A</Typography>
+        <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={sortByZA}>
+          <Typography>{t('sortDocsZA')}</Typography>
         </MenuItem>
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={sortByClosestDay}
-        >
-          <Typography>Date Added closest to now</Typography>
+        {/* <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={sortByClosestDay}>
+          <Typography>{t('sortDocsDateNew')}</Typography>
         </MenuItem>
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={sortByFarthestDay}
-        >
-          <Typography>Date added farthest from now</Typography>
-        </MenuItem>
+        <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={sortByFarthestDay}>
+          <Typography>{t('sortDocsDateOld')}</Typography>
+        </MenuItem> */}
       </Menu>
     </>
   );

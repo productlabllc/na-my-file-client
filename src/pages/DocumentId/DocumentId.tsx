@@ -1,142 +1,131 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 import Header from '../../layouts/Header/Header';
 import BackButton from '../../components/BackButton/BackButton';
 import PDFReader from '../../components/PDFReader/PDFReader';
 import ConfirmDelete from '../../components/ConfirmDelete/ConfirmDelete';
 import ConfirmDownload from '../../components/ConfirmDownload/ConfirmDownload';
-import {
-  Box,
-  Typography,
-  Button,
-  Icon,
-  Dialog,
-  IconButton
-} from '@mui/material';
-import documentData from '../../assets/mock-data/mock-documents.json';
+import { Box, Typography, Button, Icon, Dialog, IconButton } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CloseIcon from '@mui/icons-material/Close';
+import { useApi } from '../../utils/use-api';
+import { useAsync } from 'react-use';
+import { useTranslation } from 'react-i18next';
+import { useBoundStore } from '../../store/store';
+// import * as pdfjsLib from 'pdfjs-dist';
+// import AsyncImage from '../../components/AsyncImage/AsyncImage';
+import AsyncPreviewImage from '../../components/AsyncPreviewImage/AsyncPreviewImage';
 
 function DocumentId() {
   const { id } = useParams();
-  //   const foundDocument: Document | undefined = documentData?.find(
-  //     (document) => document.id === id
-  //   );
-  //   useEffect(() => {
-  //     //   setDocument();
-  //     const data = fetch(
-  //       'http://localhost/assets/mock-data/mock-documents.json'
-  //     ).then((response) => {
-  //       console.log(response);
-  //     });
-  //   }, [documentData]);
+  const { isAsyncImageLoaded, isAsyncImageFinishedRefetching, isAsyncImageApiCaughtError } = useBoundStore();
 
-  //   const [document, setDocument] = useState<Document>();
-  const textForConfirmDelete =
-    'Anyone with shared access will no longer be able to view this document. This cannot be undone.';
   const [openDialog, setOpendDialog] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
+  // const [isPDFDocumentIsReady, setPDFDocumentIsReady] = useState(false);
+
+  // const [fileExists, setFileExists] = useState<boolean | null>(false);
 
   const navigate = useNavigate();
 
-  //   const pdfViewer = useMemo(
-  //     () => (
-  //       <>
-  //         <PDFReader file={document?.documentUrl} />
-  //       </>
-  //     ),
-  //     [document]
-  //   );
+  const { t } = useTranslation('docs');
 
-  const document = useMemo(
-    () => documentData?.find((document) => document.id === id),
-    [documentData]
-  );
+  const api = useApi();
 
-  const pdfViewer = useCallback(
-    () => <PDFReader file={document?.documentUrl} />,
-    [document]
-  );
+  const { value: userFile } = useAsync(() => api.getGenerateFileById({ id: id! }), [id]);
+
+  const pdfViewer = useCallback(() => <PDFReader id={id} />, [id]);
 
   const handleEdit = () => {
-    navigate(`/document/edit/${document?.id}`);
+    // Should edit generated file.
+    navigate(`/document/edit/${userFile?.id}`);
   };
 
   const onClickDeleteOptionClose = () => {
     setIsDeleteDialogOpen(false);
   };
 
-  const handleDeleteOption = () => {
-    console.log('Delete action');
+  const handleDeleteOption = async () => {
+    /// Delete Generated file and corresponding user files.
+    await api.deleteGeneratedFileById({ id: id! });
+    navigate(-1);
   };
 
-  const onClickDownloadOptionClose = () => {
+  const onClickDownloadOptionClose = async () => {
     setIsDownloadDialogOpen(false);
   };
 
-  const handleDownloadOption = () => {
-    console.log('Download action');
+  const downloadFile = async (url: string) => {
+    window.open(url, '_blank');
   };
 
-  console.log(document);
+  const handleDownloadOption = async () => {
+    const downloadUrl = await api.getGeneratedFileDownloadUrl({
+      generatedFileId: id!,
+      disposition: 'attachment'
+    });
+
+    if (isDownloadDialogOpen) {
+      downloadFile(downloadUrl.downloadUrl!);
+    }
+
+    setIsDownloadDialogOpen(!isDownloadDialogOpen);
+  };
+  const checkIfAnyErrorAppearsOnImg =
+    !isAsyncImageLoaded && !isAsyncImageFinishedRefetching && !isAsyncImageApiCaughtError;
+
   return (
     <>
       <Header />
       <Box className="!px-[16px] md:!flex md:!flex-col md:!items-center sm:!px-[42px] pt-[80px]">
         <Box className="md:!w-[700px]">
           <Box className="mb-[16px]">
-            <BackButton text="Return to dashboard" />
+            <BackButton text={t('returnButton')} />
           </Box>
           <Box className="mb-[8px]">
-            <Typography className="!m-text-body-md-bold !mb-[8px]">
-              Document type
-            </Typography>
-            <Typography className="!m-text-body-md">
-              {document?.title}
-            </Typography>
+            <Typography className="!m-text-body-md-bold !mb-[8px]">{t('docType')}</Typography>
+            <Typography className="!m-text-body-md">{userFile?.FileType}</Typography>
           </Box>
-          <Box>
-            <img
-              className="h-[300px] md:!h-[400px] w-full"
-              src={document?.documentUrl}
-            ></img>
-            <Box className="flex justify-end flex-row border-x-[2px] border-b-[2px] p-2 mb-[16px] ">
-              <Icon>open_in_full_icon</Icon>
+          <Box
+            className={`border-[2px] ${!checkIfAnyErrorAppearsOnImg ? 'mb-[24px]' : ''}  !h-[300px] md:!h-[400px] w-full pt-[4px] sm:pt-[16px] py-[4px] px-[4px] sm:px-[16px] sm:py-[16px]`}
+          >
+            {id && <AsyncPreviewImage generatedFileId={id}></AsyncPreviewImage>}
+          </Box>
+          {!isAsyncImageLoaded && !isAsyncImageFinishedRefetching && !isAsyncImageApiCaughtError && (
+            <Box className="!w-full !bg-black p-2 flex justify-end mb-[16px]">
+              <Icon className="!text-white">open_in_full_icon</Icon>
               <Button
                 onClick={() => setOpendDialog(true)}
-                className="!m-text-btn-sm sm:!m-text-btn-md !normal-case !text-secondary"
+                className="!m-text-btn-sm md:!m-text-btn-md !normal-case !text-white"
               >
-                Full screen
+                {t('fullScreen')}
               </Button>
             </Box>
-          </Box>
+          )}
           <Box className="mb-[16px]">
-            <Typography className="!m-text-body-md-bold !mb-[8px]">
-              Family Member
-            </Typography>
+            <Typography className="!m-text-body-md-bold !mb-[8px]">{t('familyMember')}</Typography>
             <Typography className="!m-text-body-md">
-              {document?.familyMemberUser}
-            </Typography>
-          </Box>
-          <Box className="mb-[16px]">
-            <Typography className="!m-text-body-md-bold !mb-[8px]">
-              Date Added
-            </Typography>
-            <Typography className="!m-text-body-md">
-              Document uploaded on {document?.createdAt}
+              {!userFile?.FromUserFiles?.[0]?.UserFamilyMember
+                ? 'Self'
+                : userFile?.FromUserFiles?.[0]?.UserFamilyMember?.FirstName +
+                  ' ' +
+                  userFile?.FromUserFiles?.[0]?.UserFamilyMember?.LastName}{' '}
             </Typography>
           </Box>
           <Box className="mb-[16px]">
-            <Typography className="!m-text-body-md-bold !mb-[8px]">
-              Description
-            </Typography>
+            <Typography className="!m-text-body-md-bold !mb-[8px]">{t('dateAdded')}</Typography>
             <Typography className="!m-text-body-md">
-              {document?.description
-                ? document.description
-                : 'There is no description added.'}
+              {t('uploadedAt')} {dayjs(userFile?.CreatedAt).format('MM/DD/YYYY')}
+            </Typography>
+          </Box>
+          <Box className="mb-[16px]">
+            <Typography className="!m-text-body-md-bold !mb-[8px]">{t('description')}</Typography>
+            <Typography className="!m-text-body-md">
+              {userFile?.Description ? userFile.Description : t('noDescriptionadded')}
             </Typography>
           </Box>
           <Box className="!mb-[16px]">
@@ -146,7 +135,7 @@ function DocumentId() {
               onClick={handleEdit}
             >
               <EditOutlinedIcon className="pb-[3px] mr-[8px] " />
-              Edit
+              {t('edit')}
             </Button>
           </Box>
           <Box className="!mb-[16px]">
@@ -156,7 +145,7 @@ function DocumentId() {
               onClick={() => setIsDownloadDialogOpen(true)}
             >
               <FileDownloadOutlinedIcon className="pb-[3px] mr-[8px]" />
-              Download
+              {t('download')}
             </Button>
           </Box>
           <Box className="!mb-[16px]">
@@ -165,7 +154,7 @@ function DocumentId() {
               onClick={() => setIsDeleteDialogOpen(true)}
             >
               <DeleteOutlineIcon className="pb-[3px] mr-[8px]" />
-              Delete
+              {t('delete')}
             </Button>
           </Box>
         </Box>
@@ -175,18 +164,13 @@ function DocumentId() {
         className="w-full"
         open={openDialog}
         onClose={() => setOpendDialog(false)}
-        classes={{ paper: '!min-w-[90%] lg:!min-w-[50%] h-[82vh]' }}
+        classes={{ paper: '!min-w-[90%] lg:!min-w-[50%] h-[82vh] !bg-[#EEEEEE]' }}
       >
         <Box>
           <Box className="!sticky bg-white !top-0 !z-20 flex justify-end pr-2 py-1">
-            <IconButton
-              className="!text-secondary !d-text-btn-md "
-              onClick={() => setOpendDialog(false)}
-            >
+            <IconButton className="!text-secondary !d-text-btn-md " onClick={() => setOpendDialog(false)}>
               <CloseIcon className="mr-[8px]" fontSize="medium" />
-              <Typography className="!d-text-btn-md lg:!d-text-btn-sm pt-[2px]">
-                Close
-              </Typography>
+              <Typography className="!d-text-btn-md lg:!d-text-btn-sm pt-[2px]">{t('close')}</Typography>
             </IconButton>
           </Box>
 
@@ -195,16 +179,16 @@ function DocumentId() {
       </Dialog>
 
       <ConfirmDelete
-        dialogTitle="document"
-        text={textForConfirmDelete}
-        document={document}
+        dialogTitle={t('detelteDocument')}
+        text={t('textForConfirmDelete')}
+        document={userFile}
         isDeleteDialogOpen={isDeleteDialogOpen}
         onClickDeleteOptionClose={onClickDeleteOptionClose}
         handleDeleteOption={handleDeleteOption}
       />
 
       <ConfirmDownload
-        document={document}
+        document={userFile}
         isDownloadDialogOpen={isDownloadDialogOpen}
         onClickDownloadOptionClose={onClickDownloadOptionClose}
         handleDownloadOption={handleDownloadOption}

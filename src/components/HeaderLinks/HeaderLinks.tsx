@@ -1,20 +1,38 @@
 import { Button, Icon } from '@mui/material';
-import { useAuth } from 'react-oidc-context';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useBoundStore } from '../../store/store';
-
+import PolicyOutlinedIcon from '@mui/icons-material/PolicyOutlined';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 interface HeaderLinksProps {
   isInSidebar?: boolean;
 }
 
 function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
-  const auth = useAuth();
-  const navigate = useNavigate();
-  const { resetUserData } = useBoundStore();
-
+  const { t } = useTranslation('user');
   return (
     <>
+      <Button className="!d-text-body-sm !text-white !normal-case !mr-[12px]" component={Link} to="/terms-of-use">
+        <PolicyOutlinedIcon fontSize="medium" className="!mb-1 !mr-3"></PolicyOutlinedIcon>
+        {t('TOU')}
+      </Button>
+
+      <Button className="!d-text-body-sm !text-white !normal-case !mr-[12px]" component={Link} to="/support">
+        <HelpOutlineOutlinedIcon fontSize="medium" className="!mb-1 !mr-3"></HelpOutlineOutlinedIcon>
+        {t('support')}
+      </Button>
+
+      <Button
+        className="!d-text-body-sm !text-white !normal-case !mr-[12px]"
+        fullWidth={isInSidebar}
+        component={Link}
+        to="/activity"
+      >
+        <Icon fontSize="medium" className="!mb-1 !mr-3">
+          history
+        </Icon>
+        <div className="">{t('activityLog')}</div>
+      </Button>
+
       <Button
         className="!d-text-body-sm !text-white !normal-case !mr-[12px]"
         fullWidth={isInSidebar}
@@ -24,42 +42,19 @@ function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
         <Icon fontSize="medium" className="!mb-1 !mr-3">
           perm_identity
         </Icon>
-        <div className=""> My Profile</div>
-      </Button>
-
-      <Button
-        className="!d-text-body-sm !text-white !normal-case !mr-[12px]"
-        fullWidth={isInSidebar}
-      >
-        <Icon fontSize="medium" className="!mb-1 !mr-3">
-          history
-        </Icon>
-        Activity Log
+        <div className="">{t('myProfile')}</div>
       </Button>
 
       <Button
         className="!d-text-body-sm !text-white !normal-case"
         fullWidth={isInSidebar}
-        onClick={() => {
-          const idpLogoutFrame = document.createElement('iframe');
-          document.body.append(idpLogoutFrame);
-          idpLogoutFrame.style.visibility = 'hidden';
-          idpLogoutFrame.src =
-            'https://accounts-nonprd.nyc.gov/account/idpLogout.htm?x-frames-allow-from=https%3A%2F%2Fmyfile-dev.cityofnewyork.us';
-          setTimeout(async () => {
-            document.body.removeChild(idpLogoutFrame);
-            console.log('remove user and logging out');
-            await auth.removeUser();
-            auth.signoutRedirect();
-            resetUserData();
-            navigate({ pathname: '/' });
-          }, 1500);
-        }}
+        component={Link}
+        to="/logout"
       >
         <Icon fontSize="medium" className="!mb-1 !mr-3">
           logout
         </Icon>
-        Sign out
+        {t('logOut')}
       </Button>
     </>
   );

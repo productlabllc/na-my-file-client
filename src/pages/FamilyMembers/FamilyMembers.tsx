@@ -1,26 +1,45 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
+// import { useAsync } from 'react-use';
+// import { useApi } from '../../utils/use-api';
+
 import { Box, Button } from '@mui/material';
 
 import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
 import FamilyMembersBlock from '../../components/FamilyMembersBlock/FamilyMembersBlock';
 
-import FamilyMember from '../../types/FamilyMember';
+import { FamilyMember } from '@myfile/api-client';
+
 import { useBoundStore } from '../../store/store';
 
 function AddFamilyMember() {
   const navigate = useNavigate();
+  const { t } = useTranslation('user');
 
-  const { getFamilyMembers, setIsAddFamilyFormOpened } = useBoundStore();
+  const {
+    fetchFamilyMembers,
+    isUpdateFamilyFormOpened,
+    setIsAddFamilyFormOpened,
+    isAddFamilyFormOpened,
+    isDeleteDialogOpen
+  } = useBoundStore();
 
-  const [familyData, setFamilyData] = useState<FamilyMember[]>([
-    ...getFamilyMembers()
-  ]);
+  const [familyData, setFamilyData] = useState<FamilyMember[]>([]);
 
   useEffect(() => {
-    const data = getFamilyMembers();
-    setFamilyData([...data]);
-  }, [getFamilyMembers()]);
+    if (!isAddFamilyFormOpened) {
+      setTimeout(() => {
+        fetchFamilyMembers().then((members) => {
+          setFamilyData([...members]);
+        });
+      }, 300);
+    }
+  }, [isAddFamilyFormOpened, fetchFamilyMembers, isUpdateFamilyFormOpened, isDeleteDialogOpen]);
+  // const refetchFamilyMembers = () => {
+  //   retryFetchFamilyMembers();
+  // };
 
   return (
     <>
@@ -28,9 +47,13 @@ function AddFamilyMember() {
         <GlobalNavigation />
       </Box>
       <Box>
-        <Box className="!mt-[80px] sm:flex sm:justify-center w-[100%]">
-          <Box className="!px-[16px] w-full sm:w-[600px] !mb-[40px]">
-            <FamilyMembersBlock />
+        <Box className="!mt-[80px] md:flex md:justify-center w-[100%]">
+          <Box className="!px-[16px] w-full md:w-[600px] !mb-[40px]">
+            <FamilyMembersBlock
+              skipNavigation={() => {
+                navigate('/client-dashboard');
+              }}
+            />
           </Box>
         </Box>
         <Box
@@ -42,18 +65,22 @@ function AddFamilyMember() {
             variant="outlined"
             onClick={() => setIsAddFamilyFormOpened(true)}
           >
-            Add family member
+            {t('addFamilyMember')}
           </Button>
 
           <Button
             variant="contained"
-            className={`!py-[16px] !w-[94%] md:!w-[660px] !h-10 !bg-secondary
-               !m-text-btn-md !normal-case`}
+            className={
+              familyData && familyData.length < 1
+                ? '!py-[16px] !w-[94%] md:!w-[660px] !h-10 !m-text-btn-md md:!d-text-btn-md !normal-case'
+                : `!py-[16px] !w-[94%] md:!w-[660px] !h-10 !bg-secondary
+               !m-text-btn-md  md:!d-text-btn-md !normal-case`
+            }
             onClick={() => navigate('/client-dashboard')}
             type="submit"
-            //   disabled={uploadedFiles.length < 1}
+            disabled={familyData && familyData.length < 1}
           >
-            {familyData.length < 1 ? 'Skip' : 'Done'}
+            {t('save')}
           </Button>
         </Box>
       </Box>

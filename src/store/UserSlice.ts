@@ -1,56 +1,57 @@
 import { StateCreator } from 'zustand';
 import { StoreTypeIntersection } from './store';
-import {
-  Service as api,
-  CreateUserRequest,
-  UpdateUserRequest
-} from '@namyfile/api-client';
-import User from '../types/UserType';
+import * as api from '@myfile/api-client';
 
 /*
   This slice handles the current user session.
 */
 
 export interface UserSlice {
-  user: User;
+  user: api.UserBase;
   loading: boolean;
   error: string | null;
-  useFetchUserData: (id_token: string | undefined) => Promise<void>;
-  getUserData: () => User;
-  resetUserData: () => User | object;
-  getTOSAccepted: () => boolean;
-  createProfile: (
-    user: CreateUserRequest,
-    id_token: string | undefined
-  ) => Promise<void>;
-  acceptedTermsOfUse: boolean;
-  setAcceptedTermsOfUse: (loggedIn: boolean) => void;
-  getAcceptedTermsOfUse: () => boolean;
+  useFetchUserData: () => Promise<void>;
+  getUserData: () => api.UserBase;
+  resetUserData: () => api.UserBase | object;
+  getTOSAccepted: () => boolean | undefined;
+  getUserLang: () => string;
+  setUserLang: (languageIsoCode: string) => void;
+  createProfile: (user: api.CreateUserRequest, id_token: string | undefined) => Promise<void>;
   loggedIn: boolean;
   setLoggedIn: (loggedIn: boolean) => void;
   getLoggedIn: () => boolean;
-  updateUser: (
-    user: UpdateUserRequest,
-    id_token: string | undefined
-  ) => Promise<void>;
+  updateUser: (user: api.UpdateUserRequest) => Promise<void>;
+  showToastMessageLogout: boolean;
+  setShowToastMessageLogout: (isShown: boolean) => void;
+  showToastMessageClient: boolean;
+  setShowToastMessageClient: (isShown: boolean) => void;
+  toastMessageActionTypeClient: string;
+  setToastMessageActionTypeClient: (action: string) => void;
 }
 
-export const createUserSlice: StateCreator<
-  StoreTypeIntersection,
-  [],
-  [],
-  UserSlice
-> = (set, get) => ({
+export const createUserSlice: StateCreator<StoreTypeIntersection, [], [], UserSlice> = (set, get) => ({
   user: {
     FirstName: '',
     LastName: '',
     DOB: '',
-    LanguageIsoCode: 'en-us',
+    LanguageIsoCode: '',
     Email: '',
     TOSAccepted: false
   },
   loading: false,
+  showToastMessageLogout: false,
+  showToastMessageClient: false,
+  toastMessageActionTypeClient: '',
+  setToastMessageActionTypeClient: (action: string) => {
+    set({ toastMessageActionTypeClient: action });
+  },
   error: null,
+  setShowToastMessageLogout: (isShown) => {
+    set({ showToastMessageLogout: isShown });
+  },
+  setShowToastMessageClient: (isShown) => {
+    set({ showToastMessageClient: isShown });
+  },
   useFetchUserData: async () => {
     try {
       set({ loading: true, error: null });
@@ -63,7 +64,7 @@ export const createUserSlice: StateCreator<
       set({ error: (error as Error).message, loading: false });
     }
   },
-  createProfile: async (data: CreateUserRequest) => {
+  createProfile: async (data: api.CreateUserRequest) => {
     try {
       set({ loading: true, error: null });
 
@@ -84,7 +85,7 @@ export const createUserSlice: StateCreator<
   getTOSAccepted: () => {
     return get().user.TOSAccepted;
   },
-  updateUser: async (data: UpdateUserRequest) => {
+  updateUser: async (data: api.UpdateUserRequest) => {
     set({ loading: true, error: null });
     const updatedUser = await api.updateUser({
       requestBody: data
@@ -100,7 +101,7 @@ export const createUserSlice: StateCreator<
         FirstName: '',
         LastName: '',
         DOB: '',
-        LanguageIsoCode: 'en',
+        LanguageIsoCode: 'en-us',
         Email: '',
         TOSAccepted: false
       },
@@ -109,11 +110,12 @@ export const createUserSlice: StateCreator<
     }));
     return get().user;
   },
+  getUserLang: () => get().user.LanguageIsoCode || 'en-us',
+  setUserLang: (languageIsoCode: string) =>
+    set({
+      user: { FirstName: '', LastName: '', DOB: '', LanguageIsoCode: languageIsoCode, Email: '', TOSAccepted: false }
+    }),
   userType: 'client', // Should be null before login
-  acceptedTermsOfUse: false,
-  getAcceptedTermsOfUse: () => get().user.TOSAccepted,
-  setAcceptedTermsOfUse: (acceptedTermsOfUse: boolean) =>
-    set({ acceptedTermsOfUse }),
   loggedIn: false,
   getLoggedIn: () => get().loggedIn,
   setLoggedIn: (loggedIn) => set({ loggedIn })

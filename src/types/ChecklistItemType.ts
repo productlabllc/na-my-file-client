@@ -1,4 +1,6 @@
-import Document from './Document';
+// import DocumentType from './DocumentType';
+import { GeneratedUserFile } from '@myfile/api-client';
+
 interface ChecklistItemType {
   // {
   //     id: '1-doc',
@@ -13,7 +15,7 @@ interface ChecklistItemType {
   title: string;
   info: string;
   status: string | null;
-  documents: Document[];
+  documents: GeneratedUserFile[];
 }
 
 export default ChecklistItemType;

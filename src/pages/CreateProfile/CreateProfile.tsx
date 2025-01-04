@@ -1,7 +1,7 @@
 import MyFileLogo from '../../components/MyFileLogo/MyFileLogo';
 import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
 // import { languages, languagesInEnglish } from '../../assets/languages/languages'
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, CircularProgress, Typography } from '@mui/material';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,141 +9,148 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useBoundStore } from '../../store/store';
+// import { useAuth } from 'react-oidc-context';
+import { UpdateUserRequest } from '@myfile/api-client';
+import { useEffect } from 'react';
+import { useAsync } from 'react-use';
+import { useApi } from '../../utils/use-api';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from 'react-oidc-context';
-import { CreateUserRequest } from '@namyfile/api-client';
-import { useEffect, useState } from 'react';
-import User from '../../types/UserType';
 
 interface IFormInput {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
+  FirstName: string;
+  LastName: string;
+  DOB: null | dayjs.Dayjs;
   language: string;
-  Email: string;
 }
 
 function CreateProfile() {
-  const auth = useAuth();
+  // const auth = useAuth();
   const navigate = useNavigate();
-  const { updateUser, getUserData } = useBoundStore();
-  const [user, setUser] = useState<User>();
+  const { updateUser, getUserLang } = useBoundStore();
+  const lang = getUserLang();
+  const auth = useAuth();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = await getUserData();
-      setUser(userData);
-    };
-    fetchUserData();
+  const api = useApi();
+  const { value } = useAsync(() => api.getUser());
+
+  const { register, control, handleSubmit, formState, reset } = useForm<IFormInput>({
+    defaultValues: {
+      FirstName: auth.user?.profile.given_name || value?.FirstName || '',
+      LastName: auth.user?.profile.family_name || value?.LastName || '',
+      DOB: dayjs(value?.DOB) || null,
+      language: value?.LanguageIsoCode || 'en-us'
+    },
+    mode: 'all',
+    reValidateMode: 'onChange',
+    shouldFocusError: true
   });
-
-  const { register, control, handleSubmit, formState, reset } =
-    useForm<IFormInput>({
-      defaultValues: {
-        language: localStorage.getItem('language') || 'en'
-      },
-      mode: 'all',
-      reValidateMode: 'onChange',
-      shouldFocusError: true
-    });
   const { errors } = formState;
-  //   const updatedLanguage = (event) => {
-  //     localStorage.removeItem('language')
-  //     localStorage.setItem('language', event.target.value)
-  //     location.reload()
-  //   }
+
+  const { t } = useTranslation('user');
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    // const newData = {
-    //   ...data,
-    //   language: localStorage.getItem('language'),
-    //   dateOfBirth: dayjs(data.dateOfBirth).format('MM/DD/YYYY')
-    // };
-    // console.log(newData);
+    const language = lang;
 
-    const language = localStorage.getItem('language');
-
-    const newProfile: CreateUserRequest = {
-      FirstName: data.firstName,
-      LastName: data.lastName,
-      Email: auth.user?.profile.email ? data.Email : '',
-      DOB: data.dateOfBirth,
-      LanguageIsoCode: language ? language : 'en'
+    const newProfile: UpdateUserRequest = {
+      FirstName: data.FirstName,
+      LastName: data.LastName,
+      DOB: dayjs(data.DOB).format('MM/DD/YYYY'),
+      LanguageIsoCode: language ? language : 'en-us'
     };
 
-    // console.log(newProfile);
-
-    updateUser(newProfile, auth.user?.id_token).then((user) => {
-      console.log(user);
-      navigate('/family-members');
+    updateUser(newProfile).then(() => {
+      if (
+        //@ts-expect-error StakeholderGroupRoles not exist on User type
+        value.StakeholderGroupRoles[0].StakeholderGroupRole.Name == 'Client' ||
+        //@ts-expect-error StakeholderGroupRoles not exist on User type
+        value.StakeholderGroupRoles[0].StakeholderGroupRole.Name == 'Client Trusted User'
+      ) {
+        navigate('/family-members');
+      } else {
+        navigate('/agent-dashboard');
+      }
       reset();
     });
   };
 
-  // useEffect(() => {
-  //   document.body.style.overflow = 'hidden';
-  // });
+  useEffect(() => {
+    if (value) {
+      reset({
+        FirstName: value.FirstName ? value?.FirstName : '',
+        LastName: value.LastName ? value.LastName : '',
+        DOB: value.DOB ? dayjs(value?.DOB) : null,
+        language: value?.LanguageIsoCode || 'en-us'
+      });
+    }
+  }, [reset, value]);
+
+  if (!value) {
+    return <CircularProgress />;
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div>
+      <Box>
         <Box className="fixed top-0 w-full !z-20">
           <GlobalNavigation />
         </Box>
-        <div className="w-full flex justify-center">
-          <div className="w-full md:w-[546px] lg:w-[570px] mt-[70px] px-[16px] md:px-0 pb-[52px]">
-            <Box className="pb-[24px]">
-              <MyFileLogo variant="full" notClickable={true} />
-            </Box>
+        <Box className="w-full flex justify-center">
+          <Box className="w-full md:w-[546px] lg:w-[570px] mt-[70px] px-[16px] md:px-0 pb-[52px]">
             <Box className="mb-[24px]">
-              <p className="d-text-h5 text-secondary">Profile creation</p>
+              <Box className="mb-[24px]">
+                <MyFileLogo variant="full" notClickable={true} />
+              </Box>
+              <Box className="mb-[8px] md:mb-[16px]">
+                <Typography className="!m-text-h5 md:!d-text-h5 !text-black">{t('createProfile')}</Typography>
+              </Box>
+              <Box>
+                <Typography className="!m-text-body-md md:!d-text-body-md">{t('createProfileBodyText')}</Typography>
+              </Box>
             </Box>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <p className="d-text-body-md mb-[16px]">
-                What is your first name?
-              </p>
+              <Typography className="!m-text-body-md sm:!d-text-body-md !mb-[16px]">{t('firstName')}</Typography>
 
               <TextField
-                {...register('firstName', {
-                  required: 'First name is required',
+                {...register('FirstName', {
+                  required: t('validations.firstNameRequired'),
                   maxLength: {
                     value: 25,
-                    message: 'Maximum length is 10 characters'
+                    message: t('validations.charMax')
                   },
                   minLength: {
                     value: 2,
-                    message: 'Minimum length is 2 character'
+                    message: t('validations.charMin')
                   },
                   pattern: {
                     value:
                       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,. '-]+$/u,
-                    message: 'Invalid first name'
+                    message: t('validations.firstNameInvalid')
                   }
                 })}
-                className="w-full !pb-[24px]"
-                placeholder="First name"
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message}
-                label="First Name"
+                className="w-full !pb-[24px] !m-text-body-md  sm:!d-text-body-md "
+                placeholder={t('firstNamePlaceholder')}
+                error={!!errors.FirstName}
+                helperText={errors.FirstName?.message}
+                label={t('firstNamePlaceholder')}
                 InputLabelProps={{
                   shrink: true
                 }}
-                value={user?.FirstName}
+                // value={user?.FirstName}
               />
 
-              <p className="d-text-body-md mb-[16px]">
-                What is your last name?
-              </p>
+              <Typography className="!m-text-body-md  sm:!d-text-body-md  !mb-[16px]">{t('lastName')}</Typography>
 
               <TextField
-                {...register('lastName', {
-                  required: 'Last name is required',
+                {...register('LastName', {
+                  required: t('validations.lastNameRequired'),
                   maxLength: {
                     value: 25,
-                    message: 'Maximum length is 10 characters'
+                    message: t('validations.charMax')
                   },
                   minLength: {
                     value: 2,
-                    message: 'Minimum length is 2 character'
+                    message: t('validations.charMin')
                   },
                   pattern: {
                     value:
@@ -152,40 +159,31 @@ function CreateProfile() {
                   }
                 })}
                 className="w-full !mb-[24px]"
-                placeholder="Last name"
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                label="Last name"
+                placeholder={t('lastNamePlaceholder')}
+                error={!!errors.LastName}
+                helperText={errors.LastName?.message}
+                label={t('lastNamePlaceholder')}
                 InputLabelProps={{
                   shrink: true
                 }}
-                value={user?.LastName}
+                // value={user?.LastName}
               />
 
-              <p className="d-text-body-md mb-[16px]">When were you born?</p>
+              <Typography className="!m-text-body-md  sm:!d-text-body-md !mb-[16px]">{t('DOB')}</Typography>
               <Controller
-                name="dateOfBirth"
+                name="DOB"
                 control={control}
                 rules={{
-                  required: 'Provide your date of birth',
+                  required: t('validations.DOBRequired'),
                   validate: {
-                    isValid: (v) =>
-                      dayjs(v).isValid() || 'Provide valid date of birth',
-                    yearGreaterThan: (v) =>
-                      dayjs(v).get('year') >= 1920 ||
-                      'Provide higher year than 1919',
+                    isValid: (v) => dayjs(v).isValid() || t('validations.DOBValid'),
+                    yearGreaterThan: (v) => dayjs(v).get('year') >= 1920 || t('validations.DOBMax'),
                     monthNotHigherThan: (v) =>
-                      !!dayjs(v).isBefore(dayjs()) ||
-                      `Provide date of birth before todays date ${dayjs().format(
-                        'MM/DD/YYYY'
-                      )}. `,
+                      !!dayjs(v).isBefore(dayjs()) || `${t('validations.DOBMin')} ${dayjs().format('MM/DD/YYYY')}. `,
                     olderThan18: (v) => {
                       const today = dayjs();
                       const eighteenYearsAgo = today.subtract(18, 'years');
-                      return (
-                        dayjs(v).isBefore(eighteenYearsAgo) ||
-                        'You must be 18 or older'
-                      );
+                      return dayjs(v).isBefore(eighteenYearsAgo) || t('validations.DOBAdult');
                     }
                   }
                 }}
@@ -193,7 +191,7 @@ function CreateProfile() {
                   <DateField
                     {...field}
                     sx={
-                      errors.dateOfBirth?.message
+                      errors.DOB?.message
                         ? {
                             '& .MuiOutlinedInput-root': {
                               // - The Input-root, inside the TextField-root
@@ -218,11 +216,12 @@ function CreateProfile() {
                     }
                     slotProps={{
                       textField: {
-                        helperText: errors.dateOfBirth?.message
+                        helperText: errors.DOB?.message
                       }
                     }}
                     className="w-full !mb-[50px]"
-                    label="MM/DD/YYYY"
+                    label={t('dateFormate')}
+                    // value={''}
                     disableFuture
                     InputLabelProps={{
                       shrink: true
@@ -243,13 +242,13 @@ function CreateProfile() {
                   type="submit"
                   disabled={!formState.isValid}
                 >
-                  Save
+                  {t('save')}
                 </Button>
               </Box>
             </form>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </LocalizationProvider>
   );
 }

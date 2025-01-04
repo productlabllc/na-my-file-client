@@ -1,58 +1,89 @@
-import { Link, Divider } from '@mui/material';
+import { Link, Divider, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 // import NYCMayorsOffice from '../../assets/nyc-mayors-office.svg';
+import { useTranslation } from 'react-i18next';
+import NYCLogo from '../../assets/NYC.svg';
+import { Box } from '@mui/material';
 
 function Footer() {
-  const copyrightText = `© 2024 New America. All Rights Reserved.`;
+  const { t } = useTranslation('user');
   return (
     <>
       <footer
-        className={`absolute xl:h-[200px] sm:h-[224px] bottom-0 w-full flex flex-col justify-center bg-secondary items-center !lg:py-[0px] !sm:py-[32px] !py-[24px] xl:px-[48px] sm:px-[32px] px-[16px] pt-0 pb-0 !h-fit`}
+        className={`absolute xl:h-[200px] sm:h-[224px] bottom-0 w-full flex flex-col justify-center !bg-[#F8F9FB] !lg:py-[0px] sm:!py-[40px] !py-[24px] xl:px-[104px] sm:px-[50px] md:px-[90px] px-[16px] pt-0 pb-0 !h-fit`}
       >
         {/* TODO replace with correct logo SVG */}
-        <div className="flex xl:flex-row flex-col lg:justify-between justify-center items-center w-full">
-          {/* <img
-            alt="nyc-logo"
-            src={NYCMayorsOffice}
-            className="h-12 pb-1 fill-white"
-          /> */}
+        <Box className="flex md:flex-row flex-col md:justify-between justify-center w-full">
+          <Box className="flex flex-col items-start justify-center mb-[24px] md:mb-0">
+            <img alt="nyc-logo" src={NYCLogo} className="h-6 pb-1 fill-white" />
+            <Typography className="!d-text-body-md">Official website of the City of New York</Typography>
+          </Box>
+          {/*md and up */}
+          <Box className="d-text-footer mt-[8px] lg:mt-0 flex-row md:flex hidden">
+            <Box className="mr-[64px]">
+              <Link
+                component={RouterLink}
+                to="/terms-of-use"
+                className="!text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px]"
+              >
+                {t('tou')}
+              </Link>
+            </Box>
+            <Box className="flex flex-col items-start justify-start">
+              <Link
+                component={RouterLink}
+                to="/support"
+                className="!text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px] !mb-[12px]"
+              >
+                Support
+              </Link>
 
-          <div className="d-text-footer mt-[8px] lg:mt-0 ">
-            <Link
-              component={RouterLink}
-              to="/about"
-              className="!text-slate-50  !underline !decoration-white !decoration-2 !underline-offset-[6px]"
-            >
-              About
-            </Link>
+              <Link
+                component={RouterLink}
+                to="/"
+                className="!text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px]"
+              >
+                More Benefits on ACCESS NYC
+              </Link>
+            </Box>
+          </Box>
+        </Box>
 
-            <Link
-              component={RouterLink}
-              to="/faq"
-              className="!text-slate-50 px-[24px] !underline !decoration-white !decoration-2 !underline-offset-[6px]"
-            >
-              FAQ
-            </Link>
-
+        {/*0 and md */}
+        <Box className="md:hidden flex flex-row !justify-between">
+          <Box className="flex flex-col items-start justify-center">
             <Link
               component={RouterLink}
               to="/terms-of-use"
-              className="!text-slate-50 pr-4 !underline !decoration-white !decoration-2 !underline-offset-[6px]"
+              className="!mb-[8px] md:!mb-0 !text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px]"
             >
-              Terms of Use
+              {t('tou')}
             </Link>
-          </div>
-        </div>
-        <Divider
-          variant="middle"
-          className="w-full !border-1 !border-white opacity-60 !my-[24px]"
-        />
-        <div className="flex !justify-start xl:w-full sm:w-[70%] w-full ">
+            <Link
+              component={RouterLink}
+              to="/support"
+              className="!text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px] !mb-[12px]"
+            >
+              Support
+            </Link>
+          </Box>
+          <Box className="w-2/5">
+            <Link
+              component={RouterLink}
+              to="/"
+              className="!text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px] !text-wrap"
+            >
+              More Benefits on ACCESS NYC
+            </Link>
+          </Box>
+        </Box>
+        <Divider className="w-full !border-1 !border-[#ADB2B9] !my-[24px]" />
+        <div className="flex !justify-start w-full ">
           <p
             data-testid="copyright"
-            className="text-white xl:text-left sm:text-center text-center m-text-body-xsm flex justify-start"
+            className="text-black text-left !m-text-body-sm md:!d-text-body-xsm flex justify-start"
           >
-            {copyrightText}
+            {t('copyrightText')}
           </p>
         </div>
       </footer>

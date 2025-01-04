@@ -6,6 +6,7 @@ html,
 body,
 #root {
   min-height: 100%;
+  background-color: #fcfcfc;
 }
 
 .markdown > * {
@@ -509,12 +510,14 @@ body,
     font-size: 0.875rem;
     line-height: 1rem;
     font-weight: 400;
+    font-style: italic;
     font-family: 'Public sans', sans-serif;
   }
 
   .m-text-italic {
     font-size: 0.875rem;
     line-height: 1rem;
+    font-style: italic;
     font-weight: 400;
     font-family: 'Public sans', sans-serif;
   }

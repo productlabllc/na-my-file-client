@@ -17,9 +17,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/english/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/english/i)));
     expect(await screen.findByText(/english/i)).toBeInTheDocument();
   });
 
@@ -31,9 +29,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Español/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Español/i)));
     expect(await screen.findByText(/Español/i)).toBeInTheDocument();
   });
 
@@ -45,9 +41,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Français/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Français/i)));
     expect(await screen.findByText(/Français/i)).toBeInTheDocument();
   });
 
@@ -83,9 +77,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Русский/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Русский/i)));
     expect(await screen.findByText(/Русский/i)).toBeInTheDocument();
   });
 
@@ -121,9 +113,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Kreyol Ayisyen/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Kreyol Ayisyen/i)));
     expect(await screen.findByText(/Kreyol Ayisyen/i)).toBeInTheDocument();
   });
 
@@ -147,9 +137,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Polskie/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Polskie/i)));
     expect(await screen.findByText(/Polskie/i)).toBeInTheDocument();
   });
 
@@ -161,9 +149,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Українська/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Українська/i)));
     expect(await screen.findByText(/Українська/i)).toBeInTheDocument();
   });
 
@@ -175,9 +161,7 @@ describe('Native select wrapper', () => {
     userEvent.click(selectItem);
     const optionsPopup = await screen.findByRole('listbox');
 
-    await act(() =>
-      userEvent.click(within(optionsPopup).getByText(/Português/i))
-    );
+    await act(() => userEvent.click(within(optionsPopup).getByText(/Português/i)));
     expect(await screen.findByText(/Português/i)).toBeInTheDocument();
   });
 

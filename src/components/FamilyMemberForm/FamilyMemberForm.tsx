@@ -1,48 +1,83 @@
-import { Box, Button, Icon, Select, MenuItem, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Icon,
+  Select,
+  MenuItem,
+  TextField,
+  Divider,
+  Typography,
+  FormControl,
+  InputLabel
+} from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import FamilyMember from '../../types/FamilyMember';
+import { useBoundStore } from '../../store/store';
+import { FamilyMember } from '@myfile/api-client';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n/config';
+
 interface IFormFamilyMember {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string | dayjs.Dayjs | null;
-  relationship: string;
+  FirstName: string;
+  LastName: string;
+  DOB: string | dayjs.Dayjs;
+  Relationship: string;
 }
+
+const relationshipData = [
+  { label: i18n.t('user:familyMemberTypes.parent'), value: 'Parent' },
+  { label: i18n.t('user:familyMemberTypes.child'), value: 'Child' },
+  { label: i18n.t('user:familyMemberTypes.spouse'), value: 'Spouse/Married' },
+  { label: i18n.t('user:familyMemberTypes.aunt_uncle'), value: 'Aunt/Uncle' },
+  { label: i18n.t('user:familyMemberTypes.cousin'), value: 'Cousin' },
+  { label: i18n.t('user:familyMemberTypes.domestic_partner'), value: 'Partner/Domestic Partner' },
+  { label: i18n.t('user:familyMemberTypes.legal_guardian'), value: 'Legal Guardian' },
+  { label: i18n.t('user:familyMemberTypes.grant_parent'), value: 'Grandparent' },
+  { label: i18n.t('user:familyMemberTypes.live_aid'), value: 'Live-in Aide' },
+  { label: i18n.t('user:familyMemberTypes.niece_nephew'), value: 'Niece/Nephew' },
+  { label: i18n.t('user:familyMemberTypes.sibling'), value: 'Sibling' },
+  { label: i18n.t('user:familyMemberTypes.grand_child'), value: 'Grandchild' },
+  { label: i18n.t('user:familyMemberTypes.legal_dependant'), value: 'Legal Dependent' },
+  { label: i18n.t('user:familyMemberTypes.other'), value: 'other' }
+];
 
 interface FamilyMemberFormProps {
   member?: FamilyMember | undefined | null;
   familyData?: FamilyMember[];
   updateFamilyMemberList: (newFamilyMember: FamilyMember) => void;
-  closeFormFamilyWindow: () => void;
+  closeFormFamilyWindow: (createdOrUpdated?: boolean) => void;
   submitButtonContent?: string;
+  title?: string;
 }
-
-const relationshipData = ['Parent', 'Child', 'Adult', 'Legal guardian'];
 
 function FamilyMemberForm({
   updateFamilyMemberList,
   closeFormFamilyWindow,
   member,
-  submitButtonContent
+  submitButtonContent,
+  title
 }: FamilyMemberFormProps) {
-  const { register, control, handleSubmit, formState, reset } =
-    useForm<IFormFamilyMember>({
-      mode: 'all',
-      reValidateMode: 'onChange',
-      defaultValues: {
-        firstName: member?.firstName ? member.firstName : '',
-        lastName: member?.lastName ? member.lastName : '',
-        dateOfBirth: member?.dateOfBirth ? dayjs(member.dateOfBirth) : null,
-        relationship: member?.relationship
-          ? member.relationship
-          : relationshipData[0]
-      }
-    });
+  const familyMemberRelation = relationshipData.find((relation) => relation.value === member?.Relationship);
+  const { register, control, handleSubmit, formState, reset } = useForm<IFormFamilyMember>({
+    mode: 'all',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      FirstName: member?.FirstName || '',
+      LastName: member?.LastName || '',
+      //  @ts-expect-error wrong type for DOB
+      DOB: member?.DOB ? dayjs(member?.DOB) : null,
+      Relationship: familyMemberRelation?.value || ''
+    }
+  });
   const { errors } = formState;
+
+  const { createFamilyMember, setIsAddFamilyFormOpened } = useBoundStore();
+
+  const { t } = useTranslation('user');
 
   const onSubmit: SubmitHandler<IFormFamilyMember> = (data, e) => {
     // your code
@@ -50,123 +85,116 @@ function FamilyMemberForm({
     const newData = {
       id: member?.id ? member.id : uuidv4(),
       ...data,
-      dateOfBirth: dayjs(data.dateOfBirth).format('MM/DD/YYYY')
+      DOB: dayjs(data.DOB).toISOString()
+      // Relationship: data.Relationship.value
     };
 
-    updateFamilyMemberList(newData);
-    closeFormFamilyWindow();
+    if (member?.id) {
+      updateFamilyMemberList(newData);
+    } else {
+      createFamilyMember(newData);
+    }
+    closeFormFamilyWindow(true);
     reset();
   };
+
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Box className="sm:flex sm:justify-center w-[100%] !pt-[24px]">
+        <Box className="sm:flex sm:justify-center w-[100%] ">
           <Box className="!px-[16px] w-full sm:w-[600px]">
-            <Box className="!w-full flex justify-end mb-[24px]">
+            <Box className="!w-full flex justify-end my-[16px]">
               <Button
-                className="!normal-case !text-secondary !d-text-btn-md"
+                className="!normal-case !text-secondary !m-text-btn-md md:!d-text-btn-md !flex !items-center"
                 onClick={() => closeFormFamilyWindow()}
               >
-                <Icon fontSize="medium" className="mr-2">
-                  close_icon
-                </Icon>{' '}
-                Close
+                <Icon className="mr-2 ">close_icon</Icon> {t('close')}
               </Button>
             </Box>
+            <Divider className="!mb-[24px]"></Divider>
+            <Typography className="!mb-[24px] !m-text-h5 md:!d-text-h5">{title ? title : ''}</Typography>
             <form
               onSubmit={(e) => {
                 e.stopPropagation();
                 return handleSubmit(onSubmit)(e);
               }}
             >
-              <p className="d-text-body-md mb-[16px]">
-                What is their first name ?
-              </p>
+              <p className="!m-text-body-md md:!d-text-body-md mb-[16px]">{t('firstName')}</p>
 
               <TextField
-                {...register('firstName', {
-                  required: 'First name is required',
+                {...register('FirstName', {
+                  required: t('validations.firstNameRequired'),
                   maxLength: {
                     value: 25,
-                    message: 'Maximum length is 10 characters'
+                    message: t('validations.charMax')
                   },
                   minLength: {
                     value: 2,
-                    message: 'Minimum length is 2 character'
+                    message: t('validations.charMin')
                   },
                   pattern: {
                     value:
                       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,. '-]+$/u,
-                    message: 'Invalid first name'
+                    message: t('validations.firstNameInvalid')
                   }
                 })}
                 className="w-full !pb-[24px]"
-                placeholder="First name"
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message}
-                label="First Name"
+                placeholder={t('firstNamePlaceholder')}
+                error={!!errors.FirstName}
+                helperText={errors.FirstName?.message}
+                label={t('firstNamePlaceholder')}
                 InputLabelProps={{
                   shrink: true
                 }}
               />
 
-              <p className="d-text-body-md mb-[16px]">
-                What is their last name ?
-              </p>
+              <p className="!m-text-body-md md:!d-text-body-md mb-[16px]">{t('lastName')}</p>
 
               <TextField
-                {...register('lastName', {
-                  required: 'Last name is required',
+                {...register('LastName', {
+                  required: t('validations.lastNameRequired'),
                   maxLength: {
                     value: 25,
-                    message: 'Maximum length is 10 characters'
+                    message: t('validations.charMax')
                   },
                   minLength: {
                     value: 2,
-                    message: 'Minimum length is 2 character'
+                    message: t('validations.charMin')
                   },
                   pattern: {
                     value:
                       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð,. '-]+$/u,
-                    message: 'Invalid last name'
+                    message: t('validations.lastNameInvalid')
                   }
                 })}
                 className="w-full !mb-[24px]"
-                placeholder="Last name"
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                label="Last name"
+                placeholder={t('lastNamePlaceholder')}
+                error={!!errors.LastName}
+                helperText={errors.LastName?.message}
+                label={t('lastNamePlaceholder')}
                 InputLabelProps={{
                   shrink: true
                 }}
               />
 
-              <p className="d-text-body-md mb-[16px]">
-                What is their date of birth ?
-              </p>
+              <p className="!m-text-body-md md:!d-text-body-md  mb-[16px]">{t('familyMemberDOB')}</p>
               <Controller
-                name="dateOfBirth"
+                name="DOB"
                 control={control}
                 rules={{
-                  required: 'Provide your date of birth',
+                  required: t('validations.DOBRequired'),
                   validate: {
-                    isValid: (v) =>
-                      dayjs(v).isValid() || 'Provide valid date of birth',
-                    yearGreaterThan: (v) =>
-                      dayjs(v).get('year') >= 1920 ||
-                      'Provide higher year than 1919',
+                    isValid: (v) => dayjs(v).isValid() || t('validations.DOBValid'),
+                    yearGreaterThan: (v) => dayjs(v).get('year') >= 1920 || t('validations.DOBMax'),
                     monthNotHigherThan: (v) =>
-                      !!dayjs(v).isBefore(dayjs()) ||
-                      `Provide date of birth before todays date ${dayjs().format(
-                        'MM/DD/YYYY'
-                      )}. `
+                      !!dayjs(v).isBefore(dayjs()) || `${t('validations.DOBMin')} ${dayjs().format('MM/DD/YYYY')}. `
                   }
                 }}
                 render={({ field }) => (
                   <DateField
                     {...field}
                     sx={
-                      errors.dateOfBirth?.message
+                      errors.DOB?.message
                         ? {
                             '& .MuiOutlinedInput-root': {
                               // - The Input-root, inside the TextField-root
@@ -191,11 +219,11 @@ function FamilyMemberForm({
                     }
                     slotProps={{
                       textField: {
-                        helperText: errors.dateOfBirth?.message
+                        helperText: errors.DOB?.message
                       }
                     }}
                     className="w-full !mb-[16px]"
-                    label="MM/DD/YYYY"
+                    label={t('dateFormate')}
                     disableFuture
                     InputLabelProps={{
                       shrink: true
@@ -203,21 +231,30 @@ function FamilyMemberForm({
                   />
                 )}
               />
-              <p className="d-text-body-md mb-[16px]">
-                When is their relationship?
-              </p>
+              <p className="!m-text-body-md md:!d-text-body-md  mb-[16px]">{t('familyMemberRelationship')}</p>
               <Controller
-                name="relationship"
-                defaultValue={relationshipData[0]}
+                name="Relationship"
                 control={control}
+                rules={{
+                  required: t('selectRelationship')
+                }}
                 render={({ field }) => (
-                  <Select {...field} className="!w-full">
-                    {relationshipData.map((status) => (
-                      <MenuItem key={status} value={status}>
-                        {status}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">{t('select')}</InputLabel>
+                    <Select
+                      {...field}
+                      labelId="demo-simple-select-label"
+                      className="!w-full"
+                      defaultValue={field.value}
+                      label={t('select')}
+                    >
+                      {relationshipData.map((status) => (
+                        <MenuItem key={status.value} value={status.value}>
+                          {status.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 )}
               />
               <Box
@@ -225,16 +262,15 @@ function FamilyMemberForm({
                 className="!py-[36px] !h-min-[70px] !w-full !flex !flex-col !justify-center !bg-transparent !items-center"
               >
                 <Button
-                  className={`!w-full !h-12 !m-text-btn-md !normal-case ${
-                    !formState.isValid
-                      ? ''
-                      : '!text-secondary !border-secondary'
+                  className={`!w-full !h-12 !m-text-btn-md md:!d-text-btn-md !normal-case ${
+                    !formState.isValid ? '' : '!text-secondary !border-secondary'
                   }`}
                   variant="outlined"
                   type="submit"
+                  onClick={() => setIsAddFamilyFormOpened(false)}
                   disabled={!formState.isValid}
                 >
-                  {submitButtonContent ? submitButtonContent : 'Submit member'}
+                  {submitButtonContent ? submitButtonContent : t('save')}
                 </Button>
               </Box>
             </form>

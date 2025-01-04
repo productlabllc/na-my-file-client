@@ -1,12 +1,15 @@
-import { Box, Divider, Drawer } from '@mui/material';
-import HeaderLinks from '../../components/HeaderLinks/HeaderLinks';
-import NYCMayorsOffice from '../../assets/nyc-mayors-office.svg';
+import { Box, Button, Divider, Drawer, Icon } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import PolicyOutlinedIcon from '@mui/icons-material/PolicyOutlined';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import { Link } from 'react-router-dom';
 interface SideNavigationProps {
   open: boolean;
   onClose: () => void;
 }
 
 function SideNavigation({ open, onClose }: SideNavigationProps) {
+  const { t } = useTranslation('user');
   return (
     <Box component="nav">
       <Drawer
@@ -28,19 +31,39 @@ function SideNavigation({ open, onClose }: SideNavigationProps) {
         }}
         className="block sm:none !z-20"
       >
-        <Box className="px-[12px]">
+        <Box className="px-[12px] pb-[40px] flex flex-col justify-between !h-full">
           <Box className="mt-[150px] mb-[12px] pl-[4px] pb-[16px]">
-            <HeaderLinks />
+            <Button
+              className="!d-text-body-sm !text-white !normal-case !mr-[12px] !mb-[4px]"
+              component={Link}
+              to="/profile"
+            >
+              <Icon fontSize="medium" className="!mb-1 !mr-3">
+                perm_identity
+              </Icon>
+              <div className="">{t('myProfile')}</div>
+            </Button>
+
+            <Button className="!d-text-body-sm !text-white !normal-case" component={Link} to="/logout">
+              <Icon fontSize="medium" className="!mb-1 !mr-3">
+                logout
+              </Icon>
+              {t('logOut')}
+            </Button>
           </Box>
 
-          <Divider className="bg-white" />
+          <Box className="">
+            <Divider className="bg-white !mb-[16px]" />
 
-          <Box className="fixed bottom-3">
-            <img
-              alt="nyc-logo"
-              src={NYCMayorsOffice}
-              className="h-9 pb-1 fill-white"
-            />
+            <Button className="!d-text-body-sm !text-white !normal-case !mb-[4px]" component={Link} to="/terms-of-use">
+              <PolicyOutlinedIcon fontSize="medium" className="!mb-1 !mr-3"></PolicyOutlinedIcon>
+              {t('TOU')}
+            </Button>
+
+            <Button className="!d-text-body-sm !text-white !normal-case" component={Link} to="/support">
+              <HelpOutlineOutlinedIcon fontSize="medium" className="!mb-1 !mr-3"></HelpOutlineOutlinedIcon>
+              {t('support')}
+            </Button>
           </Box>
         </Box>
       </Drawer>

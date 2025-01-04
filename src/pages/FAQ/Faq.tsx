@@ -13,8 +13,8 @@ import { useBoundStore } from '../../store/store';
 
 function Faq() {
   // const { i18n } = useTranslation();
-  const { getLang } = useBoundStore();
-  const lang = getLang();
+  const { getUserLang } = useBoundStore();
+  const lang = getUserLang();
 
   const [mdText, setMdText] = useState('');
 
@@ -22,7 +22,7 @@ function Faq() {
     if (lang) {
       const fetchData = async () => {
         try {
-          const data = await getMarkDownFile('about', lang);
+          const data = await getMarkDownFile('faq', lang);
 
           setMdText(data);
         } catch (error) {

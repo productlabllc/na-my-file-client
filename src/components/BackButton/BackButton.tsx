@@ -8,27 +8,30 @@ interface BackButtonProps {
   text?: string;
   navigatePath?: string;
   removeArrowIcon?: boolean;
+  callbackAction?: () => void;
+  step?: () => void;
 }
 
-function BackButton({
-  text,
-  navigatePath,
-  removeArrowIcon = false
-}: BackButtonProps) {
+function BackButton({ text, navigatePath, removeArrowIcon = false, callbackAction, step }: BackButtonProps) {
   const navigate = useNavigate();
 
   const buttonClicked = () => {
-    navigate(`${navigatePath ? navigatePath : '/client-dashboard'}`);
+    if (callbackAction !== undefined) {
+      callbackAction();
+    }
+    if (step) {
+      step();
+    } else {
+      navigate(`${navigatePath ? navigatePath : '/client-dashboard'}`);
+    }
   };
 
   return (
     <Button
       onClick={buttonClicked}
-      className="lg:!text-[20px] sm:!m-text-btn-lg !m-text-btn-lg !text-secondary !normal-case !px-1"
+      className="md:!d-text-btn-md !m-text-btn-md !text-secondary !normal-case !px-[10px] !py-[13px]"
     >
-      {!removeArrowIcon && (
-        <ArrowBackIos className="sm:!m-text-btn-md !m-text-btn-sm !mr-2 !mb-[2px]" />
-      )}
+      {!removeArrowIcon && <ArrowBackIos className="sm:!m-text-btn-md !m-text-btn-sm !mr-2 !mb-[2px]" />}
       {text || 'Back'}
     </Button>
   );

@@ -1,48 +1,40 @@
 // import NYCLogo from '../../components/NYCLogo/NYCLogo';
+import { Box } from '@mui/material';
 import GlobalLanguageSelector from '../../components/GlobalLanguageSelector/GlobalLanguageSelector';
 // import BaseComponent from '../../components/BaseComponent/BaseComponent';
 import { useAuth } from 'react-oidc-context';
 import { useEffect, useState } from 'react';
 import { useBoundStore } from '../../store/store';
+import HorizontalMyFileLogo from '../../assets/Horizontal My File Logo.svg';
+// import { useTranslation } from 'react-i18next';
 
 function GlobalNavigation() {
   // Getting user data from API and save it to the store
   const auth = useAuth();
-  const { getUserData, useFetchUserData, getAcceptedTermsOfUse } =
-    useBoundStore();
-  const [userData, setUserData] = useState<object | null>(null);
+  const { useFetchUserData, getTOSAccepted } = useBoundStore();
+  const [TOU, setTOU] = useState<boolean | undefined>(getTOSAccepted());
+  // const { t } = useTranslation('user');
 
   useEffect(() => {
-    if (auth.isAuthenticated && !userData) {
+    if (auth.isAuthenticated && !TOU) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      useFetchUserData(auth.user?.id_token).then(() => {
-        const fetchedData = getUserData();
-        setUserData(fetchedData);
-        // setTos(fetchedData.TOSAcceptedAt);
+      useFetchUserData().then(() => {
+        setTOU(getTOSAccepted());
       });
     }
-  }, [
-    auth.isAuthenticated,
-    auth.user?.id_token,
-    getAcceptedTermsOfUse,
-    useFetchUserData,
-    getUserData,
-    userData
-  ]);
+  }, [auth.isAuthenticated, useFetchUserData, TOU, getTOSAccepted]);
 
   return (
-    <div className="border-b-2 border-b-black h-[40px] w-full flex items-center px-[16px] sm:px-[32px] lg:px-[48px] bg-disabledText justify-between !z-10">
-      <div data-testid="parent" className="flex items-center">
+    <Box className="border-b-2  h-[45px] w-full flex items-center pr-[16px] sm:px-[32px] lg:px-[48px] !bg-[#F9F9FA] justify-between !z-10">
+      <Box data-testid="parent" className="flex items-center">
         {/* <NYCLogo data-testid="nyc-logo-component" /> */}
-        <p
-          data-testid="official-nyc-text"
-          className="hidden lg:block lg:d-text-body-sm"
-        >
-          Official Website of My File
-        </p>
-      </div>
+        {!auth.isAuthenticated && <img src={HorizontalMyFileLogo} className="w-[150px] h-[20px]"></img>}
+        {/* <p data-testid="official-nyc-text" className="hidden lg:block lg:d-text-body-sm">
+          {t('nyc')}
+        </p> */}
+      </Box>
       <GlobalLanguageSelector />
-    </div>
+    </Box>
   );
 }
 

@@ -9,33 +9,27 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
 import ConfirmDownload from '../ConfirmDownload/ConfirmDownload';
 
-import Document from '../../types/Document';
+import { GeneratedUserFile } from '@myfile/api-client';
+
+import { useApi } from '../../utils/use-api';
+import { useTranslation } from 'react-i18next';
 
 interface OptionsDocumentsProps {
   anchorEl: null | HTMLElement;
-  document: null | Document;
+  userFile: GeneratedUserFile;
   setAnchorEl: Dispatch<SetStateAction<HTMLElement | null>>;
-  setData: Dispatch<SetStateAction<Document[] | null>>;
-  data: Document[];
+  setData: Dispatch<SetStateAction<(GeneratedUserFile | undefined)[]>>;
+  data: (GeneratedUserFile | undefined)[];
+  editUrl?: string | null;
 }
 
-function OptionsDocuments({
-  anchorEl,
-  document,
-  setAnchorEl,
-  setData,
-  data
-}: OptionsDocumentsProps) {
-  //   console.log(anchorEl);
-  //   console.log(document);
+function OptionsDocuments({ anchorEl, userFile, setAnchorEl, setData, editUrl, data }: OptionsDocumentsProps) {
+  const api = useApi();
   const navigate = useNavigate();
-  const textForConfirmDelete =
-    'Anyone with shared access will no longer be able to view this document. This cannot be undone.';
+  const { t } = useTranslation('docs');
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDownloadDialogOpen, setIsDownloadDialogOpen] = useState(false);
-  //   console.log(anchorElement);
-  //   console.log(open);
 
   const handleCloseOption = () => {
     setAnchorEl(null);
@@ -43,14 +37,17 @@ function OptionsDocuments({
 
   const handleEditOption = () => {
     setAnchorEl(null);
-    navigate(`/document/edit/${document?.id}`);
+    if (editUrl) navigate(`/${editUrl}/document/edit/${userFile?.id}`);
+    else navigate(`/document/edit/${userFile?.id}`);
   };
 
-  const handleDeleteOption = () => {
-    setIsDeleteDialogOpen(!isDeleteDialogOpen);
-    setAnchorEl(null);
-    const filteredData = data.filter((doc) => doc.id !== document?.id);
-    setData(filteredData);
+  const handleDeleteOption = async () => {
+    await api.deleteGeneratedFileById({ id: userFile.id }).then(() => {
+      const newData = data?.filter((element) => element?.id !== userFile.id);
+      setData(newData);
+      setIsDeleteDialogOpen(!isDeleteDialogOpen);
+      setAnchorEl(null);
+    });
   };
 
   const onClickDeleteOptionClose = () => {
@@ -58,7 +55,24 @@ function OptionsDocuments({
     setAnchorEl(null);
   };
 
-  const handleDownloadOption = () => {
+  const downloadFile = async (url: string) => {
+    window.open(url, '_blank');
+  };
+
+  const handleDownloadOption = async () => {
+    const downloadUrl = await api.getGeneratedFileDownloadUrl({
+      // @ts-expect-error UserFile type error
+      generatedFileId: userFile.GeneratedFileId!,
+      disposition: 'attachment'
+    });
+
+    if (isDownloadDialogOpen) {
+      // @ts-expect-error download URL
+      downloadFile(downloadUrl.downloadUrl, userFile.OriginalFilename)
+        .then(() => console.log('File downloaded'))
+        .catch((error) => console.error('Error downloading file:', error));
+    }
+
     setIsDownloadDialogOpen(!isDownloadDialogOpen);
     setAnchorEl(null);
   };
@@ -89,40 +103,31 @@ function OptionsDocuments({
           }
         }}
       >
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={handleEditOption}
-        >
+        <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={handleEditOption}>
           <EditOutlinedIcon className="pb-[3px] mr-[8px] " />
-          <Typography>Edit</Typography>
+          <Typography>{t('edit')}</Typography>
         </MenuItem>
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={handleDownloadOption}
-        >
+        <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={handleDownloadOption}>
           <FileDownloadOutlinedIcon className="pb-[3px] mr-[8px]" />
-          <Typography>Download</Typography>
+          <Typography>{t('download')}</Typography>
         </MenuItem>
-        <MenuItem
-          className="!text-secondary !m-text-body-md sm:!d-text-body-md"
-          onClick={onClickDeleteOptionClose}
-        >
+        <MenuItem className="!text-secondary !m-text-body-md sm:!d-text-body-md" onClick={onClickDeleteOptionClose}>
           <DeleteOutlineIcon className="pb-[3px] mr-[8px]" />
-          <Typography>Delete</Typography>
+          <Typography>{t('delete')}</Typography>
         </MenuItem>
       </Menu>
 
       <ConfirmDelete
         dialogTitle="document"
-        text={textForConfirmDelete}
-        document={document}
+        text={t('textForConfirmDelete')}
+        document={userFile}
         isDeleteDialogOpen={isDeleteDialogOpen}
         onClickDeleteOptionClose={onClickDeleteOptionClose}
         handleDeleteOption={handleDeleteOption}
       />
 
       <ConfirmDownload
-        document={document}
+        document={userFile}
         isDownloadDialogOpen={isDownloadDialogOpen}
         onClickDownloadOptionClose={onClickDownloadOptionClose}
         handleDownloadOption={handleDownloadOption}

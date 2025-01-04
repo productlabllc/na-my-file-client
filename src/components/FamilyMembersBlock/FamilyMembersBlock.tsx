@@ -1,44 +1,55 @@
-import { useState, useEffect } from 'react';
-import { Box, Icon, List, Typography, Dialog } from '@mui/material';
+import { useState, useCallback, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
+
+import { useBoundStore } from '../../store/store';
+import { FamilyMember } from '@myfile/api-client';
+import { useApi } from '../../utils/use-api';
+import { useAsync } from 'react-use';
+import { useTranslation } from 'react-i18next';
+import { Box, List, Typography, Dialog, Button } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import ConfirmDelete from '../../components/ConfirmDelete/ConfirmDelete';
 import FamilyMemberListItem from '../../components/FamilyMemberListItem/FamilyMemberListItem';
 import FamilyMemberForm from '../FamilyMemberForm/FamilyMemberForm';
-import TooltipUI from '../TooltipUI/TooltipUI';
 
-import FamilyMember from '../../types/FamilyMember';
-import { useBoundStore } from '../../store/store';
+interface FamilyMembersBlock {
+  skipNavigation: () => void;
+  skipNavigationText?: string;
+}
 
-function FamilyMembersBlock() {
-  const [textForConfirmDelete, setTextForConfirmDelete] = useState(
-    'Are you sure you want to delete this family member ?'
-  );
+function FamilyMembersBlock({ skipNavigation, skipNavigationText }: FamilyMembersBlock) {
   const {
     addFamilyMember,
-    getFamilyMembers,
     removeFamilyMember,
     updateFamilyMember,
     setIsAddFamilyFormOpened,
-    getIsAddFamilyFormOpened,
     setIsUpdateFamilyFormOpened,
-    getIsUpdateFamilyFormOpened
+    isAddFamilyFormOpened,
+    isUpdateFamilyFormOpened,
+    isDeleteDialogOpen,
+    setIsDeleteDialogOpen
   } = useBoundStore();
 
-  const [familyData, setFamilyData] = useState<FamilyMember[]>([
-    ...getFamilyMembers()
-  ]);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [member, setMember] = useState<FamilyMember | null>();
-  useEffect(() => {
-    const data = getFamilyMembers();
+  // const navigate = useNavigate();
 
-    setFamilyData([...data]);
-  }, [
-    getFamilyMembers(),
-    addFamilyMember,
-    removeFamilyMember,
-    updateFamilyMember
-  ]);
+  const [member, setMember] = useState<FamilyMember | null>();
+  const { t } = useTranslation('user');
+  const [textForConfirmDelete, setTextForConfirmDelete] = useState(t('familyMemberRemoveWarning'));
+
+  const api = useApi();
+
+  const getFamilyMembers = useCallback(async () => {
+    setTimeout(() => {
+      api.getFamilyMembers().then((value) => {
+        setFamilyMembers(value);
+      });
+    }, 300);
+  }, [api]);
+
+  const { value } = useAsync(() => api.getFamilyMembers());
+
+  const [familyMembers, setFamilyMembers] = useState(value ?? []);
 
   const closeAddFamilyMemberPopup = () => {
     setIsAddFamilyFormOpened(false);
@@ -49,7 +60,6 @@ function FamilyMembersBlock() {
   };
 
   const addNewFamilyMember = (newFamilyMember: FamilyMember) => {
-    console.log(newFamilyMember);
     addFamilyMember(newFamilyMember);
   };
 
@@ -57,7 +67,9 @@ function FamilyMembersBlock() {
     setIsDeleteDialogOpen(true);
     setMember(memberToDelete);
     setTextForConfirmDelete(
-      `Are you sure you want to remove ${memberToDelete.firstName} ${memberToDelete.lastName} from your family list?`
+      `${t('familyMembreRemoveBegining')} ${memberToDelete.FirstName} ${memberToDelete.LastName} ${t(
+        'familyMembreRemoveEnding'
+      )}`
     );
   };
   const onClickDeleteOptionClose = () => {
@@ -65,9 +77,6 @@ function FamilyMembersBlock() {
   };
 
   const handleDeleteFamilyMember = () => {
-    // setFamilyData(
-    //   [...familyData].filter((familyMember) => familyMember.id !== member?.id)
-    // );
     if (member) removeFamilyMember(member.id);
 
     setIsDeleteDialogOpen(false);
@@ -81,74 +90,85 @@ function FamilyMembersBlock() {
   const updateFamilyMemberItem = (updatedMember: FamilyMember) => {
     updateFamilyMember(updatedMember);
   };
+
+  useEffect(() => {
+    if ((!isAddFamilyFormOpened && !isDeleteDialogOpen && !isUpdateFamilyFormOpened) || !value) {
+      getFamilyMembers();
+    }
+  }, [getFamilyMembers, isUpdateFamilyFormOpened, isAddFamilyFormOpened, isDeleteDialogOpen, value]);
+
   return (
     <div>
-      <Box className="mb-[8px]">
-        <Typography className="!m-text-h5 sm:!d-text-h5 !mr-[10px] !flex !items-center">
-          Family member
-          <Icon id="family-member-info" className="ml-[8px]">
-            info_outlined_icon
-          </Icon>
+      <Box className="mb-[16px]">
+        <Typography className="!m-text-h5 md:!d-text-h5 !mr-[10px] !flex !items-center">
+          {t('addFamilyMembers')}
         </Typography>
-
-        <TooltipUI
-          anchorSelect="#family-member-info"
-          place="bottom"
-          content="Add your family member's information such as their first name, last name, date of birth, and relationship."
-        />
       </Box>
       <Box>
-        <Typography className="!m-text-body-md sm:!d-text-body-md">
-          Add eligible family members who are currently living with you or are
-          part of the household. The max number of family members you can add is
-          (15). As a reminder, this is optional and you can fill this out at a
-          later time.
+        <Typography className="!m-text-body-md md:!d-text-body-md !mb-[16px]">
+          {t('familyMemberDisclamerParagraphOne')}
         </Typography>
+        <Typography className="!m-text-body-md md:!d-text-body-md">{t('familyMemberDisclamerParagraphTwo')}</Typography>
       </Box>
-      <Box className="w-full pb-[100px] relative">
-        {/* Show List of data items when the screen size is x-large and down */}
-        <List dense className="w-full">
-          {familyData.map((member) => {
-            return (
-              <FamilyMemberListItem
-                key={member.id}
-                member={member}
-                onClickDeleteOptionOpen={onClickDeleteOptionOpen}
-                handleEditFamilyMember={handleEditFamilyMember}
-              />
-            );
-          })}
-        </List>
-      </Box>
+      {familyMembers && familyMembers.length === 0 ? (
+        <Box className="mt-[24px] flex justify-end">
+          <Button
+            onClick={skipNavigation}
+            className="!m-text-btn-sm md:!d-text-btn-sm !normal-case !text-secondary !px-[10px] !py-[13px]"
+            variant="text"
+          >
+            {skipNavigationText ? skipNavigationText : t('skipFamilyMember')}
+            <ArrowForwardIosIcon className="!text-secondary sm:!m-text-btn-md !m-text-btn-sm !ml-[4px]"></ArrowForwardIosIcon>
+          </Button>
+        </Box>
+      ) : (
+        <Box className="w-full pb-[100px] mt-[24px] relative">
+          {/* Show List of data items when the screen size is x-large and down */}
+          <List dense className="w-full">
+            {familyMembers?.map((member) => {
+              return (
+                <FamilyMemberListItem
+                  key={member.id}
+                  member={member}
+                  onClickDeleteOptionOpen={onClickDeleteOptionOpen}
+                  handleEditFamilyMember={handleEditFamilyMember}
+                />
+              );
+            })}
+          </List>
+        </Box>
+      )}
       <ConfirmDelete
         text={textForConfirmDelete}
-        dialogTitle="family member"
+        dialogTitle={t('familyMemberRemoveApplication')}
         isDeleteDialogOpen={isDeleteDialogOpen}
         onClickDeleteOptionClose={onClickDeleteOptionClose}
         handleDeleteOption={handleDeleteFamilyMember}
       />{' '}
       <Dialog
         className="w-full"
-        classes={{ paper: '!min-w-[90%] lg:!min-w-[50%] h-[82vh]' }}
-        open={getIsAddFamilyFormOpened()}
+        classes={{ paper: 'min-w-[90%] md:min-w-fit !h-fit' }}
+        open={isAddFamilyFormOpened}
         onClose={closeAddFamilyMemberPopup}
       >
         <FamilyMemberForm
           updateFamilyMemberList={addNewFamilyMember}
           closeFormFamilyWindow={closeAddFamilyMemberPopup}
+          title="Add family member"
         />
       </Dialog>
       <Dialog
         className="w-full"
-        classes={{ paper: '!min-w-[90%] lg:!min-w-[50%] h-[82hv]' }}
-        open={getIsUpdateFamilyFormOpened()}
+        classes={{ paper: 'min-w-[90%] md:min-w-fit !h-fit' }}
+        open={isUpdateFamilyFormOpened}
         onClose={closeUpdateFamilyMemberPopup}
       >
         <FamilyMemberForm
           member={member}
           updateFamilyMemberList={updateFamilyMemberItem}
           closeFormFamilyWindow={closeUpdateFamilyMemberPopup}
-          submitButtonContent="Save"
+          title={t('editFamilyMember')}
+          submitButtonContent={t('save')}
         />
       </Dialog>
     </div>

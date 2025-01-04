@@ -16,27 +16,33 @@ export default {
         disabledBackground: '#999CA4',
         disabledText: '#F9F9FA',
         errorText: '#CF2A46',
-        errorBackground: '#FC9CAC',
+        errorBackground: '#F8D9DE',
         importantBackground: '#FFDF8D',
         importantText: '#5C3D00',
         successBackground: '#A8DD7C',
         successText: '#006333',
         white: '#FCFCFC',
         black: '#1A1A1A',
-        infoBackground: '#E3EEFA',
+        infoBackground: '#DCEDF5',
         infoText: '#0047D1',
         greyBox: '#EEEEEE',
         applicationActive: '#5B23B0',
-        applicationClose: '#4C4E52'
+        applicationClose: '#4C4E52',
+        darkGreyBorder: '#C0C0C0',
+        lightGreyBorder: '#DFDFDF',
+        offWhiteBlue: '#0047D1',
+        sideNavBar: '#EDF2FA',
+        documentPending: '#696A6D',
+        documentUnderReview: '#906E1A',
+        documentResubmit: '#A81D35',
+        documentApproved: '#02522B',
+        pageBackground: '#FCFCFC'
+        // infoBackground: '#DCEDF5'
       },
-
-      // desktopHeader1: {
-      //   fontSize: '3.5rem',
-      //   lineHeight: '4.25rem',
-      //   fontWeight: 'bold',
-      //   fontFamily: ['Montserrat', 'sans']
-      // }
-
+      screens: {
+        '2xl': '1440px',
+        '3xl': '1800px'
+      },
       fontSize: {
         'd-h1-size': '3.5rem',
         'd-h2-size': '2.75rem',

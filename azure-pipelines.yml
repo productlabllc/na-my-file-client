@@ -14,13 +14,17 @@ resources:
 
 trigger:
 - dev
+- stg
 - main
 
 variables:
   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
     deploymentTarget: 'prod'
     awsServiceConnection: 'nyco_devops_service_acct_hhs01'
-  ${{ else }}:
+  ${{ elseif eq(variables['Build.SourceBranchName'], 'stg') }}:
+    deploymentTarget: 'stg'
+    awsServiceConnection: 'nyco_devops_service_acct_hhs04'
+  ${{ elseif eq(variables['Build.SourceBranchName'], 'dev') }}:
     deploymentTarget: 'dev'
     awsServiceConnection: 'nyco_devops_service_acct_hhs04'
 
@@ -34,6 +38,9 @@ steps:
 
 - checkout: self
   path: ./my-file-client
+  persistCredentials: true
+  fetchDepth: 0
+  clean: true
 
 - checkout: MyFileApiClientRepo
   path: ./my-file-api-client
@@ -41,6 +48,7 @@ steps:
 - task: AWSShellScript@1
   displayName: 'Deploy UI'
   continueOnError: true
+  condition: in(variables['Build.SourceBranchName'], 'dev', 'stg')
   inputs:
     awsCredentials: $(awsServiceConnection)
     regionName: 'us-east-1'
@@ -49,11 +57,34 @@ steps:
       cd $(Agent.BuildDirectory)/my-file-client
       pwd
       ls -al
+      export DEPLOYMENT_TARGET=$(deploymentTarget)
       source ./params.env
-      # export AWS_SECRET_ACCESS_KEY=$(AWS.SecretAccessKey)
-      # export AWS_SESSION_TOKEN=$(AWS.SessionToken)
-      # export AWS_ACCESS_KEY_ID=$(AWS.AccessKeyID)
-      # export AWS_DEFAULT_REGION=$(AWS.Region)
-      # printenv
+      printenv
+      npm run ci-set-npmrc
       npm install --no-cache
       npm run ci-deploy
+
+- task: AWSShellScript@1
+  displayName: 'Update UI App Version'
+  continueOnError: true
+  condition: eq(variables['Build.SourceBranchName'], 'dev')
+  inputs:
+    awsCredentials: $(awsServiceConnection)
+    regionName: 'us-east-1'
+    scriptType: 'inline'
+    inlineScript: |
+      cd $(Agent.BuildDirectory)/my-file-client
+      pwd
+      ls -al
+
+      echo "gco dev"
+      git checkout dev
+      git pull origin dev --no-rebase
+      echo "npm version patch"
+      npm version patch -m "bump to %s - [skip ci]"
+
+      echo "git push --tags"
+      git push --tags origin dev
+
+      echo "git push"
+      git push origin dev

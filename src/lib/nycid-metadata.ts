@@ -13,31 +13,11 @@ export const oidcMetadataNonProd = {
     'code token',
     'code id_token token'
   ],
-  scopes_supported: [
-    'openid',
-    'profile',
-    'email',
-    'address',
-    'phone',
-    'uid',
-    'gov.nyc.accounts-nonprd'
-  ],
+  scopes_supported: ['openid', 'profile', 'email', 'address', 'phone', 'uid', 'gov.nyc.accounts-nonprd'],
   subject_types_supported: ['public', 'pairwise'],
-  token_endpoint_auth_methods_supported: [
-    'client_secret_basic',
-    'client_secret_post'
-  ],
-  grant_types_supported: [
-    'authorization_code',
-    'implicit',
-    'refresh_token',
-    'client_credentials'
-  ],
-  acr_values_supported: [
-    'urn:gigya:loa:10',
-    'urn:gigya:loa:20',
-    'urn:gigya:loa:30'
-  ],
+  token_endpoint_auth_methods_supported: ['client_secret_basic', 'client_secret_post'],
+  grant_types_supported: ['authorization_code', 'implicit', 'refresh_token', 'client_credentials'],
+  acr_values_supported: ['urn:gigya:loa:10', 'urn:gigya:loa:20', 'urn:gigya:loa:30'],
   backchannel_logout_supported: true,
   backchannel_logout_session_supported: false,
   authorization_endpoint:

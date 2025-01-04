@@ -1,10 +1,4 @@
-import {
-  Box,
-  ClickAwayListener,
-  Alert,
-  IconButton,
-  AlertColor
-} from '@mui/material';
+import { Box, ClickAwayListener, Alert, IconButton, AlertColor } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Dispatch, SetStateAction } from 'react';
 
