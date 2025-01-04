@@ -15,7 +15,7 @@ import {
 
 import Header from '../../layouts/Header/Header';
 import OptionsSortMenu from '../../components/OptionsSortMenu/OptionsSortMenu';
-import { GeneratedUserFile, UserFile } from '@myfile/api-client';
+import { GeneratedUserFile, UserFile } from '@namyfile/api-client';
 import { useState, useMemo } from 'react';
 import { useBoundStore } from '../../store/store';
 

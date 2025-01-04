@@ -3,7 +3,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import dayjs from 'dayjs';
 
 // import FamilyMemberType from '../../types/FamilyMemberType';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 
 interface FamilyMemberListItemProps {
   member: FamilyMember;

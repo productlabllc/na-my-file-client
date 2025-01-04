@@ -7,7 +7,7 @@ import Header from '../../layouts/Header/Header';
 import BackButton from '../../components/BackButton/BackButton';
 import ActivityLogActionSelect from '../../components/ActivityLogActionSelect/ActivityLogActionSelect';
 import ActivityLogDateRangeSelect from '../../components/ActivityLogDateRangeSelect/ActivityLogDateRangeSelect';
-import { ActivityLogs } from '@myfile/api-client';
+import { ActivityLogs } from '@namyfile/api-client';
 import { actionTypes, daysRange, ActivityLogItem } from '../../components/ActivityLogItem/ActivityLogItem';
 import { useTranslation } from 'react-i18next';
 

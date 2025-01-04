@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { convertAgentRoleIntoAgency } from '../../assets/agent-role/agent-role';
 import { useApi } from '../../utils/use-api';
 import { useAsync } from 'react-use';
-import { GetUser } from '@myfile/api-client';
+import { GetUser } from '@namyfile/api-client';
 import { useBoundStore } from '../../store/store';
 
 import {

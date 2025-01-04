@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
-import { BaseCaseCriterion } from '@myfile/api-client';
+import { BaseCaseCriterion } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 

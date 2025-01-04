@@ -7,7 +7,7 @@ import { useBoundStore } from '../../store/store';
 
 import FamilyMemberForm from '../../components/FamilyMemberForm/FamilyMemberForm';
 import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 
 function FamilyMemberEditId() {
   const { id } = useParams();

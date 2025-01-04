@@ -10,7 +10,7 @@ import router from './router';
 import MUITheme from './MUITheme';
 import NotificationCenter from './components/NotificationCenter/NotificationCenter';
 import { oidcMetadataNonProd } from './lib/nycid-metadata.js';
-import { OpenAPI } from '@myfile/api-client';
+import { OpenAPI } from '@namyfile/api-client';
 import { User } from 'oidc-client-ts';
 
 import './i18n/config.js';

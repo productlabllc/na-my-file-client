@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Menu, MenuItem, Typography } from '@mui/material';
 
-import { GeneratedUserFile } from '@myfile/api-client';
+import { GeneratedUserFile } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 
 interface OptionsSortProps<D> {

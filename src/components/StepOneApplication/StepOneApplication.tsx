@@ -2,7 +2,7 @@ import { Box, Button, FormControl, RadioGroup, FormControlLabel, Radio, Typograp
 // import { useNavigate } from 'react-router-dom';
 import { ChangeEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Workflow } from '@myfile/api-client';
+import { Workflow } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../BackButton/BackButton';
 

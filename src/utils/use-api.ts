@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import * as Api from '@myfile/api-client';
+import * as Api from '@namyfile/api-client';
 
 export const useApi = () => {
   const api = useMemo(() => {

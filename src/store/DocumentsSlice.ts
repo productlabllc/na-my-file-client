@@ -6,7 +6,7 @@ import { StoreTypeIntersection } from './store';
 // import DocumentForApiCallType from '../types/DocumentForApiCallType';
 // import DocumentType from '../types/DocumentType';
 // import DocumentForApiCallType from '../types/DocumentForApiCallType';
-import * as api from '@myfile/api-client';
+import * as api from '@namyfile/api-client';
 // import { useApi } from '../utils/use-api';
 
 type Thumbnail = {

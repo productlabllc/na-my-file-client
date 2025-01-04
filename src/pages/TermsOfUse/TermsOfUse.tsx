@@ -11,7 +11,7 @@ import { useNavigate, Link } from 'react-router-dom';
 // import { getMarkDownFile } from '../../utils/importMarkdownFile';
 import { useBoundStore } from '../../store/store';
 import { useAuth } from 'react-oidc-context';
-import { UpdateUserRequest } from '@myfile/api-client';
+import { UpdateUserRequest } from '@namyfile/api-client';
 import { useTranslation, Trans } from 'react-i18next';
 import BackButton from '../../components/BackButton/BackButton';
 

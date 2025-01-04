@@ -3,7 +3,7 @@ import { Select, MenuItem, FormControl, Icon, SelectChangeEvent } from '@mui/mat
 import { languages } from '../../assets/languages/languages';
 import { ExpandMore } from '@mui/icons-material';
 import { useBoundStore } from '../../store/store';
-import { UpdateUserRequest } from '@myfile/api-client';
+import { UpdateUserRequest } from '@namyfile/api-client';
 import { useAuth } from 'react-oidc-context';
 import { useTranslation } from 'react-i18next';
 

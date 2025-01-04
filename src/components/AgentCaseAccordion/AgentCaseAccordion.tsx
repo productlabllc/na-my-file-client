@@ -11,7 +11,7 @@ import {
   SelectChangeEvent,
   Typography
 } from '@mui/material';
-import { BaseCase, BaseCaseCriterion, Case, GetUser } from '@myfile/api-client';
+import { BaseCase, BaseCaseCriterion, Case, GetUser } from '@namyfile/api-client';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TooltipUI from '../TooltipUI/TooltipUI';
 import AgentNotesBox from '../AgentNotesBox/AgentNotesBox';

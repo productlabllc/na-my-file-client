@@ -4,7 +4,7 @@ import { useBoundStore } from '../../store/store';
 import { useAsync } from 'react-use';
 import dayjs from 'dayjs';
 // import { PENDING, UNDER_REVIEW, RE_UPLOAD, ACCEPTED } from '../../types/AcitivityStatuses';
-import { Constants } from '@myfile/api-client';
+import { Constants } from '@namyfile/api-client';
 import { APPLICATION_RESUBMIT_TOAST_MESSAGE } from '../../utils/client-toast-messages';
 const CaseFileTypes: Constants['CaseFileStatus'] = {
   ACCEPTED: 'ACCEPTED',
@@ -41,7 +41,7 @@ import Header from '../../layouts/Header/Header';
 import BackButton from '../../components/BackButton/BackButton';
 import AlertSuccessToastMessage from '../../components/AlertSuccessToastMessage/AlertSuccessToastMessage';
 
-import { AddCaseFileRequest } from '@myfile/api-client';
+import { AddCaseFileRequest } from '@namyfile/api-client';
 
 import { useApi } from '../../utils/use-api';
 import { batchPromises } from '../../lib/batch-promise';

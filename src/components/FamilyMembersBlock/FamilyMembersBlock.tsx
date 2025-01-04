@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 
 import { useBoundStore } from '../../store/store';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 import { useApi } from '../../utils/use-api';
 import { useAsync } from 'react-use';
 import { useTranslation } from 'react-i18next';

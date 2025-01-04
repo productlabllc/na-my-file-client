@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import { useBoundStore } from '../../store/store';
 import CircularProgress from '@mui/material/CircularProgress';
-import { UserBase as User } from '@myfile/api-client';
+import { UserBase as User } from '@namyfile/api-client';
 import ApproveImg from '../../assets/Approve.svg';
 import ShareImg from '../../assets/Share.svg';
 import UploadImg from '../../assets/Upload.svg';

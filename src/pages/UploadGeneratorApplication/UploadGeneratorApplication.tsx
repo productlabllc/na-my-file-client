@@ -12,7 +12,7 @@ import { useAsync } from 'react-use';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useBoundStore } from '../../store/store';
-import { Constants } from '@myfile/api-client';
+import { Constants } from '@namyfile/api-client';
 import { FILE_REACHED_MORE_THAN_10_MB, FILE_FAILED_DIMENSIONS } from '../../utils/client-toast-messages';
 const CaseFileTypes: Constants['CaseFileStatus'] = {
   ACCEPTED: 'ACCEPTED',

@@ -6,7 +6,7 @@ import HPDApplicationType from '../types/HPDApplicationType';
 import ChecklistGroupType from '../types/ChecklistGroupType';
 // import DocumentForApiCallType from '../types/DocumentForApiCallType';
 // import DocumentType from '../types/DocumentType';
-import { GeneratedUserFile, CaseCriterion } from '@myfile/api-client';
+import { GeneratedUserFile, CaseCriterion } from '@namyfile/api-client';
 
 /*
   This slice handles the current user session.

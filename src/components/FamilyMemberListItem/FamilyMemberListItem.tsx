@@ -2,7 +2,7 @@ import { Box, ListItem, ListItemText, ListItemAvatar, ListItemButton, Typography
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 import dayjs from 'dayjs';
 
 // {dayjs(userData.dateOfBirth).format('MM/DD/YYYY')}

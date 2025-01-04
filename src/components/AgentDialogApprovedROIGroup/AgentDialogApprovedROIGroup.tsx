@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogTitle, DialogContent, Typography, DialogActions, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { GetUser } from '@myfile/api-client';
+import { GetUser } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 
 interface AgentDialogApprovedROIGroupProps {

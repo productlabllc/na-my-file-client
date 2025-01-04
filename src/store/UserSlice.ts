@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand';
 import { StoreTypeIntersection } from './store';
-import * as api from '@myfile/api-client';
+import * as api from '@namyfile/api-client';
 
 /*
   This slice handles the current user session.

@@ -9,7 +9,7 @@ import AgentTabApplication from '../AgentTabApplication/AgentTabApplication';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Breadcrumbs, Typography, Tabs, Tab, Divider } from '@mui/material';
 // import { convertAgentRoleIntoAgency } from '../../assets/agent-role/agent-role';
-import { GetUser } from '@myfile/api-client';
+import { GetUser } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import AgentMainBox from '../../layouts/AgentMainBox/AgentMainBox';
 import AlertSuccessToastMessage from '../../components/AlertSuccessToastMessage/AlertSuccessToastMessage';
