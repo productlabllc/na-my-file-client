@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useBoundStore } from '../../store/store';
 import { useAuth } from 'react-oidc-context';
-import { CreateUserRequest } from '@myfile/api-client';
+import { CreateUserRequest } from '@namyfile/api-client';
 import { useEffect, useState } from 'react';
 import User from '../../types/UserType';
 

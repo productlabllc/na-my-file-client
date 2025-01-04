@@ -8,7 +8,7 @@ import Header from '../../layouts/Header/Header';
 import TabApplications from '../../components/TabApplications/TabApplications';
 import TabDocuments from '../../components/TabDocuments/TabDocuments';
 // import { useAuth } from 'react-oidc-context';
-// import { DefaultApi as Api } from '@myfile/api-client';
+// import { DefaultApi as Api } from '@namyfile/api-client';
 
 function ClientDashboard() {
   // const auth = useAuth();

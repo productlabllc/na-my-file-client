@@ -11,7 +11,7 @@ import MDContent from '../../components/MDContent/MDContent';
 import { getMarkDownFile } from '../../utils/importMarkdownFile';
 import { useBoundStore } from '../../store/store';
 import { useAuth } from 'react-oidc-context';
-import { UpdateUserRequest } from '@myfile/api-client';
+import { UpdateUserRequest } from '@namyfile/api-client';
 
 function TermsOfUse() {
   // TODO fetch from CMS based on locale

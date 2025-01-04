@@ -4,7 +4,7 @@ import {
   Service as api,
   CreateUserRequest,
   UpdateUserRequest
-} from '@myfile/api-client';
+} from '@namyfile/api-client';
 import User from '../types/UserType';
 
 /*
