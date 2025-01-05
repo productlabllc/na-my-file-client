@@ -1,4 +1,23 @@
-/// <reference types="vitest" />
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  assetsInclude: ['./src/assets/**/**/*.md'],
+  optimizeDeps: {
+    include: ['@namyfile/api-client'],
+  },
+  resolve: {
+    preserveSymlinks: true,
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+  }
+});
+
+const otherConfig = `/// <reference types="vitest" />
 /// <reference types="vite/client" />
 
 import { defineConfig } from 'vite';
@@ -23,3 +42,4 @@ export default defineConfig({
     target: 'es2020'
   }
 });
+`;
