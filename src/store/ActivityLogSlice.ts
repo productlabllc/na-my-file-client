@@ -1,6 +1,6 @@
 import { StateCreator } from 'zustand';
 import { StoreTypeIntersection } from './store';
-import * as api from '@myfile/api-client';
+import * as api from '@namyfile/api-client';
 // import ActivityType from '../types/ActivityType';
 
 export interface ActivityLogStore {

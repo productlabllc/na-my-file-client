@@ -10,8 +10,8 @@ import {
   FamilyMember,
   UserBase,
   ActivityLogs
-} from '@myfile/api-client';
-import { Case } from '@myfile/api-client';
+} from '@namyfile/api-client';
+import { Case } from '@namyfile/api-client';
 import { useTranslation, Trans } from 'react-i18next';
 import { ReactNode } from 'react-markdown/lib/ast-to-react';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';

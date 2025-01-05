@@ -10,7 +10,7 @@ import { Box, Button } from '@mui/material';
 import GlobalNavigation from '../../layouts/GlobalNavigation/GlobalNavigation';
 import FamilyMembersBlock from '../../components/FamilyMembersBlock/FamilyMembersBlock';
 
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 
 import { useBoundStore } from '../../store/store';
 

@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 
-import { GeneratedUserFile } from '@myfile/api-client';
+import { GeneratedUserFile } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 
 interface ConfirmDownloadProps {

@@ -27,7 +27,7 @@ import TooltipUI from '../TooltipUI/TooltipUI';
 // import DocumentType from '../../types/DocumentType';
 // import DocumentForApiCallType from '../../types/DocumentForApiCallType';
 import FileType from '../../types/FileType';
-import { UserFile } from '@myfile/api-client';
+import { UserFile } from '@namyfile/api-client';
 import { useApi } from '../../utils/use-api';
 import { useAsync } from 'react-use';
 import { useTranslation } from 'react-i18next';

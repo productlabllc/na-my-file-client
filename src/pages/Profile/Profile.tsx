@@ -11,7 +11,7 @@ import { Box, Typography, Divider, Button, List, Dialog } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import FamilyMemberForm from '../../components/FamilyMemberForm/FamilyMemberForm';
 import { useBoundStore } from '../../store/store';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 
 function Profile() {

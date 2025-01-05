@@ -11,7 +11,7 @@ import {
   Typography
 } from '@mui/material';
 
-import { FamilyMember, GeneratedUserFile } from '@myfile/api-client';
+import { FamilyMember, GeneratedUserFile } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 
 interface ConfirmDeleteProps {

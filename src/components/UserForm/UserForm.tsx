@@ -8,7 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 // import User from '../../types/UserType';
-import { UpdateUserRequest } from '@myfile/api-client';
+import { UpdateUserRequest } from '@namyfile/api-client';
 import { useBoundStore } from '../../store/store';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';

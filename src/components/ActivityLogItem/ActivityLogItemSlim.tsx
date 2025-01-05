@@ -8,9 +8,9 @@ import {
   UserBase,
   ActivityLogs,
   FamilyMember
-} from '@myfile/api-client';
+} from '@namyfile/api-client';
 // import { useTranslation } from 'react-i18next';
-// import { Case } from '@myfile/api-client';
+// import { Case } from '@namyfile/api-client';
 export const actionTypes: Array<{ name: string; value: ActivityLogs }> = [
   {
     name: 'activityLogActionsDropDownUpload',

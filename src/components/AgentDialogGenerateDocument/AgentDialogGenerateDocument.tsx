@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import { GetUser } from '@myfile/api-client';
+import { GetUser } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import { useBoundStore } from '../../store/store';
 

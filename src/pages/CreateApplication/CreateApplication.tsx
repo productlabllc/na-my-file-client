@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useApi } from '../../utils/use-api';
 import { useAsync } from 'react-use';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 
 interface FormInput {
   organization: string;

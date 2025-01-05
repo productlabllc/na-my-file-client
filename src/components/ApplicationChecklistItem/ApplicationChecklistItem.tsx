@@ -5,10 +5,10 @@ import EditDocumentIcon from '../../assets/icons/edit_document.svg';
 
 import TooltipUI from '../TooltipUI/TooltipUI';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { CaseCriterion, CaseFile, GetCaseResponse } from '@myfile/api-client';
+import { CaseCriterion, CaseFile, GetCaseResponse } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { Constants } from '@myfile/api-client';
+import { Constants } from '@namyfile/api-client';
 const CaseFileTypes: Constants['CaseFileStatus'] = {
   ACCEPTED: 'ACCEPTED',
   PENDING: 'PENDING',

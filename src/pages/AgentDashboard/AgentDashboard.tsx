@@ -28,7 +28,7 @@ import { convertAgentRoleIntoAgency } from '../../assets/agent-role/agent-role';
 import { languages } from '../../assets/languages/languages';
 import * as _ from 'lodash';
 import dayjs from 'dayjs';
-import { GetCaseResponse } from '@myfile/api-client';
+import { GetCaseResponse } from '@namyfile/api-client';
 
 interface User {
   id?: string;

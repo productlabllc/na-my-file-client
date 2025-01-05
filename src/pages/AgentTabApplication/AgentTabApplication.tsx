@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
-import { GetUser } from '@myfile/api-client';
+import { GetUser } from '@namyfile/api-client';
 import { useApi } from '../../utils/use-api';
 import { useAsyncRetry } from 'react-use';
 // import { ActivityLogItem } from '../../components/ActivityLogItem/ActivityLogItem';

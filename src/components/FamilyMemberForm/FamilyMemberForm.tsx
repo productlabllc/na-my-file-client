@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { useBoundStore } from '../../store/store';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n/config';
 

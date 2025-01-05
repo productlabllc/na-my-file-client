@@ -1,9 +1,9 @@
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ApplicationChecklistItem from '../ApplicationChecklistItem/ApplicationChecklistItem';
-import { GetCaseResponse } from '@myfile/api-client';
+import { GetCaseResponse } from '@namyfile/api-client';
 
-import { CaseFile } from '@myfile/api-client';
+import { CaseFile } from '@namyfile/api-client';
 
 interface ApplicationChecklistAccordionProps {
   caseCriteria: CaseCriteriaObject;

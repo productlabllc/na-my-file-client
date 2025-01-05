@@ -49,7 +49,7 @@ import AlertErrorToastMessage from '../../components/AlertErrorToastMessage/Aler
 // Do not create new types:
 // import { PENDING, UNDER_REVIEW, RE_UPLOAD, ACCEPTED } from '../../types/AcitivityStatuses';
 
-import { Constants } from '@myfile/api-client';
+import { Constants } from '@namyfile/api-client';
 const CaseFileTypes: Constants['CaseFileStatus'] = {
   ACCEPTED: 'ACCEPTED',
   PENDING: 'PENDING',

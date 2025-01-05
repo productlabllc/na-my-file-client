@@ -1,5 +1,5 @@
 // import FamilyMemberType from './FamilyMemberType';
-import { FamilyMember, GetCaseResponse } from '@myfile/api-client';
+import { FamilyMember, GetCaseResponse } from '@namyfile/api-client';
 
 import ChecklistGroupType from './ChecklistGroupType';
 interface PATHApplicationType {

@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useBoundStore } from '../../store/store';
 // import { useAuth } from 'react-oidc-context';
-import { UpdateUserRequest } from '@myfile/api-client';
+import { UpdateUserRequest } from '@namyfile/api-client';
 import { useEffect } from 'react';
 import { useAsync } from 'react-use';
 import { useApi } from '../../utils/use-api';

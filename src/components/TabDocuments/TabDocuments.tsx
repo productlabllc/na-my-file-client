@@ -26,7 +26,7 @@ import AsyncImage from '../AsyncImage/AsyncImage';
 import { useApi } from '../../utils/use-api';
 import { batchPromises } from '../../lib/batch-promise';
 import { useAsync } from 'react-use';
-import { UserFile, GeneratedUserFile } from '@myfile/api-client';
+import { UserFile, GeneratedUserFile } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 // import { useBoundStore } from '../../store/store';
 // import PDFImage from '../../assets/document_16509258.png';

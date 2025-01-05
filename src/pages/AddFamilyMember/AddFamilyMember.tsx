@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useBoundStore } from '../../store/store';
 // import FamilyMemberType from '../../types/FamilyMemberType';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 
 function AddFamilyMember() {
   const navigate = useNavigate();

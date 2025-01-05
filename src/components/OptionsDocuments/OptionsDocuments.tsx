@@ -9,7 +9,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ConfirmDelete from '../ConfirmDelete/ConfirmDelete';
 import ConfirmDownload from '../ConfirmDownload/ConfirmDownload';
 
-import { GeneratedUserFile } from '@myfile/api-client';
+import { GeneratedUserFile } from '@namyfile/api-client';
 
 import { useApi } from '../../utils/use-api';
 import { useTranslation } from 'react-i18next';

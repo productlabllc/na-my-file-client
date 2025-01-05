@@ -1,5 +1,5 @@
 // import DocumentType from './DocumentType';
-import { GeneratedUserFile } from '@myfile/api-client';
+import { GeneratedUserFile } from '@namyfile/api-client';
 
 interface ChecklistItemType {
   // {

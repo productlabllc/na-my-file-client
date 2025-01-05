@@ -1,5 +1,5 @@
 import { Box, Typography, Button, ListItem } from '@mui/material';
-import { CaseNote, Case } from '@myfile/api-client';
+import { CaseNote, Case } from '@namyfile/api-client';
 import dayjs from 'dayjs';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next';

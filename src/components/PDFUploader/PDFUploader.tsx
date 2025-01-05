@@ -44,7 +44,7 @@ import FileType from '../../types/FileType';
 import { useApi } from '../../utils/use-api';
 import { useAsync } from 'react-use';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { GeneratedUserFile } from '@myfile/api-client';
+import { GeneratedUserFile } from '@namyfile/api-client';
 import { batchPromises } from '../../lib/batch-promise';
 import { useTranslation } from 'react-i18next';
 import { useBoundStore } from '../../store/store';

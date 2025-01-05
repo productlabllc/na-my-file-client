@@ -8,7 +8,7 @@ import {
   ListItemIcon,
   SelectChangeEvent
 } from '@mui/material';
-import { ActivityLogs } from '@myfile/api-client';
+import { ActivityLogs } from '@namyfile/api-client';
 // import { useTranslation } from 'react-i18next';
 import { useTranslation } from 'react-i18next';
 interface ActivityLogActionSelectProps {

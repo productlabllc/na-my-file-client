@@ -27,7 +27,7 @@ import PATHApplicationType from '../../types/PATHApplicationType';
 
 import { useAsyncRetry } from 'react-use';
 import { useApi } from '../../utils/use-api';
-import { GetCaseResponse } from '@myfile/api-client';
+import { GetCaseResponse } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 
 function TabApplications() {

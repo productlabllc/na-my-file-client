@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useApi } from '../../utils/use-api';
 import { useAsync } from 'react-use';
-import { CaseActivityLogs, GetUser, ActivityLogs } from '@myfile/api-client';
+import { CaseActivityLogs, GetUser, ActivityLogs } from '@namyfile/api-client';
 import dayjs from 'dayjs';
 
 import {

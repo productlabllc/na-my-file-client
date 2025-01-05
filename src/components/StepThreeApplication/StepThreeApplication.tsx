@@ -3,7 +3,7 @@ import { Box, Button, Typography } from '@mui/material';
 import FamilyMembersBlock from '../FamilyMembersBlock/FamilyMembersBlock';
 import { useBoundStore } from '../../store/store';
 import { useTranslation } from 'react-i18next';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 import BackButton from '../BackButton/BackButton';
 
 interface StepThreeApplicationProps {

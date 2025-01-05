@@ -1,4 +1,4 @@
-import { GetUserActivityResponse } from '@myfile/api-client';
+import { GetUserActivityResponse } from '@namyfile/api-client';
 import dayjs from 'dayjs';
 
 export const renderDeadline = (

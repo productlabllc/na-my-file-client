@@ -1,7 +1,7 @@
 import { Box, Button, Typography, List } from '@mui/material';
 import FamilyMemberListItemNoAction from '../FamilyMemberListItemNoAction/FamilyMemberListItemNoAction';
 // import { useApi } from '../../utils/use-api';
-import { FamilyMember } from '@myfile/api-client';
+import { FamilyMember } from '@namyfile/api-client';
 import { useTranslation } from 'react-i18next';
 import BackButton from '../BackButton/BackButton';
 
