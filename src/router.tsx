@@ -185,10 +185,61 @@ const agentRoutesProtected = [
 
 // Protected routes + public routes
 const routes = [
+  // {
+  //   path: '/',
+  //   element: <LandingPage />
+  // },
+
+  // Added for Cognito Login
   {
     path: '/',
-    element: <LandingPage />
+    element: <AnonymousLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/login',
+        element: (
+          <SplitPaneImageLeft>
+            <Login />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/signup',
+        element: (
+          <SplitPaneImageLeft>
+            <Signup />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/confirm-registration',
+        element: (
+          <SplitPaneImageLeft>
+            <ConfirmRegistration />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ForgotPassword />
+          </SplitPaneImageLeft>
+        )
+      },
+      {
+        path: '/change-password',
+        element: (
+          <SplitPaneImageLeft>
+            <ChangePasswordAfterLogin />
+          </SplitPaneImageLeft>
+        )
+      }
+    ]
   },
+
+  // ENDS HERE
   {
     path: '/terms-of-use',
     element: <TermsOfUse />
