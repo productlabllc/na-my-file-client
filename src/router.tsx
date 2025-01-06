@@ -36,6 +36,23 @@ import ProtectedRouteClient from './utils/protectedRoute.tsx';
 import ProtectedRouteAgent from './utils/protectedRoute.tsx';
 // import { Support } from '@mui/icons-material';
 
+// Components for Built-in Auth
+
+import Login from './pages/auth/Login.tsx';
+import Signup from './pages/auth/Signup.tsx';
+import ForgotPassword from './pages/auth/ForgotPassword.tsx';
+import ConfirmRegistration from './pages/auth/ConfirmRegistration.tsx';
+import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx';
+// Error Page & Layouts
+import ErrorPage from './error-page.tsx';
+import MainLayout from './layouts/MainLayout.tsx';
+import AnonymousLayout from './layouts/AnonymousLayout.tsx';
+import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
+
+import TestComponent from './pages/TestComponent.tsx';
+
+import { AccountContext } from './pages/auth/Account.tsx';
+
 const clientAndAgentRoutes = [
   {
     path: '/logout',
