@@ -68,15 +68,9 @@ const ConfirmRegistration = () => {
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           My File Registration Confirmation
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={onSubmit}
-          sx={{ mt: 1, width: '80%', maxWidth: '600px' }}
-        >
+        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1, width: '80%', maxWidth: '600px' }}>
           <Typography variant="body2">
-            You must validate your email before logging in for the first time.
-            Please enter the code sent to your email.
+            You must validate your email before logging in for the first time. Please enter the code sent to your email.
           </Typography>
           <TextField
             margin="normal"
@@ -102,12 +96,7 @@ const ConfirmRegistration = () => {
             autoFocus
             onChange={(event) => setConfirmationCode(event.target.value.trim())}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Confirm Registration Code
           </Button>
           <Grid container>

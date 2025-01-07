@@ -59,15 +59,9 @@ const Login = () => {
           errorList = [...errorList, 'Email not confirmed for user.'];
           navigate(`/confirm-registration?email=${email}`);
         } else if (err.name === 'UserNotFoundException') {
-          errorList = [
-            ...errorList,
-            'Credentials do not match for an existing user.'
-          ];
+          errorList = [...errorList, 'Credentials do not match for an existing user.'];
         } else if (err.name === 'NotAuthorizedException') {
-          errorList = [
-            ...errorList,
-            'Credentials do not match for an existing user.'
-          ];
+          errorList = [...errorList, 'Credentials do not match for an existing user.'];
         } else if (err.name === 'NewPasswordRequired') {
           errorList = [
             ...errorList,
@@ -104,12 +98,7 @@ const Login = () => {
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           My File Sign in
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={onSubmit}
-          sx={{ mt: 1, width: '80%', maxWidth: '600px' }}
-        >
+        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1, width: '80%', maxWidth: '600px' }}>
           <TextField
             margin="normal"
             required
@@ -149,12 +138,7 @@ const Login = () => {
           {errorMessages.map((m, idx) => (
             <FormErrorMessage message={m} key={idx} />
           ))}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
           <Grid container>

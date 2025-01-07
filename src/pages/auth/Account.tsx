@@ -15,30 +15,16 @@ let appState: AppStateType | undefined = undefined;
 type AccountContextType = {
   getSession: () => Promise<Record<string, any>>;
   getPlatformUser: () => Promise<any>;
-  authenticate: (
-    Username: string,
-    Password: string
-  ) => Promise<CognitoUserSession>;
+  authenticate: (Username: string, Password: string) => Promise<CognitoUserSession>;
   logout: () => void;
   confirmUserRegistration: (email: string, code: string) => Promise<any>;
   sendForgotPasswordCode: (email: string) => Promise<any>;
-  changePasswordWithCode: (
-    email: string,
-    verificationCode: string,
-    newPassword: string
-  ) => Promise<any>;
-  changePasswordForAuthenticatedUser: (
-    email: string,
-    newPassword: string,
-    sessionUserAttributes: any
-  ) => Promise<any>;
+  changePasswordWithCode: (email: string, verificationCode: string, newPassword: string) => Promise<any>;
+  changePasswordForAuthenticatedUser: (email: string, newPassword: string, sessionUserAttributes: any) => Promise<any>;
 };
 
 let _getSessionLastSuccessfulRetrievalTimestamp: number = 0;
-const isLessThanXMinutes = (
-  valueInMinutes: number,
-  timestampReference: number
-) => {
+const isLessThanXMinutes = (valueInMinutes: number, timestampReference: number) => {
   const diff = Date.now() - timestampReference;
   const minutesInMs = valueInMinutes * 60 * 1000;
   return diff < minutesInMs;
@@ -46,52 +32,40 @@ const isLessThanXMinutes = (
 
 export const getSession = () => {
   return new Promise<Record<string, any>>((resolve, reject) => {
-    if (
-      appState!.appUser.userSessionData &&
-      isLessThanXMinutes(10, _getSessionLastSuccessfulRetrievalTimestamp)
-    ) {
+    if (appState!.appUser.userSessionData && isLessThanXMinutes(10, _getSessionLastSuccessfulRetrievalTimestamp)) {
       resolve(appState!.appUser.userSessionData);
     } else {
       const user = Pool.getCurrentUser();
       if (user) {
-        user.getSession(
-          async (err: Error | null, session: CognitoUserSession | null) => {
-            if (err) {
-              reject();
-            } else {
-              const attributes = await new Promise<Record<string, any>>(
-                (resolve, reject) => {
-                  user.getUserAttributes(
-                    (
-                      err: Error | undefined,
-                      userAttributes:
-                        | Array<CognitoUserAttribute>
-                        | undefined = []
-                    ) => {
-                      if (err) {
-                        reject(err);
-                      } else {
-                        const results: Record<string, any> = {};
+        user.getSession(async (err: Error | null, session: CognitoUserSession | null) => {
+          if (err) {
+            reject();
+          } else {
+            const attributes = await new Promise<Record<string, any>>((resolve, reject) => {
+              user.getUserAttributes(
+                (err: Error | undefined, userAttributes: Array<CognitoUserAttribute> | undefined = []) => {
+                  if (err) {
+                    reject(err);
+                  } else {
+                    const results: Record<string, any> = {};
 
-                        for (let attribute of userAttributes) {
-                          const { Name, Value } = attribute;
-                          results[Name] = Value;
-                        }
-
-                        resolve(results);
-                      }
+                    for (const attribute of userAttributes) {
+                      const { Name, Value } = attribute;
+                      results[Name] = Value;
                     }
-                  );
+
+                    resolve(results);
+                  }
                 }
               );
+            });
 
-              const userSessionData = { user, ...session, ...attributes };
-              appState!.appUser.setUserSessionData(userSessionData);
-              _getSessionLastSuccessfulRetrievalTimestamp = Date.now();
-              resolve(userSessionData);
-            }
+            const userSessionData = { user, ...session, ...attributes };
+            appState!.appUser.setUserSessionData(userSessionData);
+            _getSessionLastSuccessfulRetrievalTimestamp = Date.now();
+            resolve(userSessionData);
           }
-        );
+        });
       } else {
         reject();
       }
@@ -132,19 +106,13 @@ const authenticate = (Username: string, Password: string) => {
         console.log('newPasswordRequired Required Atts: ', requiredAttributes);
         console.log(user);
 
-        user.getSession(
-          async (err: Error | null, session: CognitoUserSession | null) => {
-            if (err) {
-              console.log(
-                `get user session from new password required error: ${JSON.stringify(err, null, 2)}`
-              );
-            } else {
-              console.log(
-                `get user session from new password required: ${JSON.stringify(session, null, 2)}`
-              );
-            }
+        user.getSession(async (err: Error | null, session: CognitoUserSession | null) => {
+          if (err) {
+            console.log(`get user session from new password required error: ${JSON.stringify(err, null, 2)}`);
+          } else {
+            console.log(`get user session from new password required: ${JSON.stringify(session, null, 2)}`);
           }
-        );
+        });
         const { email_verified, ...newPasswordUserAttributes } = userAttributes;
         reject({ name: 'NewPasswordRequired', newPasswordUserAttributes });
       }
@@ -188,11 +156,7 @@ const sendForgotPasswordCode = (email: string) => {
   });
 };
 
-const changePasswordWithCode = (
-  email: string,
-  verificationCode: string,
-  newPassword: string
-) => {
+const changePasswordWithCode = (email: string, verificationCode: string, newPassword: string) => {
   appState!.appUser.setEmail(email);
   return new Promise<any>((resolve, reject) => {
     const user = new CognitoUser({ Username: email, Pool });
@@ -209,11 +173,7 @@ const changePasswordWithCode = (
   });
 };
 
-const changePasswordForAuthenticatedUser = (
-  email: string,
-  newPassword: string,
-  sessionUserAttributes: any
-) => {
+const changePasswordForAuthenticatedUser = (email: string, newPassword: string, sessionUserAttributes: any) => {
   return new Promise<any>((resolve, reject) => {
     const user = new CognitoUser({ Username: email, Pool });
     console.log(`user from session:

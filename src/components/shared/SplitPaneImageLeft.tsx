@@ -13,10 +13,7 @@ const SplitPaneImageLeft = (props: any) => {
         sx={{
           backgroundImage: `url(/paperwork-0${Math.floor(Math.random() * 5) + 1}.jpg)`,
           backgroundRepeat: 'no-repeat',
-          backgroundColor: (t) =>
-            t.palette.mode === 'light'
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
+          backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}

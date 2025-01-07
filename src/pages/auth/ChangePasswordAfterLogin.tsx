@@ -26,16 +26,12 @@ import FormErrorMessage from '../../components/shared/FormErrorMessage';
 const ChangePasswordAfterLogin = () => {
   const appStateAnyData = useAppState((state) => state.anyData);
   const [email, setEmail] = useState(appStateAnyData.data.email);
-  const [temporaryPassword, setTemporaryPassword] = useState(
-    appStateAnyData.data.temporaryPassword
-  );
-  const [temporaryPasswordIsVisible, setTemporaryPasswordIsVisible] =
-    useState(false);
+  const [temporaryPassword, setTemporaryPassword] = useState(appStateAnyData.data.temporaryPassword);
+  const [temporaryPasswordIsVisible, setTemporaryPasswordIsVisible] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
-    useState(false);
+  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] = useState(false);
   const [userNotConfirmed, setUserNotConfirmed] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
   const navigate = useNavigate();
@@ -59,10 +55,7 @@ const ChangePasswordAfterLogin = () => {
         'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+='
       ];
     } else if (password !== passwordConfirmation) {
-      errorList = [
-        ...errorList,
-        'Password and Password Confirmation do not match.'
-      ];
+      errorList = [...errorList, 'Password and Password Confirmation do not match.'];
     } else {
       appStateUser.setEmail(email);
       try {
@@ -79,15 +72,9 @@ const ChangePasswordAfterLogin = () => {
           errorList = [...errorList, 'Email not confirmed for user.'];
           navigate(`/confirm-registration?email=${email}`);
         } else if (err.name === 'UserNotFoundException') {
-          errorList = [
-            ...errorList,
-            'Credentials do not match for an existing user.'
-          ];
+          errorList = [...errorList, 'Credentials do not match for an existing user.'];
         } else if (err.name === 'NotAuthorizedException') {
-          errorList = [
-            ...errorList,
-            'Credentials do not match for an existing user.'
-          ];
+          errorList = [...errorList, 'Credentials do not match for an existing user.'];
         } else if (err.name === 'NewPasswordRequired') {
           errorList = [
             ...errorList,
@@ -117,12 +104,7 @@ const ChangePasswordAfterLogin = () => {
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           You must change your password
         </Typography>
-        <Box
-          component="form"
-          noValidate
-          onSubmit={onSubmit}
-          sx={{ mt: 1, width: '80%', maxWidth: '600px' }}
-        >
+        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1, width: '80%', maxWidth: '600px' }}>
           <TextField
             margin="normal"
             required
@@ -145,18 +127,14 @@ const ChangePasswordAfterLogin = () => {
             type={temporaryPasswordIsVisible ? 'text' : 'password'}
             id="temporaryPassword"
             value={temporaryPassword}
-            onChange={(event) =>
-              setTemporaryPassword(event.target.value.trim())
-            }
+            onChange={(event) => setTemporaryPassword(event.target.value.trim())}
             InputProps={{
               // <-- This is where the toggle button is added.
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle temporary password visibility"
-                    onClick={() =>
-                      setTemporaryPasswordIsVisible(!temporaryPasswordIsVisible)
-                    }
+                    onClick={() => setTemporaryPasswordIsVisible(!temporaryPasswordIsVisible)}
                   >
                     {passwordIsVisible ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
@@ -197,20 +175,14 @@ const ChangePasswordAfterLogin = () => {
             type={passwordConfirmationIsVisible ? 'text' : 'password'}
             id="passwordConfirmation"
             autoComplete="current-password"
-            onChange={(event) =>
-              setPasswordConfirmation(event.target.value.trim())
-            }
+            onChange={(event) => setPasswordConfirmation(event.target.value.trim())}
             InputProps={{
               // <-- This is where the toggle button is added.
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password confirmation visibility"
-                    onClick={() =>
-                      setPasswordConfirmationIsVisible(
-                        !passwordConfirmationIsVisible
-                      )
-                    }
+                    onClick={() => setPasswordConfirmationIsVisible(!passwordConfirmationIsVisible)}
                   >
                     {passwordIsVisible ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
@@ -221,12 +193,7 @@ const ChangePasswordAfterLogin = () => {
           {errorMessages.map((m, idx) => (
             <FormErrorMessage message={m} key={idx} />
           ))}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign In
           </Button>
           <Grid container>

@@ -30,10 +30,10 @@ export default () => {
     <div>
       <form onSubmit={onSubmit}>
         <label>New Email</label>
-        <input value={newEmail} onChange={event => setNewEmail(event.target.value)} />
+        <input value={newEmail} onChange={(event) => setNewEmail(event.target.value)} />
 
         <label>Current password</label>
-        <input value={password} onChange={event => setPassword(event.target.value)} />
+        <input value={password} onChange={(event) => setPassword(event.target.value)} />
 
         <button type="submit">Change password</button>
       </form>

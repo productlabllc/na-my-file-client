@@ -1,17 +1,7 @@
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  TextField,
-  Link,
-  Paper,
-  Box,
-  Grid,
-  Typography,
-  InputAdornment,
-  IconButton
-} from '@mui/material';
+import { Button, TextField, Link, Paper, Box, Grid, Typography, InputAdornment, IconButton } from '@mui/material';
 import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ddnLogo from '../../assets/my-file-logo.svg';
@@ -33,8 +23,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
-    useState(false);
+  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] = useState(false);
   const [emailIsLockedDown, setEmailIsLockedDown] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
 
@@ -59,10 +48,7 @@ const Signup = () => {
     let errorList: Array<string> = [];
 
     if (firstName.trim() === '' || lastName.trim() === '') {
-      errorList = [
-        ...errorList,
-        'First Name and Last Name are both required fields.'
-      ];
+      errorList = [...errorList, 'First Name and Last Name are both required fields.'];
     } else if (!isValidEmail(email)) {
       errorList = [...errorList, 'Email address is not valid.'];
     } else if (email !== emailConfirmation) {
@@ -73,10 +59,7 @@ const Signup = () => {
         'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+='
       ];
     } else if (password !== passwordConfirmation) {
-      errorList = [
-        ...errorList,
-        'Password and Password Confirmation do not match.'
-      ];
+      errorList = [...errorList, 'Password and Password Confirmation do not match.'];
     } else {
       try {
         UserPool.signUp(
@@ -202,9 +185,7 @@ const Signup = () => {
             autoComplete="confirmEmail"
             value={emailConfirmation}
             disabled={emailIsLockedDown}
-            onChange={(event) =>
-              setEmailConfirmation(event.target.value.trim())
-            }
+            onChange={(event) => setEmailConfirmation(event.target.value.trim())}
           />
 
           {/* PASSWORD */}
@@ -243,26 +224,16 @@ const Signup = () => {
             type={passwordConfirmationIsVisible ? 'text' : 'password'}
             id="passwordConfirmation"
             autoComplete="current-password"
-            onChange={(event) =>
-              setPasswordConfirmation(event.target.value.trim())
-            }
+            onChange={(event) => setPasswordConfirmation(event.target.value.trim())}
             InputProps={{
               // <-- This is where the toggle button is added.
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
-                    onClick={() =>
-                      setPasswordConfirmationIsVisible(
-                        !passwordConfirmationIsVisible
-                      )
-                    }
+                    onClick={() => setPasswordConfirmationIsVisible(!passwordConfirmationIsVisible)}
                   >
-                    {passwordConfirmationIsVisible ? (
-                      <Visibility />
-                    ) : (
-                      <VisibilityOff />
-                    )}
+                    {passwordConfirmationIsVisible ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               )
@@ -273,12 +244,7 @@ const Signup = () => {
             <FormErrorMessage message={m} key={idx} />
           ))}
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Register
           </Button>
           <Grid container>

@@ -23,21 +23,17 @@ import { isValidEmail, isValidPassword } from '../../lib/utils';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
 
 export default () => {
-  const [stage, setStage] = useState<'request-code' | 'change-password'>(
-    'request-code'
-  );
+  const [stage, setStage] = useState<'request-code' | 'change-password'>('request-code');
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
-  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] =
-    useState(false);
+  const [passwordConfirmationIsVisible, setPasswordConfirmationIsVisible] = useState(false);
   const [errorMessages, setErrorMessages] = useState<Array<string>>([]);
   const navigate = useNavigate();
 
-  const { sendForgotPasswordCode, changePasswordWithCode } =
-    useContext(AccountContext);
+  const { sendForgotPasswordCode, changePasswordWithCode } = useContext(AccountContext);
 
   useEffect(() => {
     if (stage === 'change-password') {
@@ -72,17 +68,10 @@ export default () => {
           'Password must be at least 10 characters in length and contain at least 1 Capital Letter, at least 1 Number, at least 1 Special Character from the following !@#$%^&*()[]_-+='
         ];
       } else if (password !== passwordConfirmation) {
-        errorList = [
-          ...errorList,
-          'Password and Password Confirmation do not match.'
-        ];
+        errorList = [...errorList, 'Password and Password Confirmation do not match.'];
       } else {
         try {
-          const result = await changePasswordWithCode(
-            email,
-            verificationCode,
-            password
-          );
+          const result = await changePasswordWithCode(email, verificationCode, password);
           navigate('/login');
         } catch (err: any) {
           if (err.name === 'CodeMismatchException') {
@@ -144,9 +133,7 @@ export default () => {
                 name="verificationCode"
                 autoComplete="verificationCode"
                 autoFocus
-                onChange={(event) =>
-                  setVerificationCode(event.target.value.trim())
-                }
+                onChange={(event) => setVerificationCode(event.target.value.trim())}
               />
               <TextField
                 margin="normal"
@@ -180,26 +167,16 @@ export default () => {
                 label="New Password Confirmation"
                 type={passwordIsVisible ? 'text' : 'password'}
                 id="passwordConfirmation"
-                onChange={(event) =>
-                  setPasswordConfirmation(event.target.value.trim())
-                }
+                onChange={(event) => setPasswordConfirmation(event.target.value.trim())}
                 InputProps={{
                   // <-- This is where the toggle button is added.
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() =>
-                          setPasswordConfirmationIsVisible(
-                            !passwordConfirmationIsVisible
-                          )
-                        }
+                        onClick={() => setPasswordConfirmationIsVisible(!passwordConfirmationIsVisible)}
                       >
-                        {passwordConfirmationIsVisible ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
+                        {passwordConfirmationIsVisible ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -226,15 +203,8 @@ export default () => {
             </Typography>
           )}
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            {stage === 'request-code'
-              ? 'Get Verification Code'
-              : 'Change Password'}
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            {stage === 'request-code' ? 'Get Verification Code' : 'Change Password'}
           </Button>
           <Grid container>
             <Grid item xs>

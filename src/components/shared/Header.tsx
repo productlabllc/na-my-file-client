@@ -12,7 +12,7 @@ const Header = ({ title, subtitle }: HeaderPropsType) => {
   return (
     <Box
       sx={{
-        marginBottom: '30px',
+        marginBottom: '30px'
       }}
     >
       <Typography
@@ -20,7 +20,7 @@ const Header = ({ title, subtitle }: HeaderPropsType) => {
         sx={{
           marginBottom: '5px',
           color: theme.palette.mode === 'dark' ? colors.grey[100] : colors.grey[400],
-          fontWeight: 'bold',
+          fontWeight: 'bold'
         }}
       >
         {title}
@@ -28,7 +28,7 @@ const Header = ({ title, subtitle }: HeaderPropsType) => {
       <Typography
         variant="h5"
         sx={{
-          color: colors.greenAccent[400],
+          color: colors.greenAccent[400]
         }}
       >
         {subtitle}

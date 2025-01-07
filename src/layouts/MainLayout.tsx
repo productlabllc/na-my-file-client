@@ -19,18 +19,18 @@ const MainLayout = () => {
   // const [globalMessage, setGlobalMessage] = React.useState<string>('');
   const { getSession, logout } = React.useContext(AccountContext);
   const navigate = useNavigate();
-  const appStateGlobals = useAppState(state => state.globals);
+  const appStateGlobals = useAppState((state) => state.globals);
   const theme = useTheme();
   const colors = colorTokens('dark');
   const colorMode = React.useContext(ColorModeContext);
-  const appStateUser = useAppState(state => state.appUser);
+  const appStateUser = useAppState((state) => state.appUser);
   const { globalMessage, setGlobalMessage } = appStateGlobals;
   const isMobile = useMediaQuery(`(max-width: ${isMobileSize}px)`); // Media Query for Mobile
   const isNotDesktop = useMediaQuery(`(max-width: ${isNotDesktopSize}px)`); // Media Query for Mobile
 
   React.useEffect(() => {
     getSession!()
-      .then(session => {
+      .then((session) => {
         console.log('Session: ', session);
         setUserSession(session);
       })
@@ -67,7 +67,7 @@ const MainLayout = () => {
           })
           .catch((err: any) => {});
       },
-      1000 * 60 * 15,
+      1000 * 60 * 15
     );
     return () => {
       clearInterval(cancelIntervalHandle);
@@ -96,7 +96,7 @@ const MainLayout = () => {
                 alignItems: 'center',
                 display: 'flex',
                 justifyContent: 'center',
-                padding: '4px',
+                padding: '4px'
               }}
             >
               {globalMessage}

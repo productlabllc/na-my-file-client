@@ -1,14 +1,7 @@
 import * as React from 'react';
 // import { User, useAuth } from 'oidc-react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Link,
-  Outlet,
-  Location,
-  useNavigate
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Link, Outlet, Location, useNavigate } from 'react-router-dom';
 import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { createRoot } from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
