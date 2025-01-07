@@ -14,7 +14,7 @@ import NotificationCenter from './components/NotificationCenter/NotificationCent
 // import { oidcMetadataNonProd } from './lib/nycid-metadata.js'; // Removed NYC Auth
 import { OpenAPI } from '@namyfile/api-client';
 // import { User } from 'oidc-client-ts'; // Removed NYC Auth
-import Pool from './lib/user-pool';
+import Pool from './lib/user-pool.ts';
 
 import './i18n/config.js';
 

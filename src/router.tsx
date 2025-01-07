@@ -39,7 +39,8 @@ import ProtectedRouteAgent from './utils/protectedRoute.tsx';
 // Components for Built-in Auth
 
 import Login from './pages/auth/Login.tsx';
-import Signup from './pages/auth/Signup.tsx';
+// import Signup from './pages/auth/Signup.tsx';
+import Signup from './pages/auth/Signup.tsx'
 import ForgotPassword from './pages/auth/ForgotPassword.tsx';
 import ConfirmRegistration from './pages/auth/ConfirmRegistration.tsx';
 import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx';
@@ -52,6 +53,7 @@ import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
 
 // import TestComponent from './pages/TestComponent.tsx';
 
+// import { AccountContext } from './pages/auth/Account.tsx';
 import { AccountContext } from './pages/auth/Account.tsx';
 
 const clientAndAgentRoutes = [
