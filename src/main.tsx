@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
 
 // Removing OIDC config for built in auth
-// import { ThemeProvider } from '@mui/material';
 // import { AuthProvider } from 'react-oidc-context';
 
 import './index.css';
@@ -11,9 +11,10 @@ import './index.css';
 import router from './router';
 import MUITheme from './MUITheme';
 import NotificationCenter from './components/NotificationCenter/NotificationCenter';
-import { oidcMetadataNonProd } from './lib/nycid-metadata.js';
+// import { oidcMetadataNonProd } from './lib/nycid-metadata.js'; // Removed NYC Auth
 import { OpenAPI } from '@namyfile/api-client';
-import { User } from 'oidc-client-ts';
+// import { User } from 'oidc-client-ts'; // Removed NYC Auth
+import Pool from './lib/user-pool';
 
 import './i18n/config.js';
 
@@ -34,9 +35,12 @@ OpenAPI.interceptors.request.use(async (request) => {
           reject(err);
         }
         if (!request.headers) {
-          request.headers = {};
+          request.headers = {} as Record<string, string>;
         }
-        request.headers.Authorization = `Bearer ${session.getIdToken().getJwtToken()}`;
+        request.headers = {
+          ...request.headers,
+          Authorization: `Bearer ${session.getIdToken().getJwtToken()}`
+        } as Record<string, string>;
         resolve(request);
       });
     });
