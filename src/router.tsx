@@ -46,7 +46,7 @@ import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx'
 // Error Page & Layouts
 // import ErrorPage from './error-page.tsx';
 import ErrorPage from './error-page.tsx';
-import MainLayout from './layouts/MainLayout.tsx';
+// import MainLayout from './layouts/MainLayout.tsx';
 import AnonymousLayout from './layouts/AnonymousLayout.tsx';
 import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
 
