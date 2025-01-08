@@ -14,7 +14,7 @@ import NotificationCenter from './components/NotificationCenter/NotificationCent
 // import { oidcMetadataNonProd } from './lib/nycid-metadata.js'; // Removed NYC Auth
 import { OpenAPI } from '@namyfile/api-client';
 // import { User } from 'oidc-client-ts'; // Removed NYC Auth
-import Pool from './lib/user-pool.ts';
+import Pool from './lib/user-pool';
 
 import './i18n/config.js';
 
@@ -86,7 +86,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       }}
     > */}
     <ThemeProvider theme={MUITheme}>
-      <NotificationCenter />
+      {/* <NotificationCenter /> */}
 
       <RouterProvider router={router} />
     </ThemeProvider>

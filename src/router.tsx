@@ -48,6 +48,7 @@ import ChangePasswordAfterLogin from './pages/auth/ChangePasswordAfterLogin.tsx'
 // import ErrorPage from './error-page.tsx';
 import ErrorPage from './error-page.tsx';
 // import MainLayout from './layouts/MainLayout.tsx';
+import TestComponent from './pages/TestComponent.tsx';
 import AnonymousLayout from './layouts/AnonymousLayout.tsx';
 import SplitPaneImageLeft from './components/shared/SplitPaneImageLeft.tsx';
 
@@ -210,6 +211,9 @@ const routes = [
   //   element: <LandingPage />
   // },
 
+
+
+  // Commenting out for testing.
   // Added for Cognito Login
   {
     path: '/',
