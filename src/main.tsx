@@ -17,6 +17,7 @@ import { OpenAPI } from '@namyfile/api-client';
 import Pool from './lib/user-pool';
 
 import './i18n/config.js';
+import { Account } from './pages/auth/Account.js';
 
 console.log(`OpenAPI: Before:`);
 console.log(OpenAPI);
@@ -85,11 +86,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         console.log('navigate to the authenticated dashboard here');
       }}
     > */}
+    <Account>
     <ThemeProvider theme={MUITheme}>
       {/* <NotificationCenter /> */}
 
       <RouterProvider router={router} />
-    </ThemeProvider>
+      </ThemeProvider>
+    </Account>
     {/* </AuthProvider> */}
   </React.StrictMode>
 );

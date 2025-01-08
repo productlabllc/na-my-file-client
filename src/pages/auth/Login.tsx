@@ -19,7 +19,6 @@ import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ddnLogo from '../../assets/my-file-logo.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
-import Copyright from '../../components/shared/Copyright';
 import { useAppState } from '../../app-state-store';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
 
@@ -153,7 +152,6 @@ const Login = () => {
               </Link>
             </Grid>
           </Grid>
-          <Copyright sx={{ mt: 5 }} />
         </Box>
       </Box>
     </Grid>

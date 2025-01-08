@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from 'react-oidc-context';
+// import { useAuth } from 'react-oidc-context';
+// import { useAuth } from '../context/AuthContext';
 import { useBoundStore } from '../store/store';
 
 interface ProtectedRouteProps {
@@ -19,5 +20,5 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ redirectPath = '/' }) =
 
   return <Outlet />;
 };
-
 export default ProtectedRoute;
+
