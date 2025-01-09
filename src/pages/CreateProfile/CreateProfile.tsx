@@ -9,13 +9,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useBoundStore } from '../../store/store';
-// import { useAuth } from 'react-oidc-context';
 import { UpdateUserRequest } from '@namyfile/api-client';
 import { useEffect } from 'react';
 import { useAsync } from 'react-use';
 import { useApi } from '../../utils/use-api';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'react-oidc-context';
+import { useAuth } from '../../hooks/useAuth';
+
 
 interface IFormInput {
   FirstName: string;
@@ -33,11 +33,12 @@ function CreateProfile() {
 
   const api = useApi();
   const { value } = useAsync(() => api.getUser());
+  const { value: authUser } = useAsync(() => auth.getUser());
 
   const { register, control, handleSubmit, formState, reset } = useForm<IFormInput>({
     defaultValues: {
-      FirstName: auth.user?.profile.given_name || value?.FirstName || '',
-      LastName: auth.user?.profile.family_name || value?.LastName || '',
+      FirstName: authUser?.given_name || value?.FirstName || '',
+      LastName: authUser?.family_name || value?.LastName || '',
       DOB: dayjs(value?.DOB) || null,
       language: value?.LanguageIsoCode || 'en-us'
     },

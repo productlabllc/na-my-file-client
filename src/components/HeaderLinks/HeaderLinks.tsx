@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import PolicyOutlinedIcon from '@mui/icons-material/PolicyOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import { useAuth } from '../../hooks/useAuth';
 interface HeaderLinksProps {
   isInSidebar?: boolean;
 }
 
 function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
+  const auth = useAuth();
   const { t } = useTranslation('user');
   return (
     <>
@@ -49,7 +51,8 @@ function HeaderLinks({ isInSidebar }: HeaderLinksProps) {
         className="!d-text-body-sm !text-white !normal-case"
         fullWidth={isInSidebar}
         component={Link}
-        to="/logout"
+        onClick={() => auth.logout()}
+        to="/"
       >
         <Icon fontSize="medium" className="!mb-1 !mr-3">
           logout

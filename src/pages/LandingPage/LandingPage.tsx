@@ -5,7 +5,7 @@ import Footer from '../../layouts/Footer/Footer';
 // import { LOGOUT_TOAST_MESSAGE } from '../../utils/client-toast-messages';
 // import MDContent from '../../components/MDContent/MDContent';
 // import MyFileLogo from '../../components/MyFileLogo/MyFileLogo';
-import { useAuth } from 'react-oidc-context';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import { useBoundStore } from '../../store/store';
@@ -29,6 +29,7 @@ function LandingPage() {
 
   const redirect = useCallback(
     (user: User) => {
+      console.log('redirect', user);
       if (auth.isAuthenticated && user.TOSAccepted) {
         if (
           user?.StakeholderGroupRoles?.[0].StakeholderGroupRole?.Name === 'Client' ||
@@ -51,29 +52,17 @@ function LandingPage() {
   );
 
   useEffect(() => {
+    console.log('useEffect auth.isAuthenticated', auth.isAuthenticated);
     if (auth.isAuthenticated) {
       setSpinner(true);
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useFetchUserData().then(() => {
         const user = getUserData();
         redirect(user);
       });
     }
-  }, [auth.isAuthenticated, getUserData, navigate, spinner, useFetchUserData, redirect]);
+  }, [auth.isAuthenticated, getUserData, redirect, useFetchUserData]);
 
-  let createAccountLink = 'https://www1.nyc.gov/account/register.htm?target=aHR0cHM6Ly9teWZpbGUubnljLmdvdg==';
-  if (location.href.includes('myfile-dev')) {
-    createAccountLink =
-      'https://accounts-nonprd.nyc.gov/account/register.htm?target=aHR0cHM6Ly9teWZpbGUtZGV2LmNpdHlvZm5ld3lvcmsudXM=&lang=';
-  } else if (location.href.includes('myfile-stg')) {
-    createAccountLink =
-      'https://accounts-nonprd.nyc.gov/account/register.htm?target=aHR0cHM6Ly9teWZpbGUtc3RnLmNpdHlvZm5ld3lvcmsudXM=&lang=';
-  }
-  // const loginLink =
-  //   'https://accounts-nonprd.nyc.gov/account/login.htm?spName=accounts-nonprd.nyc.gov-account&samlContext=us1_7991201_ec246b71-7ed6-4a62-95c7-a7bfe17c10ce';
-
-  // https://fidm.us1.gigya.com/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm/authorize?client_id=A3YsJ_AmkZMzdXwTrwRA7taq&redirect_uri=https://myfile-dev.cityofnewyork.us&response_type=code&scope=openid%20email%20profile%20address%20phone%20uid%20gov.nyc.accounts-nonprd
-  // https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm/authorize?client_id=A3YsJ_AmkZMzdXwTrwRA7taq&redirect_uri=https://myfile-dev.cityofnewyork.us&response_type=code&scope=openid%20email%20profile%20address%20phone%20uid%20gov.nyc.accounts-nonprd
+  let createAccountLink = '/signup';
   const handleCloseToastMessage = () => {
     setShowToastMessageLogout(false);
   };

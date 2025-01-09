@@ -10,7 +10,7 @@ import { useNavigate, Link } from 'react-router-dom';
 // import MDContent from '../../components/MDContent/MDContent';
 // import { getMarkDownFile } from '../../utils/importMarkdownFile';
 import { useBoundStore } from '../../store/store';
-import { useAuth } from 'react-oidc-context';
+import { useAuth } from '../../hooks/useAuth';
 import { UpdateUserRequest } from '@namyfile/api-client';
 import { useTranslation, Trans } from 'react-i18next';
 import BackButton from '../../components/BackButton/BackButton';

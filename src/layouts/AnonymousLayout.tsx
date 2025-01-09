@@ -12,25 +12,22 @@ import { Account, AccountContext } from '../pages/auth/Account';
 import { ColorModeContext, colorTokens } from '../theme';
 
 const AnonymousLayout = () => {
-  console.log('AnonymousLayout is being rendered');
+  // console.log('AnonymousLayout is being rendered');
 
-  const theme = useTheme();
-  const colors = colorTokens('light');
-  const colorMode = React.useContext(ColorModeContext);
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    colorMode.setColorMode('light');
-    if (location.pathname === '/') {
-      navigate('/login');
-    }
-  }, []);
+  // const theme = useTheme();
+  // const colors = colorTokens('light');
+  // const colorMode = React.useContext(ColorModeContext);
+  // const navigate = useNavigate();
+  // React.useEffect(() => {
+  //   colorMode.setColorMode('light');
+  //   if (location.pathname === '/') {
+  //     navigate('/login');
+  //   }
+  // }, []);
 
   return (
     <>
-      <Account>
-        <AppBar position="fixed"></AppBar>
-        {location.pathname === '/' ? <div></div> : <Outlet />}
-      </Account>
+      <Outlet />
     </>
   );
 };

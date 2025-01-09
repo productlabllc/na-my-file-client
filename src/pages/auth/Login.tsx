@@ -21,6 +21,7 @@ import ddnLogo from '../../assets/my-file-logo.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import { useAppState } from '../../app-state-store';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
+import { useAuth } from '../../hooks/useAuth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,6 +36,7 @@ const Login = () => {
   const appStateSnackbar = useAppState((state) => state.snackbar);
 
   const { authenticate, sendForgotPasswordCode } = useContext(AccountContext);
+  const auth = useAuth();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +54,7 @@ const Login = () => {
       try {
         const data = await authenticate!(email, password);
         console.log('Logged in!', data);
-        navigate('/client-dashboard');
+        navigate('/');
       } catch (err: any) {
         if (err.name === 'UserNotConfirmedException') {
           errorList = [...errorList, 'Email not confirmed for user.'];
