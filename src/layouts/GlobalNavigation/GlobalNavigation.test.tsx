@@ -9,7 +9,7 @@ describe('GlobalNavigation', () => {
     expect(screen.getByTestId('official-nyc-text')).toHaveTextContent('Official website of the City of New York');
   });
 
-  //   it('contains component <NYCLogo/>', () => {
+  //   it('contains component <CustomLogo/>', () => {
   //     const { queryByTestId } = render(<GlobalNavigation />)
   //     const parentDiv = queryByTestId('parent')
   //     console.log(parentDiv)

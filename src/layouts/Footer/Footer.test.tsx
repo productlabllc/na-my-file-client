@@ -4,7 +4,7 @@ import Footer from './Footer';
 import NYCMayorsOffice from '../../assets/nyc-mayors-office.svg';
 import { MemoryRouter } from 'react-router-dom';
 describe('Footer', () => {
-  it('has NYCLogo', () => {
+  it('has CustomLogo', () => {
     render(
       <MemoryRouter>
         <Footer />

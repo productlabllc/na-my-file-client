@@ -75,24 +75,11 @@ OpenAPI.interceptors.request.use(async (request) => {
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    {/* Removed NYC Auth below */}
-    {/* <AuthProvider
-      authority="https://nonprd-login.nyc.gov/oidc/op/v1.0/3_DkZigi2v_eW7z-cZt8PAw-cYWQYg2d8VqABUFRZUhhzxNAdwR5brLl_h8Hqbo7Bm/authorize"
-      client_id="A3YsJ_AmkZMzdXwTrwRA7taq"
-      redirect_uri={`https://${location.hostname}`}
-      scope="openid profile email address phone uid gov.nyc.accounts-nonprd"
-      metadata={oidcMetadataNonProd}
-      onSigninCallback={() => {
-        console.log('navigate to the authenticated dashboard here');
-      }}
-    > */}
     <Account>
-    <ThemeProvider theme={MUITheme}>
-      {/* <NotificationCenter /> */}
-
-      <RouterProvider router={router} />
+      <ThemeProvider theme={MUITheme}>
+        <NotificationCenter />
+        <RouterProvider router={router} />
       </ThemeProvider>
     </Account>
-    {/* </AuthProvider> */}
   </React.StrictMode>
 );

@@ -72,6 +72,9 @@ function TermsOfUse() {
   //   navigate(-1);
   // };
 
+  // Get jurisdiction from environment variable
+  const jurisdiction = import.meta.env.VITE_JURISDICTION || 'Example City';
+
   return (
     <Box className="min-h-[100vh] relative block lg:flex lg:justify-center">
       {/* <Box className="fixed top-0 w-full !z-20">
@@ -140,7 +143,12 @@ function TermsOfUse() {
           <Box className="mb-[24px]">
             <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('defitionTitle')}</Typography>
             <Typography className="!m-text-body-lg lg:!d-text-body-lg">
-              <Trans ns="termsOfUse" i18nKey={'definitionsParagraph'} components={{ br: <br /> }} />
+              <Trans
+                ns="termsOfUse"
+                i18nKey={'definitionsParagraph'}
+                components={{ br: <br /> }}
+                values={{ jurisdiction }}
+              />
             </Typography>
           </Box>
 
@@ -166,7 +174,7 @@ function TermsOfUse() {
           </Box>
 
           <Box className="mb-[76px]">
-            <Typography>{t('reservedRights')}</Typography>
+            <Typography>{t('reservedRights', { jurisdiction })}</Typography>
           </Box>
 
           {!TOU && auth.isAuthenticated ? (

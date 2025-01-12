@@ -58,7 +58,11 @@ i18n.use(initReactI18next).init({
   // namespace
   ns: ['translations', 'docs', 'user', 'applications', 'activityLogs', 'agent', 'termsOfUse', 'support'],
   // defaultNamespace
-  defaultNS: 'translations'
+  defaultNS: 'translations',
+  interpolation: {
+    // added to abstract the $JURISDICION variable and potential future variables
+    escapeValue: false
+  }
 });
 
 i18n.languages = ['en-us', 'es', 'fr', 'ch', 'ar', 'ru', 'urd', 'ko', 'ht', 'bn', 'pl', 'uk', 'pt'];

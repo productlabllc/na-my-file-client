@@ -1,84 +1,89 @@
-import { useContext, useEffect, useState } from 'react';
-import { AccountContext } from '../../pages/auth/Account';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
+import { Select, MenuItem, FormControl, Icon, SelectChangeEvent } from '@mui/material';
 import { languages } from '../../assets/languages/languages';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { ExpandMore } from '@mui/icons-material';
+import { useBoundStore } from '../../store/store';
+import { UpdateUserRequest } from '@namyfile/api-client';
+import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
-const GlobalLanguageSelector = () => {
-  const { getSession } = useContext(AccountContext);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { i18n } = useTranslation();
+const LanguageSelector = () => {
+  const auth = useAuth();
+
+  const [anchorEl, setAnchorEl] = useState<null | Element>(null);
   const open = Boolean(anchorEl);
+  const { getUserLang, updateUser, loading } = useBoundStore();
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = useState<string | undefined>(i18n.language);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        await getSession();
-        setIsAuthenticated(true);
-      } catch (err) {
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
-  }, [getSession]);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: { currentTarget: Element }) => {
     setAnchorEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      setLanguage(getUserLang());
+    }
+  }, [getUserLang, setLanguage, language, loading, auth.isAuthenticated]);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleLanguageSelect = (languageCode: string) => {
-    i18n.changeLanguage(languageCode);
-    handleClose();
+  const handleLanguageChange = (event: SelectChangeEvent<string | null>) => {
+    const newLang: UpdateUserRequest = {
+      LanguageIsoCode: event.target.value?.toString() as unknown as HTMLInputElement['value']
+    };
+    if (auth.isAuthenticated) {
+      updateUser(newLang).then(() => {
+        setLanguage(getUserLang());
+      });
+    } else {
+      if (newLang.LanguageIsoCode) {
+        i18n.changeLanguage(newLang.LanguageIsoCode);
+        setLanguage(i18n.language);
+      }
+    }
   };
 
-  const currentLanguage = languages.find((lang) => lang.code === i18n.language);
-
   return (
-    <Box>
-      <Button
-        id="language-button"
-        aria-controls={open ? 'language-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        endIcon={open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+    <div className="flex items-center">
+      {/* Selector */}
+
+      <Icon data-testid="language-icon" className="!text-[17px]">
+        translate
+      </Icon>
+      <FormControl
         sx={{
-          color: isAuthenticated ? '#000000' : '#000000',
-          textTransform: 'none',
-          fontSize: '14px',
-          fontWeight: 400
+          '& fieldset': { border: 'none' }
         }}
       >
-        {currentLanguage?.label || 'English'}
-      </Button>
-      <Menu
-        id="language-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'language-button'
-        }}
-      >
-        {languages.map((language) => (
-          <MenuItem
-            key={language.code}
-            onClick={() => handleLanguageSelect(language.code)}
-            selected={i18n.language === language.code}
-          >
-            {language.label}
-          </MenuItem>
-        ))}
-      </Menu>
-    </Box>
+        <Select
+          id="language-menu-2"
+          open={open}
+          value={language}
+          onChange={(e) => handleLanguageChange(e)}
+          onClose={handleClose}
+          onOpen={(e) => handleClick(e)}
+          className="!pr-[6px] !stroke-black !d-text-body-sm lg:!d-text-body-xsm !min-w-[130px] !pt-0"
+          IconComponent={ExpandMore}
+          data-testid="select-language"
+          sx={{
+            '.MuiSvgIcon-root': {
+              height: '20px',
+              paddingTop: '3px'
+            }
+          }}
+        >
+          {Object.keys(languages).map((code) => (
+            <MenuItem key={code} value={code}>
+              {languages[code]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </div>
   );
 };
 
-export default GlobalLanguageSelector;
+export default LanguageSelector;
