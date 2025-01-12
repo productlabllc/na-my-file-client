@@ -14,7 +14,7 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [lastCheck, setLastCheck] = useState<number>(0);
   const [userData, setUserData] = useState<UserData | null>(null);
-  
+
   const CACHE_DURATION = 5 * 60 * 1000;
 
   const getUser = useCallback(async () => {
@@ -67,12 +67,28 @@ export function useAuth() {
     setUserData(null);
   }, [account]);
 
+  const removeUser = useCallback(async () => {
+    const currentUser = Pool.getCurrentUser();
+    if (currentUser) {
+      currentUser.signOut();
+    }
+    setIsAuthenticated(false);
+    setUserData(null);
+  }, []);
+
+  const signoutRedirect = useCallback(async () => {
+    await logout();
+    window.location.href = '/';
+  }, [logout]);
+
   return {
     isAuthenticated,
     getIsAuthenticated,
     signinRedirect,
     logout,
+    removeUser,
+    signoutRedirect,
     user: userData,
-    getUser,
+    getUser
   };
-} 
+}

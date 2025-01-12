@@ -1,5 +1,5 @@
 import { useBoundStore } from '../../store/store';
-import { useAuth } from 'react-oidc-context';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
