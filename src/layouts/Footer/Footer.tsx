@@ -2,11 +2,13 @@ import { Link, Divider, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 // import NYCMayorsOffice from '../../assets/nyc-mayors-office.svg';
 import { useTranslation } from 'react-i18next';
-import CustomLogo from '../../assets/NYC.svg';
+import CustomLogo from '../../assets/custom-logo.svg';
 import { Box } from '@mui/material';
 
 function Footer() {
   const { t } = useTranslation('user');
+  const jurisdiction = import.meta.env.VITE_JURISDICTION || 'your jurisdiction';
+
   return (
     <>
       <footer
@@ -15,8 +17,8 @@ function Footer() {
         {/* TODO replace with correct logo SVG */}
         <Box className="flex md:flex-row flex-col md:justify-between justify-center w-full">
           <Box className="flex flex-col items-start justify-center mb-[24px] md:mb-0">
-            <img alt="nyc-logo" src={CustomLogo} className="h-6 pb-1 fill-white" />
-            <Typography className="!d-text-body-md">Official website of the City of New York</Typography>
+            <img alt="logo" src={CustomLogo} className="h-6 pb-1 fill-white" />
+            <Typography className="!d-text-body-md">Official website of {jurisdiction}</Typography>
           </Box>
           {/*md and up */}
           <Box className="d-text-footer mt-[8px] lg:mt-0 flex-row md:flex hidden">

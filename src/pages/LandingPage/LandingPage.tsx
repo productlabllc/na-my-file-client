@@ -104,7 +104,7 @@ function LandingPage() {
               <Box className="w-full md:!w-[620px] mb-[48px]">
                 <Typography className="!text-center !m-text-body-lg md:!d-text-body-md">
                   {
-                    "Keep your family's documents secure and orginized with My File NYC and easily share them for housing services, all in one convenient place"
+                    "Keep your family's documents secure and organized with My File and easily share them for housing services, all in one convenient place"
                   }
                 </Typography>
               </Box>
