@@ -5,7 +5,7 @@ import GlobalLanguageSelector from '../../components/GlobalLanguageSelector/Glob
 import { useAuth } from '../../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useBoundStore } from '../../store/store';
-import HorizontalMyFileLogo from '../../assets/Horizontal My File Logo.svg';
+import CustomLogo from '../../assets/custom-logo.svg';
 // import { useTranslation } from 'react-i18next';
 
 function GlobalNavigation() {
@@ -28,7 +28,7 @@ function GlobalNavigation() {
     <Box className="border-b-2  h-[45px] w-full flex items-center pr-[16px] sm:px-[32px] lg:px-[48px] !bg-[#F9F9FA] justify-between !z-10">
       <Box data-testid="parent" className="flex items-center">
         {/* <CustomLogo data-testid="nyc-logo-component" /> */}
-        {!auth.isAuthenticated && <img src={HorizontalMyFileLogo} className="w-[150px] h-[20px]"></img>}
+        {!auth.isAuthenticated && <img src={CustomLogo} className="w-[150px] h-[20px]"></img>}
         {/* <p data-testid="official-nyc-text" className="hidden lg:block lg:d-text-body-sm">
           {t('nyc')}
         </p> */}

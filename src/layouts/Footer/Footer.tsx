@@ -40,13 +40,13 @@ function Footer() {
                 Support
               </Link>
 
-              <Link
+              {/* <Link
                 component={RouterLink}
                 to="/"
                 className="!text-black !d-text-body-xsm-bold !no-underline hover:!underline hover:!decoration-black hover:!decoration-1 hover:!underline-offset-[4px]"
               >
                 More Benefits on ACCESS NYC
-              </Link>
+              </Link> */}
             </Box>
           </Box>
         </Box>
@@ -69,7 +69,7 @@ function Footer() {
               Support
             </Link>
           </Box>
-          <Box className="w-2/5">
+          {/* <Box className="w-2/5">
             <Link
               component={RouterLink}
               to="/"
@@ -77,7 +77,7 @@ function Footer() {
             >
               More Benefits on ACCESS NYC
             </Link>
-          </Box>
+          </Box> */}
         </Box>
         <Divider className="w-full !border-1 !border-[#ADB2B9] !my-[24px]" />
         <div className="flex !justify-start w-full ">
