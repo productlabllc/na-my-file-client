@@ -11,7 +11,7 @@ d. **My File**: My File, where a User can upload, store, and share documents wit
 
 **II. Purpose**
 
-a. The City has created My File to provide a free, simple, and secure tool for New Yorkers to store and share any documents required by City agencies to apply for City programs and benefits; to reduce the overall effort expended by residents to retrieve and produce documentation necessary to receive services from the City; and to improve the provision of government services.<br />
+a. The City has created My File to provide a free, simple, and secure tool for users to store and share any documents required by City agencies to apply for City programs and benefits; to reduce the overall effort expended by residents to retrieve and produce documentation necessary to receive services from the City; and to improve the provision of government services.<br />
 b. Users may use My File to:<br />
 i. store documents that may be needed to apply for City services;<br />
 ii. share documents with City agencies; and<br />
