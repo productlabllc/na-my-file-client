@@ -21,7 +21,7 @@ import { Account } from './pages/auth/Account.js';
 
 console.log(`OpenAPI: Before:`);
 console.log(OpenAPI);
-const { VITE_API_URL = '' } = import.meta.env;
+const { VITE_API_URL = '', VITE_JURISDICTION = '' } = import.meta.env;
 OpenAPI.BASE = VITE_API_URL;
 console.log(`OpenAPI: After:`);
 console.log(OpenAPI);
@@ -48,6 +48,8 @@ OpenAPI.interceptors.request.use(async (request) => {
   }
   return request;
 });
+
+document.title = `My File ${VITE_JURISDICTION}`;
 
 // OpenAPI.interceptors.request.use((request) => {
 //   const getUser = () => {

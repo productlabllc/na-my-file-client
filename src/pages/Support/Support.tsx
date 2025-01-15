@@ -36,11 +36,11 @@ function Support() {
 
         <Box className="mb-[40px] lg:mb-[56px]">
           <Box className="!mb-[24px]">
-            <Typography className="!text-secondary !m-text-h3 lg:!d-text-h3">{t('aboutMyFileNYCTitle')}</Typography>
+            <Typography className="!text-secondary !m-text-h3 lg:!d-text-h3">{t('aboutMyFileTitle')}</Typography>
           </Box>
 
           <Box className="!mb-[24px]">
-            <Typography className="!m-text-body-lg lg:!d-text-body-lg">{t('aboutMyFileNYCParagraphOne')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">{t('aboutMyFileParagraphOne')}</Typography>
           </Box>
 
           <Box className="!mb-[24px]">
@@ -48,7 +48,7 @@ function Support() {
               {
                 <Trans
                   ns="support"
-                  i18nKey={'aboutMyFileNYCParagraphTwo'}
+                  i18nKey={'aboutMyFileParagraphTwo'}
                   components={{
                     hrefMayorOffice: (
                       <a
@@ -97,11 +97,11 @@ function Support() {
           </Box>
 
           <Box className="!mb-[24px]">
-            <Typography className="!m-text-body-lg lg:!d-text-body-lg">{t('aboutMyFileNYCParagraphThree')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">{t('aboutMyFileParagraphThree')}</Typography>
           </Box>
 
           <Box className="!mb-[24px]">
-            <Typography className="!m-text-body-lg lg:!d-text-body-lg">{t('aboutMyFileNYCParagraphFour')}</Typography>
+            <Typography className="!m-text-body-lg lg:!d-text-body-lg">{t('aboutMyFileParagraphFour')}</Typography>
           </Box>
         </Box>
 
