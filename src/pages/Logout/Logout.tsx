@@ -15,18 +15,27 @@ function Logout() {
   useEffect(() => {
     const performLogout = async () => {
       try {
-        await auth.removeUser();
+        // First clear local state
         resetUserData();
         setShowToastMessageLogout(true);
-        await auth.signoutRedirect();
+
+        // Then remove user and redirect
+        await auth.removeUser();
+        // Add a small delay to ensure state is cleared
+        setTimeout(() => {
+          auth.signoutRedirect().catch((error) => {
+            console.error('Signout redirect error:', error);
+            navigate('/', { replace: true });
+          });
+        }, 100);
       } catch (error) {
         console.error('Logout error:', error);
-        navigate('/');
+        navigate('/', { replace: true });
       }
     };
 
     performLogout();
-  }, [auth, resetUserData, setShowToastMessageLogout, navigate]);
+  }, []);
 
   return (
     <Box
