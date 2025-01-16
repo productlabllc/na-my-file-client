@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import myFileLogoFull from '../../assets/my-file-logo.svg';
+import myFileLogoFull from '../../assets/my-file-logo-head.svg';
 import { Box, Button, Menu, Toolbar, AppBar, MenuItem, Icon, ClickAwayListener, Fade } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';

@@ -16,7 +16,7 @@ import {
   IconButton
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/my-file-logo.svg';
+import customLogo from '../../assets/my-file-logo-head.svg';
 import Copyright from '../../components/shared/Copyright';
 import { AccountContext } from './Account';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
@@ -98,7 +98,7 @@ export default () => {
           alignItems: 'center'
         }}
       >
-        <img src={ddnLogo} width="64" />
+        <img src={customLogo} width="64" />
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           {stage === 'request-code'
             ? 'Enter your account email to receive verification code.'

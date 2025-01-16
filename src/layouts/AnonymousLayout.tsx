@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 // import { WSClientTest } from '../WSClientTest';
-import ddnLogo from '../assets/my-file-logo.svg';
+import customLogo from '../assets/my-file-logo-head.svg';
 import { Account, AccountContext } from '../pages/auth/Account';
 import { ColorModeContext, colorTokens } from '../theme';
 

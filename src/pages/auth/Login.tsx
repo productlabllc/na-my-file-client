@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/my-file-logo-head.svg';
+import customLogo from '../../assets/my-file-logo-head.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import { useAppState } from '../../app-state-store';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
@@ -95,7 +95,7 @@ const Login = () => {
           alignItems: 'center'
         }}
       >
-        <img src={ddnLogo} width="64" />
+        <img src={customLogo} width="64" />
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           My File Sign in
         </Typography>

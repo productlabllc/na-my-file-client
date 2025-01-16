@@ -2,11 +2,11 @@ import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import MyFileLogo from './MyFileLogo';
-import MyFileLogoFull from '../../assets/my-file-logo.svg';
+import MyFileLogoFull from '../../assets/my-file-logo-head.svg';
 import MyFileLogoIcon from '../../assets/my-file-logo-head.svg';
 
 describe('MyFileLogo', () => {
-  it('MyFileLogo has logo with src="../../assets/my-file-logo.svg" on Lading Page', () => {
+  it('MyFileLogo has logo with src="../../assets/my-file-logo-head.svg" on Lading Page', () => {
     render(
       <BrowserRouter>
         <MyFileLogo center={true} variant="full" notClickable={false} />

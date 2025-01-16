@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import myFileLogoIcon from '../../assets/my-file-logo-head.svg';
-import myFileLogoFull from '../../assets/my-file-logo.svg';
+import myFileLogoFull from '../../assets/my-file-logo-head.svg';
 
 interface MyFileLogoProps {
   center?: boolean;

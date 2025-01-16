@@ -1,4 +1,4 @@
-import myFileLogoFull from '../../assets/my-file-logo.svg';
+import myFileLogoFull from '../../assets/my-file-logo-head.svg';
 
 function MyFileLogoWhite() {
   return <img src={myFileLogoFull} className={`h-[77px] w-[90px]`} aria-label="MyFile" alt="MyFile" />;

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Link, Paper, Box, Grid, Typography, InputAdornment, IconButton } from '@mui/material';
 import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import ddnLogo from '../../assets/my-file-logo.svg';
+import customLogo from '../../assets/my-file-logo-head.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import Copyright from '../../components/shared/Copyright';
 
@@ -109,7 +109,7 @@ const Signup = () => {
           alignItems: 'center'
         }}
       >
-        <img src={ddnLogo} width="64" />
+        <img src={customLogo} width="64" />
         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
           My File Signup
         </Typography>
@@ -287,7 +287,7 @@ export default Signup;
 // } from '@mui/material';
 // import { AccountContext } from './Account';
 // import { Visibility, VisibilityOff } from '@mui/icons-material';
-// import ddnLogo from '../../assets/my-file-logo.svg';
+// import customLogo from '../../assets/my-file-logo-head.svg';
 // import { isValidEmail, isValidPassword } from '../../lib/utils';
 // import Copyright from '../../components/shared/Copyright';
 
@@ -459,7 +459,7 @@ export default Signup;
 //           alignItems: 'center'
 //         }}
 //       >
-//         <img src={ddnLogo} width="64" />
+//         <img src={customLogo} width="64" />
 //         <Typography component="h1" variant="h5" sx={{ marginTop: '10px' }}>
 //           My File Signup
 //         </Typography>
