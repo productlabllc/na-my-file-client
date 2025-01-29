@@ -1,5 +1,5 @@
 // TODO replace with NYCO
-import image from '../../assets/dhs-logo.svg';
+import image from '../../assets/custom-logo.svg';
 
 function NYCMayorOfficeIcon() {
   return <img src={image} />;

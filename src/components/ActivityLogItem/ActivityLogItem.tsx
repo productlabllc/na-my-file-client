@@ -1430,7 +1430,7 @@ export const ActivityLogItem = ({
       );
     }
 
-    /// Need to check with Wes about firstname and lastName
+    /// Need to check typo about firstname and lastName
     case 'AGENT_DOWNLOAD_CASE_FILE_FAMILY_MEMBER': {
       console.log('activityAction', activityAction);
       console.log('activityData', activityData);

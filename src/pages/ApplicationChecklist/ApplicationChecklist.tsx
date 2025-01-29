@@ -3,8 +3,8 @@ import { Box, Typography, Icon, Divider } from '@mui/material';
 import ApplicationChecklistAccordion from '../../components/ApplicationChecklistAccordion/ApplicationChecklistAccordion';
 
 import Header from '../../layouts/Header/Header';
-import HPDIcon from '../../assets/HPD.svg';
-import PATHIcon from '../../assets/DHSPATH.svg';
+import HPDIcon from '../../assets/custom-logo.svg';
+import PATHIcon from '../../assets/custom-logo.svg';
 import TooltipUI from '../../components/TooltipUI/TooltipUI';
 import BackButton from '../../components/BackButton/BackButton';
 import { useAsync } from 'react-use';

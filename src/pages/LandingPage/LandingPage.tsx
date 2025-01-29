@@ -127,7 +127,7 @@ function LandingPage() {
                   Log in
                 </Button>
               </Box>
-              <Box>
+              {/* <Box>
                 <Button
                   onClick={() => {
                     // setLoggedIn(true);
@@ -138,7 +138,7 @@ function LandingPage() {
                 >
                   Use your ACCESS HRA account to log in
                 </Button>
-              </Box>
+              </Box> */}
             </Box>
             <Box className="w-full mb-[220px] md:mb-[309px] flex flex-col !items-center ">
               <Box className="!min-w-[280px] md:!min-w-[420px] relative mb-[40px] md:mb-[86px]">
