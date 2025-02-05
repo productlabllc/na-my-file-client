@@ -104,7 +104,7 @@ function LandingPage() {
               <Box className="w-full md:!w-[620px] mb-[48px]">
                 <Typography className="!text-center !m-text-body-lg md:!d-text-body-md">
                   {
-                    "Keep your family's documents secure and organized with My File and easily share them for housing services, all in one convenient place"
+                    "Keep your family's documents secure and organized with My File and easily share them for lorem ipsum services, all in one convenient place"
                   }
                 </Typography>
               </Box>
@@ -171,7 +171,7 @@ function LandingPage() {
                     <Typography className="!d-text-body-xsm !mb-[8px] !text-[#4C4E52]">Step 2</Typography>
                     <Typography className="!d-text-body-md-bold !mb-[8px]">Share your documents</Typography>
                     <Typography className="!d-text-body-sm">
-                      Know what and when to submit for DHS PATH shelter or HPD Set Aside Affordable Housing.
+                      Know what and when to submit for lorem ipsum or lorem ipsum.
                     </Typography>
                   </Box>
                 </Box>
