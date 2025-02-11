@@ -1352,7 +1352,7 @@ export const ActivityLogItem = ({
     case 'AGENT_DOWNLOAD_ALL_CASE_FILES': {
       console.log('activityAction', activityAction);
       console.log('activityData', activityData);
-      return (
+      return (  
         <ActivityLogItemBox>
           {iconToActionMap.download}
           {/* {logMessage(

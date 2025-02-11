@@ -6,7 +6,7 @@ import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import customLogo from '../../assets/my-file-logo-head.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
-import Copyright from '../../components/shared/Copyright';
+// import Copyright from '../../components/shared/Copyright';
 
 import UserPool from '../../lib/user-pool';
 import PhoneNumber from '../../components/shared/PhoneNumber';
@@ -259,7 +259,7 @@ const Signup = () => {
               </Link>
             </Grid>
           </Grid>
-          <Copyright sx={{ mt: 5 }} />
+          {/* <Copyright sx={{ mt: 5 }} /> */}
         </Box>
       </Box>
     </Grid>

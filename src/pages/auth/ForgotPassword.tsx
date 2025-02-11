@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import customLogo from '../../assets/my-file-logo-head.svg';
-import Copyright from '../../components/shared/Copyright';
+// import Copyright from '../../components/shared/Copyright';
 import { AccountContext } from './Account';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
@@ -218,7 +218,7 @@ export default () => {
               </Link>
             </Grid>
           </Grid>
-          <Copyright sx={{ mt: 5 }} />
+          {/* <Copyright sx={{ mt: 5 }} /> */}
         </Box>
       </Box>
     </Grid>

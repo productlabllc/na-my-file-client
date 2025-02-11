@@ -85,7 +85,7 @@ function Footer() {
             data-testid="copyright"
             className="text-black text-left !m-text-body-sm md:!d-text-body-xsm flex justify-start"
           >
-            {t('copyrightText')}
+            {/* {t('copyrightText')} */}
           </p>
         </div>
       </footer>

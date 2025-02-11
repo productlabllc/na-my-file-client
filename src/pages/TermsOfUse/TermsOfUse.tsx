@@ -155,21 +155,26 @@ function TermsOfUse() {
           <Box className="mb-[24px]">
             <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('purposeTitle')}</Typography>
             <Typography className="!m-text-body-lg lg:!d-text-body-lg">
-              <Trans ns="termsOfUse" i18nKey={'purposeParagraph'} components={{ br: <br /> }} />
+              <Trans
+                ns="termsOfUse"
+                i18nKey={'purposeParagraph'}
+                components={{ br: <br /> }}
+                values={{ jurisdiction }}
+              />
             </Typography>
           </Box>
 
           <Box className="mb-[24px]">
             <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('useTitle')}</Typography>
             <Typography className="!m-text-body-lg lg:!d-text-body-lg">
-              <Trans ns="termsOfUse" i18nKey={'useParagraph'} components={{ br: <br /> }} />
+              <Trans ns="termsOfUse" i18nKey={'useParagraph'} components={{ br: <br /> }} values={{ jurisdiction }} />
             </Typography>
           </Box>
 
           <Box className="mb-[48px]">
             <Typography className="!m-text-body-lg-bold lg:!d-text-body-lg-bold">{t('scopeTitle')}</Typography>
             <Typography className="!m-text-body-lg lg:!d-text-body-lg">
-              <Trans ns="termsOfUse" i18nKey={'scopeParagraph'} components={{ br: <br /> }} />
+              <Trans ns="termsOfUse" i18nKey={'scopeParagraph'} components={{ br: <br /> }} values={{ jurisdiction }} />
             </Typography>
           </Box>
 

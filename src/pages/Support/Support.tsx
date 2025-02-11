@@ -113,9 +113,9 @@ function Support() {
           </Box>
 
           <Box>
-            <Box className="mb-[24px]">
+            {/* <Box className="mb-[24px]">
               <FAQAccordion title={t('FAQQuestionOne')} details={t('FAQAnswerOne')} />
-            </Box>
+            </Box> */}
             <Box className="mb-[24px]">
               <FAQAccordion title={t('FAQQuestionTwo')} details={t('FAQAnswerTwo')} />
             </Box>

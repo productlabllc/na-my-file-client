@@ -19,7 +19,7 @@ import { AccountContext } from './Account';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import customLogo from '../../assets/my-file-logo-head.svg';
 import { isValidEmail, isValidPassword } from '../../lib/utils';
-import Copyright from '../../components/shared/Copyright';
+// import Copyright from '../../components/shared/Copyright';
 import { useAppState } from '../../app-state-store';
 import FormErrorMessage from '../../components/shared/FormErrorMessage';
 
@@ -208,7 +208,7 @@ const ChangePasswordAfterLogin = () => {
               </Link>
             </Grid>
           </Grid>
-          <Copyright sx={{ mt: 5 }} />
+          {/* <Copyright sx={{ mt: 5 }} /> */}
         </Box>
       </Box>
     </Grid>
